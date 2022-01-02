@@ -8,7 +8,7 @@ export const siteTitle = "Glenn Streetmans Dev Blog";
 
 export default function Header({ home }) {
     return (
-        <>
+        <div className="max-w-full">
             <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <meta name="description" content="Glenn Streetman's Dev Blog" />
@@ -57,6 +57,6 @@ export default function Header({ home }) {
                     </>
                 )}
             </header>
-        </>
+        </div>
     );
 }
