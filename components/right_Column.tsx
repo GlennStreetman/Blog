@@ -16,12 +16,11 @@ export async function getStaticProps() {
 export default function Right_Column(p: any) {
     return (
         <>
-            <section className={utilStyles.headingMd}></section>
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
                 <h2>Blog</h2>
-                <ul className={utilStyles.list}>
+                <div className="flex flex-col space-y-2">
                     {p.allPostsData.map(({ id, date, title }) => (
-                        <li className={utilStyles.listItem} key={id}>
+                        <div className="shadow rounded-md border-2 p-2 outline-4 hover:bg-sky-100" key={id}>
                             <Link href={`/posts/${id}`}>
                                 <a>{title}</a>
                             </Link>
@@ -29,9 +28,9 @@ export default function Right_Column(p: any) {
                             <small className={utilStyles.lightText}>
                                 <Date dateString={date} />
                             </small>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </section>
         </>
     );

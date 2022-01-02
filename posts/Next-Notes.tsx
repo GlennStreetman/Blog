@@ -5,7 +5,7 @@ import "prismjs/themes/prism-tomorrow.css";
 export const nextNotesMeta = {
     id: "Next-Notes",
     title: "Notes on Getting Started: Next JS.",
-    date: "2020-12-30",
+    date: "2021-12-30",
     type: "notes",
 };
 

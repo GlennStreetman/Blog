@@ -33,7 +33,8 @@ export default function Header({ home }) {
                                 <td>
                                     <div className="flex align-middle text-justify">
                                         <h1 className="middle">
-                                            <b>{name}</b>: A Full Stack Web Developer with a background in FInancial Systems Implementations.
+                                            <b>{name}</b>: A Full Stack Web Developer, with a background in FInancial Systems Implementations, located in San
+                                            Diego, CA.
                                         </h1>
                                     </div>
                                 </td>
