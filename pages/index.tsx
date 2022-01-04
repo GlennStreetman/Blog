@@ -3,8 +3,9 @@ import Right_Column from "../components/right_Column";
 import { getSortedPostsData } from "../lib/posts";
 import Bottom from "../components/bottom";
 import Gutter from "../components/gutter";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Topper from "../components/topper";
+import UserPrefs from "../components/userPrefs";
 
 export async function getStaticProps() {
     const allPostsData = getSortedPostsData();
@@ -16,25 +17,22 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
-    const [darkMode, setDarkMode] = useState<boolean | undefined>(undefined);
-
     useEffect(() => {
-        setDarkMode(document.documentElement.classList.contains("dark"));
+        if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            console.log(document.documentElement.classList);
+            document.documentElement.classList.add("userDark");
+            document.documentElement.classList.remove("userLight");
+        } else {
+            console.log(document.documentElement.classList);
+            document.documentElement.classList.add("userLight");
+            document.documentElement.classList.remove("userDark");
+        }
     }, []);
 
-    useEffect(() => {
-        if (darkMode) {
-            window.document.documentElement.classList.add("dark");
-            localStorage.setItem("siteDarkMode", "true");
-        } else {
-            window.document.documentElement.classList.remove("dark");
-            localStorage.setItem("siteDarkMode", "false");
-        }
-    }, [darkMode]);
-
     return (
-        <div className="min-h-screen bg-white dark:bg-slate-700 ">
-            <Topper darkMode={darkMode} setDarkMode={setDarkMode} />
+        <div className="min-h-screen bg-primary ">
+            <UserPrefs />
+            <Topper />
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                 <Gutter />
                 <div className="w-screen sm:w-auto col-span-12 md:col-span-5 p-2">

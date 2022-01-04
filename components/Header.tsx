@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import utilStyles from "../styles/utils.module.css";
-import Link from "next/link";
 
 const name = "Glenn Streetman";
 export const siteTitle = "Glenn Streetmans Dev Blog";
@@ -42,20 +41,7 @@ export default function Header({ home }) {
                         </tbody>
                     </table>
                 ) : (
-                    <>
-                        <Link href="/">
-                            <a>
-                                <Image priority src="/images/profile.jpg" className={utilStyles.borderCircle} height={108} width={108} alt={name} />
-                            </a>
-                        </Link>
-                        <h2 className={utilStyles.headingLg}>
-                            <Link href="/">
-                                <a className={utilStyles.colorInherit}>
-                                    <b>{name}</b>: Full Stack Web Dev
-                                </a>
-                            </Link>
-                        </h2>
-                    </>
+                    <></>
                 )}
             </header>
         </div>

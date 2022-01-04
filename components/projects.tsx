@@ -4,8 +4,8 @@ export default function Projects() {
             <h2>
                 <b>Projects</b>
             </h2>
-            <div className="shadow rounded-md border-2 p-2 outline-4 hover:bg-sky-100  ">
-                <h6>
+            <div className="shadow rounded-md border-2 p-2 outline-4 hover:bg-sky-100 text-primary ">
+                <h6 className="text-secondary">
                     <b>Finndash:</b>
                 </h6>
                 <p>
@@ -14,8 +14,8 @@ export default function Projects() {
                     is handled by MongoDB. Testing is performed using Jest.
                 </p>
             </div>
-            <div className="shadow rounded-md border-2 p-2 outline-4  hover:bg-sky-100">
-                <h6>
+            <div className="text-primary shadow rounded-md border-2 p-2 outline-4  hover:bg-sky-100">
+                <h6 className="text-secondary">
                     <b>copy-excel-chart:</b>
                 </h6>
                 <p>
@@ -23,8 +23,8 @@ export default function Projects() {
                     xml2js is then used to find and copy excel charts into destination files.
                 </p>
             </div>
-            <div className="shadow rounded-md border-2 p-2 outline-4  hover:bg-sky-100 ">
-                <h6>
+            <div className=" text-primary shadow rounded-md border-2 p-2 outline-4  hover:bg-sky-100 ">
+                <h6 className="text-secondary">
                     <b>Personal Blog:</b>
                 </h6>
                 <p>
