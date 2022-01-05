@@ -9,13 +9,13 @@ function DarkModeButton() {
         <button
             onClick={() => {
                 if (darkMode) {
-                    document.documentElement.classList.remove("userDark");
-                    document.documentElement.classList.add("userLight");
+                    document.documentElement.classList.add("light");
+                    document.documentElement.classList.remove("dark");
                     localStorage.setItem("siteDarkMode", "false");
                     setDarkMode(false);
                 } else {
-                    document.documentElement.classList.add("userDark");
-                    document.documentElement.classList.remove("userLight");
+                    document.documentElement.classList.add("dark");
+                    document.documentElement.classList.remove("light");
                     localStorage.setItem("siteDarkMode", "true");
                     setDarkMode(true);
                 }

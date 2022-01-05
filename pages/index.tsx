@@ -20,18 +20,18 @@ export default function Home({ allPostsData }) {
     useEffect(() => {
         if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
             console.log(document.documentElement.classList);
-            document.documentElement.classList.add("userDark");
-            document.documentElement.classList.remove("userLight");
+            document.documentElement.classList.add("light");
+            document.documentElement.classList.remove("dark");
         } else {
             console.log(document.documentElement.classList);
-            document.documentElement.classList.add("userLight");
-            document.documentElement.classList.remove("userDark");
+            document.documentElement.classList.add("dark");
+            document.documentElement.classList.remove("light");
         }
     }, []);
 
     return (
         <div className="min-h-screen bg-primary ">
-            <UserPrefs />
+            {/* <UserPrefs /> */}
             <Topper />
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                 <Gutter />

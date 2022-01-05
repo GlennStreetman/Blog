@@ -5,17 +5,27 @@
 .dark {
     --color-bg-primary: #2d3748;
     --color-bg-secondary: #283141;
+    --color-bg-textPrimary: #f7fafc;
+    --color-bg-textSecondary: #e2e8f0;
+    --color-bg-textAccent: #81e6d9;
     --color-text-primary: #f7fafc;
     --color-text-secondary: #e2e8f0;
     --color-text-accent: #81e6d9;
+    --color-hover-strong: #22d3ee;
+    --color-hover-weak: #a5f3fc;
 }
 
 .light {
     --color-bg-primary: #ffffff;
     --color-bg-secondary: #edf2f7;
+    --color-bg-textPrimary: #2d3748;
+    --color-bg-textSecondary: #4a5568;
+    --color-bg-textAccent: #2b6cb0;
     --color-text-primary: #2d3748;
     --color-text-secondary: #4a5568;
     --color-text-accent: #2b6cb0;
+    --color-hover-strong: #a5f3fc;
+    --color-hover-weak: #e0f2fe;
 }
 
 html,

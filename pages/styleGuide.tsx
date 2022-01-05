@@ -1,14 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Topper from "../components/topper";
+import dynamic from "next/dynamic";
 import Gutter from "../components/gutter";
 import { SwitchHorizontalIcon } from "@heroicons/react/solid";
 import IconButton from "../components/iconButton";
+import ColorPallet from "../components/colorPallet";
+
+const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
 
 function styleGuide() {
     const [bgPrimary, setBgPrimary] = useState(true);
 
     useEffect(() => {
+        console.log(document.documentElement.classList);
         if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
             document.documentElement.classList.add("dark");
             document.documentElement.classList.remove("light");
@@ -18,32 +22,27 @@ function styleGuide() {
         }
     }, []);
 
-    const summaryBG = bgPrimary ? "bg-primary" : "bg-secondary";
-    const bodyBG = bgPrimary ? "bg-secondary" : "bg-primary";
+    // const summaryBG = bgPrimary ? "bg-primary" : "bg-secondary";
+    // const bodyBG = bgPrimary ? "bg-secondary" : "bg-primary";
 
     return (
         <>
-            <div className={`min-h-screen ${summaryBG}`}>
-                <Topper />
+            <div className={`min-h-screen bg-primary`}>
+                {/* <Topper /> */}
                 <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                     <Gutter />
                     <Gutter />
                     <Gutter />
                     <div className="sm:w-auto col-span-12 md:col-span-6 p-2">
-                        <div className="flex shadow rounded-md border-2 relative">
+                        <div className="flex flex-col shadow rounded-md border-2 relative p-3 gap-2">
+                            <ColorPallet />
                             <div className="absolute top-0 right-0">
-                                <IconButton
-                                    text="Flip"
-                                    icon={<SwitchHorizontalIcon className="h-7 w-7 " />}
-                                    callback={() => {
-                                        return setBgPrimary(!bgPrimary);
-                                    }}
-                                />
+                                <DarkModeButton />
                             </div>
-                            <div className={`flex gap-4 p-2 ${bodyBG} shadow rounded-md border-2  outline-4 hover:bg-sky-100`}>
+                            <div className={`flex gap-4 p-2 bg-secondary shadow rounded-md border-2  outline-4 hover:bg-sky-100`}>
                                 <div className="flex flex-col roun">
                                     <div className="text-primary">
-                                        <b>BG:</b>Secondary
+                                        <b className="text-primary">BG:</b>Secondary
                                     </div>
                                     <div className="text-primary">
                                         <b>T:</b>Primary
@@ -56,7 +55,7 @@ function styleGuide() {
                                     </div>
                                 </div>
                             </div>
-                            <div className={`${summaryBG} p-2 grow`}>
+                            <div className=" p-2 grow">
                                 <div className="text-primary">
                                     <b>
                                         Primary Text

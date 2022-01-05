@@ -13,7 +13,7 @@ function IconButton(p: props) {
                 p.callback();
             }}
         >
-            <div className="flex font-bold uppercase text-xs hover:bg-cyan-700 rounded-md p-2">
+            <div className="flex font-bold uppercase text-xs hover:bg-strong rounded-md p-2 text-secondary">
                 {p.icon}
                 <div className="m-auto">{p.text}</div>
             </div>
