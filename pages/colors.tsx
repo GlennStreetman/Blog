@@ -1,93 +1,236 @@
 import React from "react";
 import tailColors from "../registers/tailwindsColors";
 import { useState, useEffect } from "react";
+import UserPrefs from "../components/userPrefs";
 
-import Gutter from "../components/gutter";
 import dynamic from "next/dynamic";
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
 
 function colors() {
-    const [editColor, setEditColor] = useState("textPrimary");
-
-    const [primaryBackground, setPrimaryBackground] = useState("");
-    const [secondaryBackground, setSecondaryBackground] = useState("");
-    const [primaryText, setPrimaryText] = useState("");
-    const [secondaryText, setSecondaryText] = useState("");
-    const [accentText, setAccentText] = useState("");
-    const [strongHighlight, setStrongHighlight] = useState("");
-    const [weakHighlight, setWeakHighlight] = useState("");
+    const [editCategory, setEditCategory] = useState("primaryText");
+    const [editColor, setEditColor] = useState("");
+    const [reset, setReset] = useState(1); //set to rerender page
 
     useEffect(() => {
         if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
             document.documentElement.classList.add("dark");
+            document.documentElement.classList.add("userDark");
             document.documentElement.classList.remove("light");
-            setPrimaryBackground("#2d3748");
-            setSecondaryBackground("#283141");
-            setPrimaryText("#f7fafc");
-            setSecondaryText("#e2e8f0");
-            setAccentText("#81e6d9");
-            setStrongHighlight("#22d3ee");
-            setWeakHighlight("#a5f3fc");
+            document.documentElement.classList.remove("userLight");
+            setEditColor(localStorage.textPrimaryD !== undefined ? localStorage.textPrimaryD : "#F8FAFC");
         } else {
             document.documentElement.classList.add("light");
+            document.documentElement.classList.add("userLight");
             document.documentElement.classList.remove("dark");
-            setPrimaryBackground("#ffffff");
-            setSecondaryBackground("#edf2f7");
-            setPrimaryText("#2d3748");
-            setSecondaryText("#4a5568");
-            setAccentText("#2b6cb0");
-            setStrongHighlight("#a5f3fc");
-            setWeakHighlight("#e0f2fe");
+            document.documentElement.classList.remove("userDark");
+            setEditColor(localStorage.textPrimaryL !== undefined ? localStorage.textPrimaryL : "#334155");
         }
     }, []);
 
+    function lookupColor(key) {
+        if (typeof window !== "undefined") {
+            const colorMapDark = {
+                primaryBackground: localStorage.backgroundPrimaryD ? localStorage.backgroundPrimaryD : "#334155",
+                secondaryBackground: localStorage.backgroundSecondaryD ? localStorage.backgroundSecondaryD : "#475569",
+                primaryText: localStorage.textPrimaryD ? localStorage.textPrimaryD : "#F8FAFC",
+                secondaryText: localStorage.textSecondaryD ? localStorage.textSecondaryD : "#E2E8F0",
+                accentText: localStorage.textAccentD ? localStorage.textAccentD : "#5EEAD4",
+                strongHighlight: localStorage.highlightStrongD ? localStorage.highlightStrongD : "#155E75",
+                weakHighlight: localStorage.highlightWeakD ? localStorage.highlightweakD : "#0E7490",
+            };
+
+            const colorMapLight = {
+                primaryBackground: localStorage.backgroundPrimaryL ? localStorage.backgroundPrimaryL : "#F8FAFC",
+                secondaryBackground: localStorage.backgroundSecondaryL ? localStorage.backgroundSecondaryL : "#E2E8F0",
+                primaryText: localStorage.textPrimaryL ? localStorage.textPrimaryL : "#334155",
+                secondaryText: localStorage.textSecondaryL ? localStorage.textSecondaryL : "#64748B",
+                accentText: localStorage.textAccentL ? localStorage.textAccentL : "#6D28D9",
+                strongHighlight: localStorage.highlightStrongL ? localStorage.highlightStrongL : "#A5F3FC",
+                weakHighlight: localStorage.highlightWeakL ? localStorage.highlightweakL : "#CFFAFE",
+            };
+
+            const lookupColor = localStorage.siteDarkMode === "true" ? colorMapDark[key] : colorMapLight[key];
+            return lookupColor;
+        } else {
+            return "pass";
+        }
+    }
+
+    function resetColors() {
+        //remove all black
+        delete localStorage.backgroundPrimaryD;
+        delete localStorage.backgroundSecondaryD;
+        delete localStorage.textPrimaryD;
+        delete localStorage.textSecondaryD;
+        delete localStorage.textAccentD;
+        delete localStorage.highlightStrongD;
+        delete localStorage.highlightWeakD;
+        //remove all light
+        delete localStorage.backgroundPrimaryL;
+        delete localStorage.backgroundSecondaryL;
+        delete localStorage.textPrimaryL;
+        delete localStorage.textSecondaryL;
+        delete localStorage.textAccentL;
+        delete localStorage.highlightStrongL;
+        delete localStorage.highlightWeakL;
+    }
+
+    function setCustomColor(color) {
+        setEditColor(color);
+        if (localStorage.siteDarkMode === "true") {
+            const darkSetter = {
+                primaryBackground: () => {
+                    localStorage.backgroundPrimaryD = color;
+                },
+                secondaryBackground: () => {
+                    localStorage.backgroundSecondaryD = color;
+                },
+                primaryText: () => {
+                    localStorage.textPrimaryD = color;
+                },
+                secondaryText: () => {
+                    localStorage.textSecondaryD = color;
+                },
+                accentText: () => {
+                    localStorage.textAccentD = color;
+                },
+                strongHighlight: () => {
+                    localStorage.highlightStrongD = color;
+                },
+                weakHighlight: () => {
+                    localStorage.highlightWeakD = color;
+                },
+            };
+
+            darkSetter[editCategory]();
+        } else {
+            const lightSetter = {
+                primaryBackground: () => {
+                    localStorage.backgroundPrimaryL = color;
+                },
+                secondaryBackground: () => {
+                    localStorage.backgroundSecondaryL = color;
+                },
+                primaryText: () => {
+                    localStorage.textPrimaryL = color;
+                },
+                secondaryText: () => {
+                    localStorage.textSecondaryL = color;
+                },
+                accentText: () => {
+                    localStorage.textAccentL = color;
+                },
+                strongHighlight: () => {
+                    localStorage.highlightStrongL = color;
+                },
+                weakHighlight: () => {
+                    localStorage.highlightWeakL = color;
+                },
+            };
+            lightSetter[editCategory]();
+        }
+    }
+
+    function secFocus(key) {
+        setEditCategory(key);
+        setEditColor(lookupColor(key));
+    }
+
     const selectText = (
-        <div className="flex flex-col outline rounded-md gap-2">
+        <div className="flex flex-col outline rounded-md gap-2 bg-secondary">
             <div className="text-primary text-center">Text</div>
             <div className="flex gap-1 p-2">
                 <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-textPrimary"></div>
-                    <div className="text-primary text-xs">Primary</div>
+                    <div
+                        onClick={() => {
+                            secFocus("primaryText");
+                        }}
+                        className={`rounded-full h-14 w-14 bg-textPrimary hover:bg-weak
+                        ${editCategory === "primaryText" ? "border-red-700 border-4" : ""} `}
+                    />
+                    <div className="text-primary text-xs text-center">Primary</div>
                 </div>
                 <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-textSecondary  left-20"></div>
-                    <div className="text-secondary text-xs">Secondary</div>
+                    <div
+                        onClick={() => {
+                            secFocus("secondaryText");
+                        }}
+                        className={`rounded-full border-2 h-14 w-14 bg-textSecondary hover:bg-weak left-20
+                        ${editCategory === "secondaryText" ? "border-red-700 border-4" : ""}
+                        `}
+                    ></div>
+                    <div className="text-secondary text-xs text-center">Secondary</div>
                 </div>
                 <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-textAccent  left-20"></div>
-                    <div className="text-accent text-xs">Accent</div>
-                </div>
-            </div>
-        </div>
-    );
-
-    const selectHighlight = (
-        <div className="flex flex-col outline rounded-md gap-2">
-            <div className="text-primary text-center">Highlight</div>
-            <div className="flex gap-1 p-2">
-                <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-strong relative"></div>
-                    <div className="text-primary text-xs">Strong</div>
-                </div>
-                <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-weak  left-20"></div>
-                    <div className="text-primary text-xs">Weak</div>
+                    <div
+                        onClick={() => {
+                            secFocus("accentText");
+                        }}
+                        className={`rounded-full border-2 h-14 w-14 bg-textAccent hover:bg-weak left-20
+                        ${editCategory === "accentText" ? "border-red-700 border-4" : ""}
+                        `}
+                    ></div>
+                    <div className="text-accent text-xs text-center">Accent</div>
                 </div>
             </div>
         </div>
     );
 
     const selectBackground = (
-        <div className="flex flex-col outline rounded-md gap-2">
+        <div className="flex flex-col outline rounded-md gap-2 bg-secondary">
             <div className="text-primary text-center">Background</div>
             <div className="flex gap-1 p-2">
                 <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-secondary relative hover:bg-weak"></div>
-                    <div className="text-primary text-xs">Primary</div>
+                    <div
+                        onClick={() => {
+                            secFocus("primaryBackground");
+                        }}
+                        className={`rounded-full border-2 h-14 w-14 bg-primary relative hover:bg-weak
+                        ${editCategory === "primaryBackground" ? "border-red-700 border-4" : ""}
+                        `}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Primary</div>
                 </div>
                 <div>
-                    <div className="rounded-full border-2 h-14 w-14 bg-primary  left-20 hover:bg-weak"></div>
-                    <div className="text-primary text-xs">Secondary</div>
+                    <div
+                        onClick={() => {
+                            secFocus("secondaryBackground");
+                        }}
+                        className={`rounded-full border-2 h-14 w-14 bg-secondary  left-20 hover:bg-weak
+                        ${editCategory === "secondaryBackground" ? "border-red-700 border-4" : ""} 
+                        `}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Secondary</div>
+                </div>
+            </div>
+        </div>
+    );
+
+    const selectHighlight = (
+        <div className="flex flex-col outline rounded-md gap-2 bg-secondary">
+            <div className="text-primary text-center">Highlight</div>
+            <div className="flex gap-1 p-2">
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("strongHighlight");
+                        }}
+                        className={`rounded-full border-2 h-14 w-14 bg-strong relative hover:bg-weak bottom-0
+                    ${editCategory === "strongHighlight" ? "border-red-700 border-4" : ""} 
+                    `}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Strong</div>
+                </div>
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("weakHighlight");
+                        }}
+                        className={`rounded-full border-2 h-14 w-14 bg-weak  left-20 hover:bg-strong
+                    ${editCategory === "weakHighlight" ? "border-red-700 border-4" : ""}
+                    `}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Weak</div>
                 </div>
             </div>
         </div>
@@ -95,43 +238,69 @@ function colors() {
 
     const selectionGrid = (
         <>
-            <div className="text-primary col-start-2 col-end-2 m-auto">
-                <DarkModeButton />
-            </div>
-            <div className="col-start-3 col-end-11 flex">
-                {" "}
+            <div className="text-primary flex gap-4 m-4">
+                <DarkModeButton
+                    secondary={() => {
+                        secFocus(editCategory);
+                    }}
+                />
                 {selectText}
                 {selectBackground}
                 {selectHighlight}
+                <div className="flex items-center ">
+                    <button
+                        onClick={() => {
+                            resetColors();
+                            setReset(Date.now());
+                        }}
+                        className="border-2 p-2 rounded-md bg-secondary shadow-lg shadow-slate-600 hover:bg-weak hover:border-black hover:text-accent active:bg-strong text-sm"
+                    >
+                        Reset
+                    </button>
+                </div>
             </div>
         </>
     );
 
     const colorGrid = Object.entries(tailColors).map(([key1, val]) => {
         const row = Object.entries(val).map(([key2, val]) => {
-            console.log(val);
             return (
-                <div className="flex flex-col align-middle justify-center p-2">
-                    <div style={{ backgroundColor: `${val}` }} className="grow rounded-md h-10 w-10"></div>
-                    <div className="flex text-secondary align-content: center text-xs text-center items-center ">{key2}</div>
+                <div
+                    key={key2}
+                    className={`flex flex-col p-2 hover:bg-strong rounded-md ${val === editColor ? "border-red-700 border-4" : ""}`}
+                    onClick={() => {
+                        setCustomColor(val);
+                    }}
+                >
+                    <div style={{ backgroundColor: `${val}` }} className="rounded-md h-10 w-10 m-auto"></div>
+                    <div className="flex text-secondary align-content: center text-xs text-center items-center m-auto">{key2}</div>
                     <div className="flex text-accent align-content: center text-xs text-center items-center">{val}</div>
                 </div>
             );
         });
 
         return (
-            <>
-                <div className="col-start-2 col-end-2 text-primary m-auto ">{key1}</div>
-                <div className="col-start-3 col-end-11 flex grow ">{row}</div>
-            </>
+            <div key={key1} className="grid grid-cols-12">
+                <div className="col-span-1 text-primary m-auto">{key1}</div>
+                <div className="col-span-11">
+                    <div className="flex">{row}</div>
+                </div>
+            </div>
         );
     });
 
     return (
-        <div className={`min-h-screen bg-primary content-center grid `}>
-            {selectionGrid}
-            {colorGrid}
-        </div>
+        <>
+            <UserPrefs />
+            <div className={`min-h-screen bg-primary content-center grid grid-cols-12 `}>
+                <div className="col-span-1" />
+                <div className="col-span-10 m-auto">{selectionGrid}</div>
+                <div className="col-span-1" />
+                <div className="col-span-1" />
+                <div className="col-span-10 m-auto">{colorGrid}</div>
+                <div className="col-span-1" />
+            </div>
+        </>
     );
 }
 

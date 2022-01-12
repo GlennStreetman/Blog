@@ -5,7 +5,7 @@ import { AdjustmentsIcon } from "@heroicons/react/solid";
 function ColorPallet() {
     return (
         <div className="flex flex-col">
-            {/* TEXT COLORS */}
+            HELLO
             <div className="text-primary">
                 <IconButton
                     text="Text Colors"

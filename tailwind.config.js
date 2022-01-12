@@ -5,18 +5,31 @@ module.exports = {
             backgroundColor: {
                 primary: "var(--color-bg-primary-user, var(--color-bg-primary))",
                 secondary: "var(--color-bg-secondary-user, var(--color-bg-secondary))",
-                textPrimary: "var(--color-bg-textPrimary-user, var(--color-bg-textPrimary))",
-                textSecondary: "var(--color-bg-textSecondary-user, var(--color-bg-textSecondary))",
-                textAccent: "var(--color-bg-textAccent-user, var(--color-bg-textAccent))",
+                textPrimary: "var(--color-text-primary-user, var(--color-text-primary))",
+                textSecondary: "var(--color-text-secondary-user, var(--color-text-secondary))",
+                textAccent: "var(--color-text-accent-user, var(--color-text-accent))",
             },
             textColor: {
-                accent: "var(--color-text-accent-user, var(--color-text-accent))",
                 primary: "var(--color-text-primary-user, var(--color-text-primary))",
                 secondary: "var(--color-text-secondary-user, var(--color-text-secondary))",
+                accent: "var(--color-text-accent-user, var(--color-text-accent))",
             },
             colors: {
                 strong: "var(--color-hover-strong-user, var(--color-hover-strong))",
                 weak: "var(--color-hover-weak-user, var(--color-hover-weak))",
+            },
+            keyframes: {
+                wiggle: {
+                    "0%, 100%": { transform: "rotate(-3deg)" },
+                    "50%": { transform: "rotate(3deg)" },
+                },
+                ripple: {
+                    "0%, 100%": { transform: "scale(4)", opactiy: 0 },
+                },
+            },
+            animation: {
+                wiggle: "wiggle 200ms ease-in-out",
+                ripple: "ripple 600ms linear",
             },
         },
     },
