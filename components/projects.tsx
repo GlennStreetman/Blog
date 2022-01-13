@@ -2,7 +2,7 @@ export default function Projects() {
     return (
         <div className="flex flex-col space-y-2">
             <h2>
-                <b>Projects</b>
+                <b className="text-accent">Projects</b>
             </h2>
             <div className="shadow rounded-md border-2 p-2 outline-4 hover:bg-sky-100 text-primary ">
                 <h6 className="text-secondary">

@@ -1,45 +1,37 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
-import Gutter from "../components/gutter";
-import { SwitchHorizontalIcon } from "@heroicons/react/solid";
-import IconButton from "../components/iconButton";
+import UserPrefs from "../components/userPrefs";
 import ColorPallet from "../components/colorPallet";
+
+import { AdjustmentsIcon } from "@heroicons/react/solid";
+import Link from "next/link";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
+import BackButton from "../components/backButton";
 
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
 
 function styleGuide() {
-    const [bgPrimary, setBgPrimary] = useState(true);
-
-    useEffect(() => {
-        console.log(document.documentElement.classList);
-        if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-            document.documentElement.classList.add("dark");
-            document.documentElement.classList.remove("light");
-        } else {
-            document.documentElement.classList.add("light");
-            document.documentElement.classList.remove("dark");
-        }
-    }, []);
-
-    // const summaryBG = bgPrimary ? "bg-primary" : "bg-secondary";
-    // const bodyBG = bgPrimary ? "bg-secondary" : "bg-primary";
-
     return (
         <>
             <div className={`min-h-screen bg-primary`}>
-                {/* <Topper /> */}
                 <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
-                    <Gutter />
-                    <Gutter />
-                    <Gutter />
+                    <div className={`col-span-0 md:col-span-3`} />
                     <div className="sm:w-auto col-span-12 md:col-span-6 p-2">
                         <div className="flex flex-col shadow rounded-md border-2 relative p-3 gap-2">
                             <ColorPallet />
-                            <div className="absolute top-0 right-0">
+                            <div className="flex absolute top-0 right-0">
+                                <Tippy content="Modify Theme" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+                                    <div>
+                                        <Link href="/colors">
+                                            <AdjustmentsIcon className="h-7 w-7 text-primary hover:text-accent " />
+                                        </Link>
+                                    </div>
+                                </Tippy>
                                 <DarkModeButton />
                             </div>
-                            <div className={`flex gap-4 p-2 bg-secondary shadow rounded-md border-2  outline-4 hover:bg-sky-100`}>
+                            <div className="flex gap-4 p-2 bg-secondary shadow rounded-md border-2  outline-4 hover:bg-weak">
                                 <div className="flex flex-col roun">
                                     <div className="text-primary">
                                         <b className="text-primary">BG:</b>Secondary
@@ -81,11 +73,11 @@ function styleGuide() {
                                 </div>
                             </div>
                         </div>
+                        <div className="flex justify-center">
+                            <BackButton link="/"></BackButton>
+                        </div>
                     </div>
-
-                    <Gutter />
-                    <Gutter />
-                    <Gutter />
+                    <div className={`col-span-0 md:col-span-3`} />
                 </div>
             </div>
         </>

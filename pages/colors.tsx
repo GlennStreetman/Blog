@@ -2,6 +2,9 @@ import React from "react";
 import tailColors from "../registers/tailwindsColors";
 import { useState, useEffect } from "react";
 import UserPrefs from "../components/userPrefs";
+import Button from "../components/buttonStandard";
+import BackButton from "../components/backButton";
+import { BackspaceIcon } from "@heroicons/react/solid";
 
 import dynamic from "next/dynamic";
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
@@ -18,14 +21,16 @@ function colors() {
             document.documentElement.classList.remove("light");
             document.documentElement.classList.remove("userLight");
             setEditColor(localStorage.textPrimaryD !== undefined ? localStorage.textPrimaryD : "#F8FAFC");
+            setEditCategory("primaryText");
         } else {
             document.documentElement.classList.add("light");
             document.documentElement.classList.add("userLight");
             document.documentElement.classList.remove("dark");
             document.documentElement.classList.remove("userDark");
             setEditColor(localStorage.textPrimaryL !== undefined ? localStorage.textPrimaryL : "#334155");
+            setEditCategory("primaryText");
         }
-    }, []);
+    }, [reset]);
 
     function lookupColor(key) {
         if (typeof window !== "undefined") {
@@ -33,7 +38,7 @@ function colors() {
                 primaryBackground: localStorage.backgroundPrimaryD ? localStorage.backgroundPrimaryD : "#334155",
                 secondaryBackground: localStorage.backgroundSecondaryD ? localStorage.backgroundSecondaryD : "#475569",
                 primaryText: localStorage.textPrimaryD ? localStorage.textPrimaryD : "#F8FAFC",
-                secondaryText: localStorage.textSecondaryD ? localStorage.textSecondaryD : "#E2E8F0",
+                secondaryText: localStorage.textSecondaryD ? localStorage.textSecondaryD : "#FFEDD5",
                 accentText: localStorage.textAccentD ? localStorage.textAccentD : "#5EEAD4",
                 strongHighlight: localStorage.highlightStrongD ? localStorage.highlightStrongD : "#155E75",
                 weakHighlight: localStorage.highlightWeakD ? localStorage.highlightweakD : "#0E7490",
@@ -43,7 +48,7 @@ function colors() {
                 primaryBackground: localStorage.backgroundPrimaryL ? localStorage.backgroundPrimaryL : "#F8FAFC",
                 secondaryBackground: localStorage.backgroundSecondaryL ? localStorage.backgroundSecondaryL : "#E2E8F0",
                 primaryText: localStorage.textPrimaryL ? localStorage.textPrimaryL : "#334155",
-                secondaryText: localStorage.textSecondaryL ? localStorage.textSecondaryL : "#64748B",
+                secondaryText: localStorage.textSecondaryL ? localStorage.textSecondaryL : "#0369A1",
                 accentText: localStorage.textAccentL ? localStorage.textAccentL : "#6D28D9",
                 strongHighlight: localStorage.highlightStrongL ? localStorage.highlightStrongL : "#A5F3FC",
                 weakHighlight: localStorage.highlightWeakL ? localStorage.highlightweakL : "#CFFAFE",
@@ -247,16 +252,19 @@ function colors() {
                 {selectText}
                 {selectBackground}
                 {selectHighlight}
-                <div className="flex items-center ">
-                    <button
+                <div className="flex flex-col justify-center ">
+                    <Button
                         onClick={() => {
                             resetColors();
                             setReset(Date.now());
                         }}
-                        className="border-2 p-2 rounded-md bg-secondary shadow-lg shadow-slate-600 hover:bg-weak hover:border-black hover:text-accent active:bg-strong text-sm"
                     >
-                        Reset
-                    </button>
+                        <div className="flex font-bold uppercase text-xs text-primary  rounded-md p-2 hover:text-accent active:bg-strong ">
+                            <BackspaceIcon className="h-7 w-7  m-auto" />
+                            <div className="my-auto">reset</div>
+                        </div>
+                    </Button>
+                    <BackButton link="/styleGuide"></BackButton>
                 </div>
             </div>
         </>

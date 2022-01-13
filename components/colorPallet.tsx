@@ -1,20 +1,12 @@
 import React from "react";
+import Button from "../components/buttonStandard";
 import IconButton from "./iconButton";
 import { AdjustmentsIcon } from "@heroicons/react/solid";
 
 function ColorPallet() {
     return (
         <div className="flex flex-col">
-            HELLO
-            <div className="text-primary">
-                <IconButton
-                    text="Text Colors"
-                    icon={<AdjustmentsIcon className="h-7 w-7 " />}
-                    callback={() => {
-                        console.log("click");
-                    }}
-                />
-            </div>
+            <div className="text-primary">Text Colors</div>
             <div className="w-full ">
                 <div id="primary1" className="rounded-full border-2 h-24 w-24 bg-textPrimary relative">
                     <div id="secondary" className="rounded-full border-2 h-24 w-24 bg-textSecondary absolute left-20">
@@ -23,15 +15,7 @@ function ColorPallet() {
                 </div>
             </div>
             {/* BACKGROUND COLORS */}
-            <div className="text-primary">
-                <IconButton
-                    text="Background Colors"
-                    icon={<AdjustmentsIcon className="h-7 w-7 " />}
-                    callback={() => {
-                        console.log("click");
-                    }}
-                />
-            </div>
+            <div className="text-primary">Background Colors</div>
             <div>
                 <div className="w-full  ">
                     <div className="rounded-full border-2 h-24 w-24 bg-secondary relative hover:bg-weak ">
@@ -40,15 +24,7 @@ function ColorPallet() {
                 </div>
             </div>
             {/* Highlight Colors */}
-            <div className="text-primary">
-                <IconButton
-                    text="Highlight Colors"
-                    icon={<AdjustmentsIcon className="h-7 w-7 " />}
-                    callback={() => {
-                        console.log("click");
-                    }}
-                />
-            </div>
+            <div className="text-primary">Highlight Colors</div>
             <div>
                 <div className="w-full  ">
                     <div className="rounded-full border-2 h-24 w-24 bg-strong relative ">

@@ -1,6 +1,5 @@
 function UserPrefs() {
     if (typeof window !== "undefined" && localStorage) {
-        console.log("localStorage.backgroundPrimaryL", localStorage.backgroundPrimaryL);
         return (
             <style jsx global>
                 {`
@@ -31,5 +30,3 @@ function UserPrefs() {
 }
 
 export default UserPrefs;
-
-// localStorage.backgroundPrimaryD = '#A52A2A'

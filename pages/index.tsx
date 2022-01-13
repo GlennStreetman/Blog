@@ -3,7 +3,6 @@ import Right_Column from "../components/right_Column";
 import { getSortedPostsData } from "../lib/posts";
 import Bottom from "../components/bottom";
 import Gutter from "../components/gutter";
-import { useEffect } from "react";
 import Topper from "../components/topper";
 import UserPrefs from "../components/userPrefs";
 
@@ -17,18 +16,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
-    useEffect(() => {
-        if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-            console.log(document.documentElement.classList);
-            document.documentElement.classList.add("light");
-            document.documentElement.classList.remove("dark");
-        } else {
-            console.log(document.documentElement.classList);
-            document.documentElement.classList.add("dark");
-            document.documentElement.classList.remove("light");
-        }
-    }, []);
-
     return (
         <div className="min-h-screen bg-primary ">
             <UserPrefs />

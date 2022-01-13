@@ -9,11 +9,11 @@ interface props {
 function BackButton(p: props) {
     return (
         <>
-            <Link href="/">
+            <Link href={p.link}>
                 <button>
-                    <div className="flex font-bold uppercase text-xs hover:bg-cyan-700 rounded-md p-2">
+                    <div className="flex font-bold uppercase text-xs text-primary rounded-md p-2 hover:text-accent active:bg-strong">
                         <ArrowCircleLeftIcon className="h-7 w-7 " />
-                        <p className="m-auto">Back</p>
+                        <div className="my-auto">Back</div>
                     </div>
                 </button>
             </Link>

@@ -6,7 +6,7 @@
     --color-bg-primary: #334155;
     --color-bg-secondary: #475569;
     --color-text-primary: #f8fafc;
-    --color-text-secondary: #e2e8f0;
+    --color-text-secondary: #ffedd5;
     --color-text-accent: #5eead4;
     --color-hover-strong: #155e75;
     --color-hover-weak: #0e7490;
@@ -16,7 +16,7 @@
     --color-bg-primary: #f8fafc;
     --color-bg-secondary: #e2e8f0;
     --color-text-primary: #334155;
-    --color-text-secondary: #64748b;
+    --color-text-secondary: #0369a1;
     --color-text-accent: #6d28d9;
     --color-hover-strong: #a5f3fc;
     --color-hover-weak: #cffafe;
@@ -47,4 +47,12 @@ a:hover {
 img {
     max-width: 100%;
     display: block;
+}
+
+#tooltip {
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
 }
