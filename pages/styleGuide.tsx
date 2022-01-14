@@ -1,14 +1,12 @@
 import React from "react";
-import { useEffect } from "react";
 import dynamic from "next/dynamic";
-import UserPrefs from "../components/userPrefs";
 import ColorPallet from "../components/colorPallet";
-
-import { AdjustmentsIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import BackButton from "../components/backButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
 
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
 
@@ -21,15 +19,18 @@ function styleGuide() {
                     <div className="sm:w-auto col-span-12 md:col-span-6 p-2">
                         <div className="flex flex-col shadow rounded-md border-2 relative p-3 gap-2">
                             <ColorPallet />
-                            <div className="flex absolute top-0 right-0">
+                            <div className="flex absolute top-0 right-0 p-3 gap-2">
                                 <Tippy content="Modify Theme" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
                                     <div>
                                         <Link href="/colors">
-                                            <AdjustmentsIcon className="h-7 w-7 text-primary hover:text-accent " />
+                                            <FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faUserEdit} />
                                         </Link>
                                     </div>
                                 </Tippy>
-                                <DarkModeButton />
+
+                                <div>
+                                    <DarkModeButton />
+                                </div>
                             </div>
                             <div className="flex gap-4 p-2 bg-secondary shadow rounded-md border-2  outline-4 hover:bg-weak">
                                 <div className="flex flex-col roun">

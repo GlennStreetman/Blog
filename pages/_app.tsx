@@ -1,4 +1,5 @@
 import "../styles/global.css";
+import "../styles/codeBlockFormat.css";
 import { useEffect } from "react";
 
 import UserPrefs from "../components/userPrefs";
@@ -20,7 +21,10 @@ export default function App({ Component, pageProps }) {
 
     return (
         <>
-            <UserPrefs /> <Component {...pageProps}> </Component>
+            <UserPrefs />{" "}
+            <div className="font-body">
+                <Component {...pageProps}> </Component>
+            </div>
         </>
     );
 }

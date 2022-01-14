@@ -33,19 +33,6 @@ export function getSortedPostsData() {
 }
 
 export function getAllPostIds() {
-    // Returns an array that looks like this:
-    // [
-    //   {
-    //     params: {
-    //       id: 'example1'
-    //     }
-    //   },
-    //   {
-    //     params: {
-    //       id: 'example2'
-    //     }
-    //   }
-    // ]
     return Object.values(postsRegister).map((register) => {
         return {
             params: {

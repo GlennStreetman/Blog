@@ -1,0 +1,22 @@
+.article {
+}
+
+.article h1 {
+    @apply text-accent font-bold text-xl;
+}
+
+.article h2 {
+    @apply text-secondary font-bold text-lg;
+}
+
+.article p {
+    @apply text-primary pb-5;
+}
+
+.article a {
+    @apply text-secondary font-bold text-lg italic;
+}
+
+.article a:hover {
+    @apply text-accent font-bold text-lg italic;
+}

@@ -1,6 +1,9 @@
 import React from "react";
 import { SunIcon, MoonIcon } from "@heroicons/react/solid";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faSun } from "@fortawesome/free-solid-svg-icons";
 
 interface props {
     secondary?: Function;
@@ -30,7 +33,11 @@ function DarkModeButton(p: props) {
                 if (p.secondary) p.secondary();
             }}
         >
-            {darkMode ? <SunIcon className="h-7 w-7 text-white hover:text-accent" /> : <MoonIcon className="h-7 w-7 hover:text-accent" />}
+            {darkMode ? (
+                <FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faSun} />
+            ) : (
+                <FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faMoon} />
+            )}
         </button>
     );
 }

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import utilStyles from "../styles/utils.module.css";
 
 const name = "Glenn Streetman";
 export const siteTitle = "Glenn Streetmans Dev Blog";
@@ -27,7 +26,7 @@ export default function Header({ home }) {
                         <tbody>
                             <tr>
                                 <td>
-                                    <Image priority src="/images/profile.jpg" className={utilStyles.borderCircle} height={144} width={144} alt={name} />
+                                    <Image priority src="/images/profile.jpg" className="rounded-full" height={144} width={144} alt={name} />
                                 </td>
                                 <td>
                                     <div className="flex align-middle text-justify">

@@ -1,4 +1,5 @@
 module.exports = {
+    mode: "jit",
     content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./posts/**/*..{js,ts,jsx,tsx}"],
     theme: {
         extend: {
@@ -18,24 +19,11 @@ module.exports = {
                 strong: "var(--color-hover-strong-user, var(--color-hover-strong))",
                 weak: "var(--color-hover-weak-user, var(--color-hover-weak))",
             },
-            keyframes: {
-                wiggle: {
-                    "0%, 100%": { transform: "rotate(-3deg)" },
-                    "50%": { transform: "rotate(3deg)" },
-                },
-                ripple: {
-                    "0%, 100%": { transform: "scale(4)", opactiy: 0 },
-                },
-            },
-            animation: {
-                wiggle: "wiggle 200ms ease-in-out",
-                ripple: "ripple 600ms linear",
+            fontFamily: {
+                heading: ["Righteous", "sans-serif"],
+                body: ["Roboto", "sans-serif"],
             },
         },
     },
     plugins: [],
 };
-
-// add two classes customDark, customLight
-//create function that allows user to append custom classes
-//https://stackoverflow.com/questions/1720320/how-to-dynamically-create-css-class-in-javascript-and-apply

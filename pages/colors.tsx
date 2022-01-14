@@ -5,6 +5,7 @@ import UserPrefs from "../components/userPrefs";
 import Button from "../components/buttonStandard";
 import BackButton from "../components/backButton";
 import { BackspaceIcon } from "@heroicons/react/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import dynamic from "next/dynamic";
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
