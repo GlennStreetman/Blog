@@ -11,22 +11,21 @@ export const tailNotesMeta = {
 export function tailNotes() {
     return (
         <div className="article">
-            <h2>{tailwindsDarkLink} isn't tied into a predefined theme out of the box.</h2>
+            <h2>{tailwindsDarkLink} feels like its incomplete out of the box.</h2>
             <p>
-                By default you need to add <b>dark:</b> utility class prefixs to elements and specify attributes like background and text color. This can result
-                in having to specify all of your styles twice for each component. The need to specify <b>dark:</b> mode tags can be greatly reduced by extending
-                the {tailwindsThemeLink} with {cssVariablesLink}.
+                Using Tailwinds, by default, you need to add <b>dark:</b> utility class prefixs to {tailwindsUtilityClass} in order to specify html element
+                attributes like background and text color. You end up specifying many common html attributes twice for each element. The need to specify{" "}
+                <b>dark:</b> mode tags can be greatly reduced by extending the {tailwindsThemeLink} with {cssVariablesLink} and theme extensions. Notice in the
+                html shown below, color is specified twice. Once for light mode and once for dark mode. When we complete the steps below you will be able to use
+                new utility classes like bg-primary to set background colors for both light and dark mode with a single tailwinds utility class.
             </p>
 
-            <CodeBlock language="language-HTML">{`<div className="bg-white dark:bg-slate-900" />`}</CodeBlock>
+            <CodeBlock language="language-HTML">{`<div className="bg-white dark:bg-slate-900" /> BECOMES--> <div className="bg-primary" />`}</CodeBlock>
 
-            <p>
-                Notice that in the above html tag, color is specified twice. Once for light and once for dark. Lets use css variables so that we can use a theme
-                to control darkmode instead of groups of Tailwind utility classes.
-            </p>
+            <p></p>
 
             <h2>In your global.css file add the following:</h2>
-            <p>The code below sets two new classes that contain a series of yet to be defined tailwinds utility classes. </p>
+            <p>The code below sets two new classes that contain a series of yet to be defined custom tailwinds utility classes. </p>
 
             <CodeBlock language="language-CSS" file="./styles/global.css">{`@tailwind base;
 @tailwind components;
@@ -61,9 +60,6 @@ export function tailNotes() {
                 backgroundColor: {
                     primary: "var(--color-bg-primary)",
                     secondary: "var(--color-bg-secondary)",
-                    textPrimary: "var(--color-text-primary)",
-                    textSecondary: "var(--color-text-secondary)",
-                    textAccent: "var(--color-text-accent)",
                 },
                 textColor: {
                     primary: "var(--color-text-primary)",
@@ -80,13 +76,15 @@ export function tailNotes() {
             <p>
                 At this point we have created two classes in our global.css file, light & dark. Each class applies a series of tailwind styles that we created
                 when we extended THEME in tailwind.config.js. This doesn't do anything yet. We still need a way to apply the light & dark classes as needed and
-                create a way to toggle the mode.{" "}
+                create a way to toggle dark mode state.{" "}
             </p>
 
             <h2>Create a hook that uses {localStorageLink} to determine dark mode state.</h2>
             <p>
-                Add the hook below to your _app.ts file so that it runs on each page load. The state of darkmode will now be saved in localstorage and will be
-                remembered the next time a user accessess the site from the same browser.
+                Add the hook shown below to your _app.ts file. This new hook will run on each new page load and apply your light or dark mode theme. If no dark
+                mode state is saved in local storage then the hook will also set a default darkmode state that will be remembered the next time the user
+                accessess the site from the same browser. Note that {documentElement} is the root HTML element in the browser. Because the dark or light class
+                is applied to the root element, the root elements styles will {cascading} down to every element on the page.
             </p>
             <CodeBlock language="language-javascript" file="./pages/_app.js">{`useEffect(() => {
     if (localStorage.siteDarkMode === "true" || 
@@ -100,13 +98,13 @@ export function tailNotes() {
     }
 }, []);`}</CodeBlock>
 
-            <p>
-                Note that {documentElement} is the root element in your browser, likely your html tag. Because the dark or light class is applied to the root
-                element, the root elements styles will {cascading} down to every element on the page.
-            </p>
-
             <h2>Now lets create the toggle button</h2>
-            <p>Note that the example below uses {fontAwesome} icons.</p>
+            <p>
+                Add the below button anywhere on your page to toggle dark mode. The button will add and remove the dark & light classes from the root element
+                which will cause light and dark mode to toggle on the page. At this point you will not need to add <b>dark:</b> prefixes the background, text,
+                and highlight colors that you defined in tailwinds.config theme. Note that the example below uses {fontAwesome} icons. Sub in your own icons if
+                you don't want to use Font Awesome.
+            </p>
             <CodeBlock language="language-javascript" file="./components/DarkModeButton.ts">{`import React from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -142,10 +140,35 @@ function DarkModeButton() {
 }
 
 export default DarkModeButton;`}</CodeBlock>
+            <p></p>
+
+            <h2>Now lets let users perilously define their own colors!</h2>
             <p>
-                Add the above button anywhere on your page to toggle dark mode. You can now add Tailwind theme background colors, text colors, and highlight
-                colors throughout your project without having to use dark: tags.
+                You may have noticed that this site has an icon in the upper right that allows users to set their own colors. If you want to add the same
+                functionality to your project you will need to modify your tailwind.config file and create a page that injects new override classes into the
+                root element.
             </p>
+
+            <CodeBlock language="language-javascript" file="./tailwind.config.js">{`module.exports = {
+        theme: {
+            backgroundColor: {
+                primary: "var(--color-bg-primary-user, var(--color-bg-primary))",
+                secondary: "var(--color-bg-secondary-user, var(--color-bg-secondary))",
+                textPrimary: "var(--color-text-primary-user, var(--color-text-primary))",
+                textSecondary: "var(--color-text-secondary-user, var(--color-text-secondary))",
+                textAccent: "var(--color-text-accent-user, var(--color-text-accent))",
+            },
+            textColor: {
+                primary: "var(--color-text-primary-user, var(--color-text-primary))",
+                secondary: "var(--color-text-secondary-user, var(--color-text-secondary))",
+                accent: "var(--color-text-accent-user, var(--color-text-accent))",
+            },
+            colors: {
+                strong: "var(--color-hover-strong-user, var(--color-hover-strong))",
+                weak: "var(--color-hover-weak-user, var(--color-hover-weak))",
+            },
+        }
+    }`}</CodeBlock>
 
             <h2>Inspiration:</h2>
             {source1}
@@ -170,6 +193,12 @@ const tailwindsDarkLink = (
 const tailwindsThemeLink = (
     <a href="https://tailwindcss.com/docs/theme" target="_blank">
         Tailwinds Theme
+    </a>
+);
+
+const tailwindsUtilityClass = (
+    <a href="https://tailwindcss.com/docs/utility-first" target="_blank">
+        Tailwinds Utility Classes
     </a>
 );
 

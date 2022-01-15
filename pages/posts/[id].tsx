@@ -39,9 +39,6 @@ export default function PostBody(postData) {
                         <div className="col-span-2">
                             <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-2 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3">
                                 <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} />
-                                {/* <div className="object-cover shadow-lg rounded-lg">
-                                    <Image priority src="/images/profile.jpg" layout="fill" alt={name} />
-                                </div> */}
                             </div>
                         </div>
 

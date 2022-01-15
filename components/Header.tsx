@@ -6,7 +6,7 @@ export const siteTitle = "Glenn Streetmans Dev Blog";
 
 export default function Header({ home }) {
     return (
-        <div className="max-w-full">
+        <div className="max-w-full p-2">
             <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <meta name="description" content="Glenn Streetman's Dev Blog" />
@@ -20,29 +20,26 @@ export default function Header({ home }) {
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <header>
-                {home ? (
-                    <table>
-                        <thead></thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <Image priority src="/images/profile.jpg" className="rounded-full" height={144} width={144} alt={name} />
-                                </td>
-                                <td>
-                                    <div className="flex align-middle text-justify">
-                                        <h1 className="text-primary">
-                                            <b>{name}</b>: A Full Stack Web Developer, with a background in FInancial Systems Implementations, located in San
-                                            Diego, CA.
-                                        </h1>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                ) : (
-                    <></>
-                )}
+                <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-3">
+                        <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3">
+                            <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} />
+                        </div>
+                    </div>
+
+                    <div className="col-span-9 my-auto">
+                        <div className="flex align-middle text-justify">
+                            <h1 className="text-primary">
+                                <b>{name}</b>: A Full Stack Web Developer, with a background in FInancial Systems Implementations, located in San Diego, CA.
+                            </h1>
+                        </div>
+                    </div>
+                </div>
             </header>
         </div>
     );
+}
+
+{
+    /* <Image priority src="/images/profile.jpg" className="rounded-full" height={144} width={144} alt={name} /> */
 }

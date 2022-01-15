@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import UserPrefs from "../components/userPrefs";
 import Button from "../components/buttonStandard";
 import BackButton from "../components/backButton";
-import { BackspaceIcon } from "@heroicons/react/solid";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faToilet, faEye } from "@fortawesome/free-solid-svg-icons";
+import Topper from "./../components/topper";
 
 import dynamic from "next/dynamic";
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
@@ -254,18 +256,28 @@ function colors() {
                 {selectBackground}
                 {selectHighlight}
                 <div className="flex flex-col justify-center ">
+                    <Link href="/styleGuide">
+                        <div>
+                            <Button onClick={() => {}}>
+                                <div className="my-auto">
+                                    <FontAwesomeIcon icon={faEye} />{" "}
+                                </div>
+                                <div className="my-auto">Review</div>
+                            </Button>
+                        </div>
+                    </Link>
+
                     <Button
                         onClick={() => {
                             resetColors();
                             setReset(Date.now());
                         }}
                     >
-                        <div className="flex font-bold uppercase text-xs text-primary  rounded-md p-2 hover:text-accent active:bg-strong ">
-                            <BackspaceIcon className="h-7 w-7  m-auto" />
-                            <div className="my-auto">reset</div>
+                        <div className="my-auto">
+                            <FontAwesomeIcon icon={faToilet} />{" "}
                         </div>
+                        <div className="my-auto">RESET</div>
                     </Button>
-                    <BackButton link="/styleGuide"></BackButton>
                 </div>
             </div>
         </>
@@ -300,6 +312,7 @@ function colors() {
 
     return (
         <>
+            <Topper />
             <UserPrefs />
             <div className={`min-h-screen bg-primary content-center grid grid-cols-12 `}>
                 <div className="col-span-1" />
@@ -307,6 +320,11 @@ function colors() {
                 <div className="col-span-1" />
                 <div className="col-span-1" />
                 <div className="col-span-10 m-auto">{colorGrid}</div>
+                <div className="col-span-1" />
+                <div className="col-span-1" />
+                <div className="col-span-10 m-auto">
+                    <BackButton />
+                </div>
                 <div className="col-span-1" />
             </div>
         </>

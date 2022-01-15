@@ -8,10 +8,10 @@ interface props {
 function buttonStandard(p: props) {
     return (
         <button
+            className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1"
             onClick={(e) => {
                 p.onClick(e);
             }}
-            className=" uppercase font-bold  text-xs hover:text-accent active:bg-strong "
         >
             {p.children}
         </button>

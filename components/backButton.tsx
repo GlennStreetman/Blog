@@ -23,7 +23,7 @@ function BackButton(p: props) {
             <div className="my-auto">
                 <button className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1" onClick={() => router.back()}>
                     <div className="my-auto">
-                        <FontAwesomeIcon icon={faArrowAltCircleLeft} className="  " />
+                        <FontAwesomeIcon icon={faArrowAltCircleLeft} />
                     </div>
                 </button>
             </div>

@@ -11,7 +11,7 @@
 }
 
 .article p {
-    @apply text-primary pb-5;
+    @apply text-primary pb-2;
 }
 
 .article a {

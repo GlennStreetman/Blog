@@ -7,12 +7,14 @@ import "tippy.js/dist/tippy.css"; // optional
 import BackButton from "../components/backButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import Topper from "./../components/topper";
 
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
 
 function styleGuide() {
     return (
         <>
+            <Topper />
             <div className={`min-h-screen bg-primary`}>
                 <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                     <div className={`col-span-0 md:col-span-3`} />
@@ -20,14 +22,6 @@ function styleGuide() {
                         <div className="flex flex-col shadow rounded-md border-2 relative p-3 gap-2">
                             <ColorPallet />
                             <div className="flex absolute top-0 right-0 p-3 gap-2">
-                                <Tippy content="Modify Theme" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
-                                    <div>
-                                        <Link href="/colors">
-                                            <FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faUserEdit} />
-                                        </Link>
-                                    </div>
-                                </Tippy>
-
                                 <div>
                                     <DarkModeButton />
                                 </div>
@@ -75,7 +69,7 @@ function styleGuide() {
                             </div>
                         </div>
                         <div className="flex justify-center">
-                            <BackButton link="/"></BackButton>
+                            <BackButton></BackButton>
                         </div>
                     </div>
                     <div className={`col-span-0 md:col-span-3`} />
