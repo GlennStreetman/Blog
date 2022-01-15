@@ -5,16 +5,12 @@ export const tailNotesMeta = {
     title: "Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS",
     date: "2022-01-01",
     type: "notes",
+    dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
 };
 
 export function tailNotes() {
     return (
         <div className="article">
-            <h1>
-                Next.js Custom Dark Mode Theme sing CSS Variables & Tailwind CSS
-                <h2 className="title text-6xl">2022 Using: Tailwinds v3.08, Next v12.0.7, React v17.0.2</h2>
-            </h1>
-
             <h2>{tailwindsDarkLink} isn't tied into a predefined theme out of the box.</h2>
             <p>
                 By default you need to add <b>dark:</b> utility class prefixs to elements and specify attributes like background and text color. This can result
@@ -32,7 +28,7 @@ export function tailNotes() {
             <h2>In your global.css file add the following:</h2>
             <p>The code below sets two new classes that contain a series of yet to be defined tailwinds utility classes. </p>
 
-            <CodeBlock language="language-CSS">{`@tailwind base;
+            <CodeBlock language="language-CSS" file="./styles/global.css">{`@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -56,8 +52,10 @@ export function tailNotes() {
     --color-hover-weak: #cffafe;
 }`}</CodeBlock>
 
-            <h2>Next lets extend the {tailwindsThemeLink}. Add the following to your tailwind.config.js</h2>
-            <CodeBlock language="language-javascript">{`module.exports = {
+            <h2>
+                Next lets extend the {tailwindsThemeLink}. Add the following to your {tailwindsConfig}
+            </h2>
+            <CodeBlock language="language-javascript" file="./tailwind.config.js">{`module.exports = {
         theme: {
             extend: {
                 backgroundColor: {
@@ -88,9 +86,9 @@ export function tailNotes() {
             <h2>Create a hook that uses {localStorageLink} to determine dark mode state.</h2>
             <p>
                 Add the hook below to your _app.ts file so that it runs on each page load. The state of darkmode will now be saved in localstorage and will be
-                remembered the next time a user accessess the site from the same browser
+                remembered the next time a user accessess the site from the same browser.
             </p>
-            <CodeBlock language="language-javascript">{`useEffect(() => {
+            <CodeBlock language="language-javascript" file="./pages/_app.js">{`useEffect(() => {
     if (localStorage.siteDarkMode === "true" || 
     (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) 
 {
@@ -109,7 +107,7 @@ export function tailNotes() {
 
             <h2>Now lets create the toggle button</h2>
             <p>Note that the example below uses {fontAwesome} icons.</p>
-            <CodeBlock language="language-javascript">{`import React from "react";
+            <CodeBlock language="language-javascript" file="./components/DarkModeButton.ts">{`import React from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
@@ -207,5 +205,11 @@ const cascading = (
 const fontAwesome = (
     <a href="https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/react" target="_blank">
         Font Awesome
+    </a>
+);
+
+const tailwindsConfig = (
+    <a href="https://tailwindcss.com/docs/configuration" target="_blank">
+        tailwinds.config file.
     </a>
 );

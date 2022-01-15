@@ -15,20 +15,16 @@ function Topper() {
     const router = useRouter();
     // console.log("PATH", router.pathname, router.pathname === "/");
     return (
-        <div className="grid grid-cols-12 gap-12 mb-auto text-xs sm:text-base">
-            <Gutter />
-            <div className="flex justify-end w-screen sm:w-auto col-span-12 md:col-span-10 gap-2 p-2">
-                {router.pathname !== "/" ? <BackButton hide={true} /> : <></>}
-                <Tippy content="View/Modify Theme" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
-                    <div>
-                        <Link href="/styleGuide">
-                            <FontAwesomeIcon icon={faPencilAlt} className="h-6 w-6 text-primary hover:text-accent " />
-                        </Link>
-                    </div>
-                </Tippy>
-                <DarkModeButton />
-            </div>
-            <Gutter />
+        <div className="top-0 right-12 fixed flex justify-end w-screen sm:w-auto col-span-12 md:col-span-10 gap-2 p-2">
+            {router.pathname !== "/" ? <BackButton hide={true} /> : <></>}
+            <Tippy content="View/Modify Theme" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+                <div className="my-auto">
+                    <Link href="/styleGuide">
+                        <FontAwesomeIcon icon={faPencilAlt} className="h-6 w-6 text-primary hover:text-accent " />
+                    </Link>
+                </div>
+            </Tippy>
+            <DarkModeButton />
         </div>
     );
 }

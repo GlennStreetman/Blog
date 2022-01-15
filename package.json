@@ -12,6 +12,7 @@
         "@fortawesome/react-fontawesome": "^0.1.16",
         "@heroicons/react": "^1.0.5",
         "@popperjs/core": "^2.11.2",
+        "@tailwindcss/aspect-ratio": "^0.4.0",
         "@tippyjs/react": "^4.2.6",
         "@types/prismjs": "^1.16.6",
         "date-fns": "^2.28.0",

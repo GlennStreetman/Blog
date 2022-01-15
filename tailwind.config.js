@@ -23,7 +23,11 @@ module.exports = {
                 heading: ["Righteous", "sans-serif"],
                 body: ["Roboto", "sans-serif"],
             },
+            padding: {
+                "1/3": "33.33333%",
+                "2/3": "66.66667%",
+            },
         },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/aspect-ratio")],
 };

@@ -2,7 +2,6 @@ import { getAllPostIds } from "../../lib/posts";
 import Head from "next/head";
 import Date from "../../components/date";
 import { postsRegister, postsComp } from "../../registers/postRegister";
-import Bottom from "../../components/bottom";
 import Topper from "../../components/topper";
 import Image from "next/image";
 import BackButton from "../../components/backButton";
@@ -36,33 +35,41 @@ export default function PostBody(postData) {
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                 <div className={`col-span-0 md:col-span-2`} />
                 <div className={`flex flex-col w-screen sm:w-auto col-span-12 md:col-span-8 p-2 gap-2`}>
-                    <div className="flex my-auto content justify-middle">
-                        <div>
-                            <Image priority src="/images/profile.jpg" className="rounded-full" height={54} width={54} alt={name} />
+                    <div className="grid grid-cols-12 gap-4">
+                        <div className="col-span-2">
+                            <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-2 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3">
+                                <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} />
+                                {/* <div className="object-cover shadow-lg rounded-lg">
+                                    <Image priority src="/images/profile.jpg" layout="fill" alt={name} />
+                                </div> */}
+                            </div>
                         </div>
-                        <div>
-                            <h1 className="text-accent">{postData.title}</h1>
+
+                        <div className="col-span-10 my-auto">
+                            <h1 className="text-accent text-2xl">{postData.title}</h1>
                             <h2 className="text-secondary">
                                 <Date dateString={postData.date} />
                             </h2>
+                            <h3 className="text-primary">
+                                <Date dateString={postData.dependancies} />
+                            </h3>
                         </div>
                     </div>
                     <div>
                         <article className={styles.article}>
                             <div>{postsComp[postData.id]()}</div>
                         </article>
-                        <BackButton link="/" />
+                        <BackButton />
                     </div>
-                </div>
-                <div className={`col-span-0 md:col-span-2`} />
-            </div>
-            <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
-                <div className={`col-span-0 md:col-span-2`} />
-                <div className={`col-span-0 md:col-span-10`}>
-                    <Bottom />
                 </div>
                 <div className={`col-span-0 md:col-span-2`} />
             </div>
         </div>
     );
 }
+
+// <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
+// <div className={`col-span-0 md:col-span-2`} />
+// <div className={`col-span-0 md:col-span-10`}>{/* <Bottom /> */}</div>
+// <div className={`col-span-0 md:col-span-2`} />
+// </div>

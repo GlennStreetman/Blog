@@ -10,6 +10,7 @@ import "tippy.js/dist/tippy.css"; // optional
 interface props {
     language: string;
     children: any;
+    file?: string;
 }
 
 function copytext(text: string) {
@@ -46,6 +47,7 @@ function CodeBlock(p: props) {
                     </div>
                 </Tippy>
             </div>
+            <div className="absolute bottom-3 left-1 flex gap-1">{p.file ? <div className="text-accent ml-2">{p.file}</div> : <></>}</div>
             <pre className={p.language}>
                 <div className="p-2">
                     <code>{p.children}</code>

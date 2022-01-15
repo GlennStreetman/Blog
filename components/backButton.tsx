@@ -10,19 +10,26 @@ interface props {
 
 function BackButton(p: props) {
     const router = useRouter();
-    return (
-        <>
-            <span onClick={() => router.back()}>
-                <button>
-                    <div className="flex font-bold uppercase  text-primary hover:text-accent rounded-md p-2 active:bg-strong ">
+
+    const element =
+        p.hide !== true ? (
+            <button className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1" onClick={() => router.back()}>
+                <div className="my-auto">
+                    <FontAwesomeIcon icon={faArrowAltCircleLeft} />{" "}
+                </div>
+                <div className="my-auto">Back</div>
+            </button>
+        ) : (
+            <div className="my-auto">
+                <button className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1" onClick={() => router.back()}>
+                    <div className="my-auto">
                         <FontAwesomeIcon icon={faArrowAltCircleLeft} className="  " />
-                        {/* <ArrowCircleLeftIcon className="h-7 w-7 " /> */}
-                        {p.hide !== true ? <div className="my-auto">Back</div> : <></>}
                     </div>
                 </button>
-            </span>
-        </>
-    );
+            </div>
+        );
+
+    return element;
 }
 
 export default BackButton;
