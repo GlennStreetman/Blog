@@ -29,7 +29,11 @@ export default function Home({ allPostsData }) {
                     <Right_Column allPostsData={allPostsData} />
                 </div>
                 <Gutter />
-                <Bottom />
+                <Gutter />
+                <div className="w-screen sm:w-auto col-span-12 md:col-span-5 p-2">
+                    <Bottom />
+                </div>
+                <Gutter />
             </div>
         </div>
     );

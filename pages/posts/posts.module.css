@@ -2,7 +2,7 @@
 }
 
 .article h1 {
-    @apply text-accent font-bold text-xl;
+    @apply text-accent font-bold text-xl py-5;
 }
 
 .article h2 {
@@ -19,4 +19,8 @@
 
 .article a:hover {
     @apply text-accent font-bold text-lg italic;
+}
+
+.title {
+    @apply text-2xl;
 }
