@@ -41,7 +41,7 @@ function colors() {
                 primaryBackground: localStorage.backgroundPrimaryD ? localStorage.backgroundPrimaryD : "#334155",
                 secondaryBackground: localStorage.backgroundSecondaryD ? localStorage.backgroundSecondaryD : "#475569",
                 primaryText: localStorage.textPrimaryD ? localStorage.textPrimaryD : "#F8FAFC",
-                secondaryText: localStorage.textSecondaryD ? localStorage.textSecondaryD : "#FFEDD5",
+                secondaryText: localStorage.textSecondaryD ? localStorage.textSecondaryD : "#FEF3C7",
                 accentText: localStorage.textAccentD ? localStorage.textAccentD : "#5EEAD4",
                 strongHighlight: localStorage.highlightStrongD ? localStorage.highlightStrongD : "#155E75",
                 weakHighlight: localStorage.highlightWeakD ? localStorage.highlightweakD : "#0E7490",

@@ -6,6 +6,7 @@ export const tailNotesMeta = {
     date: "2022-01-01",
     type: "notes",
     dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
+    repo: "https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example",
 };
 
 export function tailNotes() {
@@ -19,14 +20,10 @@ export function tailNotes() {
                 html shown below, color is specified twice. Once for light mode and once for dark mode. When we complete the steps below you will be able to use
                 new utility classes like bg-primary to set background colors for both light and dark mode with a single tailwinds utility class.
             </p>
-
             <CodeBlock language="language-HTML">{`<div className="bg-white dark:bg-slate-900" /> BECOMES--> <div className="bg-primary" />`}</CodeBlock>
-
             <p></p>
-
             <h2>In your global.css file add the following:</h2>
             <p>The code below sets two new classes that contain a series of yet to be defined custom tailwinds utility classes. </p>
-
             <CodeBlock language="language-CSS" file="./styles/global.css">{`@tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,7 +32,7 @@ export function tailNotes() {
     --color-bg-primary: #334155;
     --color-bg-secondary: #475569;
     --color-text-primary: #f8fafc;
-    --color-text-secondary: #ffedd5;
+    --color-text-secondary: #FEF3C7;
     --color-text-accent: #5eead4;
     --color-hover-strong: #155e75;
     --color-hover-weak: #0e7490;
@@ -50,7 +47,6 @@ export function tailNotes() {
     --color-hover-strong: #a5f3fc;
     --color-hover-weak: #cffafe;
 }`}</CodeBlock>
-
             <h2>
                 Next lets extend the {tailwindsThemeLink}. Add the following to your {tailwindsConfig}
             </h2>
@@ -78,7 +74,6 @@ export function tailNotes() {
                 when we extended THEME in tailwind.config.js. This doesn't do anything yet. We still need a way to apply the light & dark classes as needed and
                 create a way to toggle dark mode state.{" "}
             </p>
-
             <h2>Create a hook that uses {localStorageLink} to determine dark mode state.</h2>
             <p>
                 Add the hook shown below to your _app.ts file. This new hook will run on each new page load and apply your light or dark mode theme. If no dark
@@ -97,7 +92,6 @@ export function tailNotes() {
         document.documentElement.classList.remove("dark");
     }
 }, []);`}</CodeBlock>
-
             <h2>Now lets create the toggle button</h2>
             <p>
                 Add the below button anywhere on your page to toggle dark mode. The button will add and remove the dark & light classes from the root element
@@ -105,7 +99,7 @@ export function tailNotes() {
                 and highlight colors that you defined in tailwinds.config theme. Note that the example below uses {fontAwesome} icons. Sub in your own icons if
                 you don't want to use Font Awesome.
             </p>
-            <CodeBlock language="language-javascript" file="./components/DarkModeButton.ts">{`import React from "react";
+            <CodeBlock language="language-javascript" file="./components/DarkModeButton.jsx">{`import React from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
@@ -140,15 +134,19 @@ function DarkModeButton() {
 }
 
 export default DarkModeButton;`}</CodeBlock>
-            <p></p>
-
             <h2>Now lets let users perilously define their own colors!</h2>
+            <h3 className="text-accent">
+                Warning: from this point forward you should follow along after cloning the{" "}
+                <a href="https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example">Code Example</a>. Creating the color picker component
+                is outside of the scope of this guide.
+            </h3>
             <p>
                 You may have noticed that this site has an icon in the upper right that allows users to set their own colors. If you want to add the same
-                functionality to your project you will need to modify your tailwind.config file and create a page that injects new override classes into the
-                root element.
+                functionality to your project you will need to modify your tailwind.config file, add a function that injects user override colors into the root
+                element, and create a color picker page or component. Modify your tailwinds.config as shown below. Notice that the CSS variables are taking
+                advantage of {cssFallback}. If a user defined style exists, it will be used, else it falls back to the predefined styles in your global.css
+                file.
             </p>
-
             <CodeBlock language="language-javascript" file="./tailwind.config.js">{`module.exports = {
         theme: {
             backgroundColor: {
@@ -169,7 +167,402 @@ export default DarkModeButton;`}</CodeBlock>
             },
         }
     }`}</CodeBlock>
+            <p> Create your user prefs compnent. This component will inject new user defined styles into the root document.</p>
+            <CodeBlock language="language-javascript" file="./components/userPrefs.jsx">{`function UserPrefs() {
+    if (typeof window !== "undefined" && localStorage) {
+        return (
+            <style jsx global>
+                {\`
+                    .userDark {
+    \${localStorage.backgroundPrimaryD ? "--color-bg-primary-user:" + localStorage.backgroundPrimaryD : ""};
+    \${localStorage.backgroundSecondaryD ? "--color-bg-secondary-user:" + localStorage.backgroundSecondaryD : ""};
+    \${localStorage.textPrimaryD ? "--color-text-primary-user:" + localStorage.textPrimaryD : ""};
+    \${localStorage.textSecondaryD ? "--color-text-secondary-user:" + localStorage.textSecondaryD : ""};
+    \${localStorage.textAccentD ? "--color-text-accent-user:" + localStorage.textAccentD : ""};
+    \${localStorage.highlightStrongD ? "--color-hover-strong-user:" + localStorage.highlightStrongD : ""};
+    \${localStorage.highlightWeakD ? "--color-hover-weak-user:" + localStorage.highlightWeakD : ""};
+                    }
+                    .userLight {
+    \${localStorage.backgroundPrimaryL ? "--color-bg-primary-user:" + localStorage.backgroundPrimaryL : ""};
+    \${localStorage.backgroundSecondaryL ? "--color-bg-secondary-user:" + localStorage.backgroundSecondaryL : ""};
+    \${localStorage.textPrimaryL ? "--color-text-primary-user:" + localStorage.textPrimaryL : ""};
+    \${localStorage.textSecondaryL ? "--color-text-secondary-user:" + localStorage.textSecondaryL : ""};
+    \${localStorage.textAccentL ? "--color-text-accent-user:" + localStorage.textAccentL : ""};
+    \${localStorage.highlightStrongL ? "--color-hover-strong-user:" + localStorage.highlightStrongL : ""};
+    \${localStorage.highlightWeakL ? "--color-hover-weak-user:" + localStorage.highlightWeakL : ""};
+                    }
+                \`}
+            </style>
+        );
+    } else {
+        return <></>;
+    }
+}
 
+export default UserPrefs;`}</CodeBlock>
+            <p>Add your new component to _app.js and make sure to update the useEffect function to include the new classes. </p>{" "}
+            <CodeBlock language="language-javascript" file="./pages/_app.js">{`import "../styles/global.css";
+import "../styles/codeBlockFormat.css";
+import { useEffect } from "react";
+
+import UserPrefs from "../components/userPrefs";
+
+export default function App({ Component, pageProps }) {
+    useEffect(() => {
+        if (localStorage.siteDarkMode === "true" || 
+        (!("siteDarkMode" in localStorage) && 
+        window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+            document.documentElement.classList.add("userDark");
+            document.documentElement.classList.remove("light");
+            document.documentElement.classList.remove("userLight");
+        } else {
+            document.documentElement.classList.add("light");
+            document.documentElement.classList.add("userLight");
+            document.documentElement.classList.remove("dark");
+            document.documentElement.classList.remove("userDark");
+        }
+    }, []);
+
+    return (
+        <>
+            <UserPrefs />
+            <div className="font-body">
+                <Component {...pageProps}> </Component>
+            </div>
+        </>
+    );
+}`}</CodeBlock>
+            <p>
+                Finaly you need to make create a color picker component so that users can specify their prefered colors. An example of how this sites picker was
+                made is shown below. Review the example repository to pull in any missing components. Sorry, this is a big chunk of code.
+            </p>
+            <CodeBlock language="language-javascript" file="./pages/_app.jsx">{`
+import React from "react";
+import tailColors from "../registers/tailwindsColors";
+import { useState, useEffect } from "react";
+import UserPrefs from "../components/userPrefs";
+import Button from "../components/buttonStandard";
+import BackButton from "../components/backButton";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faToilet, faEye } from "@fortawesome/free-solid-svg-icons";
+import Topper from "./../components/topper";
+
+import dynamic from "next/dynamic";
+const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
+
+function colors() {
+    const [editCategory, setEditCategory] = useState("primaryText");
+    const [editColor, setEditColor] = useState("");
+    const [reset, setReset] = useState(1); //set to rerender page
+
+    useEffect(() => {
+        if (localStorage.siteDarkMode === "true" || 
+        (!("siteDarkMode" in localStorage) && 
+        window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+            document.documentElement.classList.add("userDark");
+            document.documentElement.classList.remove("light");
+            document.documentElement.classList.remove("userLight");
+            setEditColor(localStorage.textPrimaryD !== undefined ? 
+                localStorage.textPrimaryD : "#F8FAFC");
+            setEditCategory("primaryText");
+        } else {
+            document.documentElement.classList.add("light");
+            document.documentElement.classList.add("userLight");
+            document.documentElement.classList.remove("dark");
+            document.documentElement.classList.remove("userDark");
+            setEditColor(localStorage.textPrimaryL !== undefined ? 
+                localStorage.textPrimaryL : "#334155");
+            setEditCategory("primaryText");
+        }
+    }, [reset]);
+
+    function lookupColor(key) {
+        if (typeof window !== "undefined") {
+            const colorMapDark = {
+                primaryBackground: localStorage.backgroundPrimaryD ? 
+                    localStorage.backgroundPrimaryD : "#334155",
+                secondaryBackground: localStorage.backgroundSecondaryD ? 
+                    localStorage.backgroundSecondaryD : "#475569",
+                primaryText: localStorage.textPrimaryD ? 
+                    localStorage.textPrimaryD : "#F8FAFC",
+                secondaryText: localStorage.textSecondaryD ? 
+                    localStorage.textSecondaryD : "#FEF3C7",
+                accentText: localStorage.textAccentD ? 
+                    localStorage.textAccentD : "#5EEAD4",
+                strongHighlight: localStorage.highlightStrongD ? 
+                    localStorage.highlightStrongD : "#155E75",
+                weakHighlight: localStorage.highlightWeakD ? 
+                    localStorage.highlightweakD : "#0E7490",
+            };
+
+            const colorMapLight = {
+                primaryBackground: localStorage.backgroundPrimaryL ? 
+                    localStorage.backgroundPrimaryL : "#F8FAFC",
+                secondaryBackground: localStorage.backgroundSecondaryL ? 
+                    localStorage.backgroundSecondaryL : "#E2E8F0",
+                primaryText: localStorage.textPrimaryL ? 
+                    localStorage.textPrimaryL : "#334155",
+                secondaryText: localStorage.textSecondaryL ? 
+                    localStorage.textSecondaryL : "#0369A1",
+                accentText: localStorage.textAccentL ? 
+                    localStorage.textAccentL : "#6D28D9",
+                strongHighlight: localStorage.highlightStrongL ? 
+                    localStorage.highlightStrongL : "#A5F3FC",
+                weakHighlight: localStorage.highlightWeakL ? 
+                    localStorage.highlightweakL : "#CFFAFE",
+            };
+
+            const lookupColor = localStorage.siteDarkMode === "true" ? 
+                colorMapDark[key] : colorMapLight[key];
+            return lookupColor;
+        } else {
+            return "pass";
+        }
+    }
+
+    function resetColors() {
+        //remove all black
+        delete localStorage.backgroundPrimaryD;
+        delete localStorage.backgroundSecondaryD;
+        delete localStorage.textPrimaryD;
+        delete localStorage.textSecondaryD;
+        delete localStorage.textAccentD;
+        delete localStorage.highlightStrongD;
+        delete localStorage.highlightWeakD;
+        //remove all light
+        delete localStorage.backgroundPrimaryL;
+        delete localStorage.backgroundSecondaryL;
+        delete localStorage.textPrimaryL;
+        delete localStorage.textSecondaryL;
+        delete localStorage.textAccentL;
+        delete localStorage.highlightStrongL;
+        delete localStorage.highlightWeakL;
+    }
+
+    function setCustomColor(color) {
+        setEditColor(color);
+        if (localStorage.siteDarkMode === "true") {
+            const darkSetter = {
+                primaryBackground: () => {localStorage.backgroundPrimaryD = color;},
+                secondaryBackground: () => {localStorage.backgroundSecondaryD = color;},
+                primaryText: () => {localStorage.textPrimaryD = color;},
+                secondaryText: () => {localStorage.textSecondaryD = color;},
+                accentText: () => {localStorage.textAccentD = color;},
+                strongHighlight: () => {localStorage.highlightStrongD = color;},
+                weakHighlight: () => {localStorage.highlightWeakD = color;},
+            };
+
+            darkSetter[editCategory]();
+        } else {
+            const lightSetter = {
+                primaryBackground: () => {localStorage.backgroundPrimaryL = color;},
+                secondaryBackground: () => {localStorage.backgroundSecondaryL = color;},
+                primaryText: () => {localStorage.textPrimaryL = color;},
+                secondaryText: () => {localStorage.textSecondaryL = color;},
+                accentText: () => {localStorage.textAccentL = color;},
+                strongHighlight: () => {localStorage.highlightStrongL = color;},
+                weakHighlight: () => {localStorage.highlightWeakL = color;},
+            };
+            lightSetter[editCategory]();
+        }
+    }
+
+    function secFocus(key) {
+        setEditCategory(key);
+        setEditColor(lookupColor(key));
+    }
+
+    const selectText = (
+        <div className="flex flex-col outline rounded-md gap-2 bg-secondary">
+            <div className="text-primary text-center">Text</div>
+            <div className="flex gap-1 p-2">
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("primaryText");
+                        }}
+                        className={\`rounded-full h-14 w-14 bg-textPrimary hover:bg-weak
+                        \${editCategory === "primaryText" ? "border-red-700 border-4" : ""} \`}
+                    />
+                    <div className="text-primary text-xs text-center">Primary</div>
+                </div>
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("secondaryText");
+                        }}
+                        className={\`rounded-full border-2 h-14 w-14 bg-textSecondary hover:bg-weak left-20
+                        \${editCategory === "secondaryText" ? "border-red-700 border-4" : ""}
+                        \`}
+                    ></div>
+                    <div className="text-secondary text-xs text-center">Secondary</div>
+                </div>
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("accentText");
+                        }}
+                        className={\`rounded-full border-2 h-14 w-14 bg-textAccent hover:bg-weak left-20
+                        \{editCategory === "accentText" ? "border-red-700 border-4" : ""}
+                        \`}
+                    ></div>
+                    <div className="text-accent text-xs text-center">Accent</div>
+                </div>
+            </div>
+        </div>
+    );
+
+    const selectBackground = (
+        <div className="flex flex-col outline rounded-md gap-2 bg-secondary">
+            <div className="text-primary text-center">Background</div>
+            <div className="flex gap-1 p-2">
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("primaryBackground");
+                        }}
+                        className={\`rounded-full border-2 h-14 w-14 bg-primary relative hover:bg-weak
+                        \${editCategory === "primaryBackground" ? "border-red-700 border-4" : ""}
+                        \`}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Primary</div>
+                </div>
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("secondaryBackground");
+                        }}
+                        className={\`rounded-full border-2 h-14 w-14 bg-secondary  left-20 hover:bg-weak
+                        \${editCategory === "secondaryBackground" ? "border-red-700 border-4" : ""} 
+                        \`}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Secondary</div>
+                </div>
+            </div>
+        </div>
+    );
+
+    const selectHighlight = (
+        <div className="flex flex-col outline rounded-md gap-2 bg-secondary">
+            <div className="text-primary text-center">Highlight</div>
+            <div className="flex gap-1 p-2">
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("strongHighlight");
+                        }}
+                        className={\`rounded-full border-2 h-14 w-14 bg-strong relative hover:bg-weak bottom-0
+                    \${editCategory === "strongHighlight" ? "border-red-700 border-4" : ""} 
+                    \`}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Strong</div>
+                </div>
+                <div>
+                    <div
+                        onClick={() => {
+                            secFocus("weakHighlight");
+                        }}
+                        className={\`rounded-full border-2 h-14 w-14 bg-weak  left-20 hover:bg-strong
+                    \${editCategory === "weakHighlight" ? "border-red-700 border-4" : ""}
+                    \`}
+                    ></div>
+                    <div className="text-primary text-xs text-center">Weak</div>
+                </div>
+            </div>
+        </div>
+    );
+
+    const selectionGrid = (
+        <>
+            <div className="text-primary flex gap-4 m-4">
+                <DarkModeButton
+                    secondary={() => {
+                        secFocus(editCategory);
+                    }}
+                />
+                {selectText}
+                {selectBackground}
+                {selectHighlight}
+                <div className="flex flex-col justify-center ">
+                    <Link href="/styleGuide">
+                        <div>
+                            <Button onClick={() => {}}>
+                                <div className="my-auto">
+                                    <FontAwesomeIcon icon={faEye} />{" "}
+                                </div>
+                                <div className="my-auto">Review</div>
+                            </Button>
+                        </div>
+                    </Link>
+
+                    <Button
+                        onClick={() => {
+                            resetColors();
+                            setReset(Date.now());
+                        }}
+                    >
+                        <div className="my-auto">
+                            <FontAwesomeIcon icon={faToilet} />{" "}
+                        </div>
+                        <div className="my-auto">RESET</div>
+                    </Button>
+                </div>
+            </div>
+        </>
+    );
+
+    const colorGrid = Object.entries(tailColors).map(([key1, val]) => {
+        const row = Object.entries(val).map(([key2, val]) => {
+            return (
+                <div
+                    key={key2}
+                    className={\`flex flex-col p-2 hover:bg-strong rounded-md \${val === editColor ? "border-red-700 border-4" : ""}\`}
+                    onClick={() => {
+                        setCustomColor(val);
+                    }}
+                >
+                    <div style={{ backgroundColor: \`\${val}\` }} className="rounded-md h-10 w-10 m-auto"></div>
+                    <div className="flex text-secondary align-content: center text-xs text-center items-center m-auto">{key2}</div>
+                    <div className="flex text-accent align-content: center text-xs text-center items-center">{val}</div>
+                </div>
+            );
+        });
+
+        return (
+            <div key={key1} className="grid grid-cols-12">
+                <div className="col-span-1 text-primary m-auto">{key1}</div>
+                <div className="col-span-11">
+                    <div className="flex">{row}</div>
+                </div>
+            </div>
+        );
+    });
+
+    return (
+        <>
+            <Topper />
+            <UserPrefs />
+            <div className={\`min-h-screen bg-primary content-center grid grid-cols-12 \`}>
+                <div className="col-span-1" />
+                <div className="col-span-10 m-auto">{selectionGrid}</div>
+                <div className="col-span-1" />
+                <div className="col-span-1" />
+                <div className="col-span-10 m-auto">{colorGrid}</div>
+                <div className="col-span-1" />
+                <div className="col-span-1" />
+                <div className="col-span-10 m-auto">
+                    <BackButton />
+                </div>
+                <div className="col-span-1" />
+            </div>
+        </>
+    );
+}
+
+export default colors;`}</CodeBlock>
             <h2>Inspiration:</h2>
             {source1}
             <br />
@@ -240,5 +633,11 @@ const fontAwesome = (
 const tailwindsConfig = (
     <a href="https://tailwindcss.com/docs/configuration" target="_blank">
         tailwinds.config file.
+    </a>
+);
+
+const cssFallback = (
+    <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties#custom_property_fallback_values" target="_blank">
+        CSS Fallbacks
     </a>
 );

@@ -9,6 +9,7 @@ pre[class*="language-"] {
     word-spacing: normal;
     word-break: normal;
     line-height: 1.5;
+    max-height: 48em;
 
     -moz-tab-size: 4;
     -o-tab-size: 4;
@@ -17,13 +18,18 @@ pre[class*="language-"] {
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
+
     hyphens: none;
+}
+
+pre ::-webkit-scrollbar {
+    width: 2eem;
 }
 
 /* Code blocks */
 pre[class*="language-"] {
     padding: 1em;
-    margin: 0.5em 0;
+    /* margin: 0.5em 0; */
     overflow: auto;
     border-radius: 0.3em;
 }
@@ -134,4 +140,22 @@ pre[class*="language-"] {
 
 .token.italic {
     font-style: italic;
+}
+
+pre::-webkit-scrollbar {
+    /* background: #1e293b; */
+    height: 0.75em;
+    width: 0.75em;
+    border-radius: 100vw;
+}
+
+pre::-webkit-scrollbar-track {
+    background: #1d1f21;
+    margin-block: 0.25em;
+}
+
+pre::-webkit-scrollbar-thumb {
+    background: #1d1f21;
+    border-radius: 100vw;
+    border: 0.15em solid #4338ca;
 }

@@ -47,9 +47,19 @@ export default function PostBody(postData) {
                             <h2 className="text-secondary">
                                 <Date dateString={postData.date} />
                             </h2>
-                            <h3 className="text-primary">
-                                <Date dateString={postData.dependancies} />
-                            </h3>
+                            <h3 className="text-primary">{postData.dependancies}</h3>
+                            {postData.repo ? (
+                                <h3 className="text-primary">
+                                    <a
+                                        className="text-secondary font-bold text-lg italic hover:text-accent  hover:font-bold  hover:text-lg  hover:italic"
+                                        href={postData.repo}
+                                    >
+                                        Code Example
+                                    </a>
+                                </h3>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                     <div>

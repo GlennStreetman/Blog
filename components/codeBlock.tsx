@@ -34,8 +34,8 @@ function CodeBlock(p: props) {
     }, []);
 
     return (
-        <div className=" relative rounded-md p-1">
-            <div className="absolute top-4 left-2 flex gap-1">
+        <div className="relative rounded-md p-1 bg-[#1d1f21]">
+            <div className="absolute top-2 left-2 flex gap-1">
                 {findIcon[p.language]}
                 <Tippy content="Copy" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
                     <div
@@ -47,10 +47,10 @@ function CodeBlock(p: props) {
                     </div>
                 </Tippy>
             </div>
-            <div className="absolute bottom-3 left-1 flex gap-1">{p.file ? <div className="text-accent ml-2">{p.file}</div> : <></>}</div>
+            <div className="absolute top-4 right-6 flex gap-1">{p.file ? <div className="text-[#5EEAD4] ml-2">{p.file}</div> : <></>}</div>
             <pre className={p.language}>
                 <div className="p-2">
-                    <code>{p.children}</code>
+                    <code className="Codeblock">{p.children}</code>
                 </div>
             </pre>
         </div>
