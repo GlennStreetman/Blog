@@ -1,16 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Date from "./date";
-import { getSortedPostsData } from "../lib/posts";
-
-export async function getStaticProps() {
-    const allPostsData = getSortedPostsData();
-    return {
-        props: {
-            allPostsData,
-        },
-    };
-}
 
 export default function Right_Column(p: any) {
     return (
