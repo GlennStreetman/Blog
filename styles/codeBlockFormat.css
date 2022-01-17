@@ -161,7 +161,7 @@ pre::-webkit-scrollbar-thumb {
 }
 
 @supports (scrollbar-color: red blue) {
-    * {
+    pre {
         scrollbar-color: #4338ca #1d1f21;
         scrollbar-width: thin;
     }
