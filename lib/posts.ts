@@ -18,8 +18,6 @@ interface matterRet {
     data: any;
 }
 
-const postsDirectory = path.join(process.cwd(), "posts");
-
 export function getSortedPostsData() {
     return Object.values(postsRegister).sort(({ date: a }, { date: b }) => {
         if (a < b) {

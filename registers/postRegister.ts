@@ -1,5 +1,5 @@
-import { tailNotes, tailNotesMeta } from "../posts/Tailwind-Notes";
-import { NextNotes, nextNotesMeta } from "../posts/Next-Notes";
+import tailwinds from "../posts/Tailwind-Notes";
+import nextJS from "../posts/Next-Notes";
 
 interface post {
     id: string;
@@ -13,11 +13,11 @@ interface allPosts {
 }
 
 export const postsRegister: allPosts = {
-    [tailNotesMeta.id]: tailNotesMeta,
-    [nextNotesMeta.id]: nextNotesMeta,
+    [tailwinds.head.id]: tailwinds.head,
+    [nextJS.head.id]: nextJS.head,
 };
 
 export const postsComp = {
-    [tailNotesMeta.id]: tailNotes,
-    [nextNotesMeta.id]: NextNotes,
+    [tailwinds.head.id]: tailwinds.body,
+    [nextJS.head.id]: nextJS.body,
 };

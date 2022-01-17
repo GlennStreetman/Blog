@@ -1,6 +1,6 @@
 import CodeBlock from "../components/codeBlock";
 
-export const tailNotesMeta = {
+export const head = {
     id: "Tailwind-Notes",
     title: "Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS",
     date: "2022-01-01",
@@ -9,7 +9,7 @@ export const tailNotesMeta = {
     repo: "https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example",
 };
 
-export function tailNotes() {
+export function body() {
     return (
         <div className="article">
             <h2>{tailwindsDarkLink} feels like its incomplete out of the box.</h2>
@@ -641,3 +641,10 @@ const cssFallback = (
         CSS Fallbacks
     </a>
 );
+
+const post = {
+    head: head,
+    body: body,
+};
+
+export default post;

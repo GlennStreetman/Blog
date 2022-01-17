@@ -1,13 +1,13 @@
 import CodeBlock from "../components/codeBlock";
 
-export const nextNotesMeta = {
+export const head = {
     id: "Next-Notes",
     title: "Notes on Getting Started: Next JS.",
     date: "2021-12-30",
     type: "notes",
 };
 
-export function NextNotes() {
+function body() {
     return (
         <>
             <h1>
@@ -52,3 +52,10 @@ export function NextNotes() {
         </>
     );
 }
+
+const post = {
+    head: head,
+    body: body,
+};
+
+export default post;
