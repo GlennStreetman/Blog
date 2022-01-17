@@ -159,3 +159,10 @@ pre::-webkit-scrollbar-thumb {
     border-radius: 100vw;
     border: 0.15em solid #4338ca;
 }
+
+@supports (scrollbar-color: red blue) {
+    * {
+        scrollbar-color: #4338ca #1d1f21;
+        scrollbar-width: thin;
+    }
+}
