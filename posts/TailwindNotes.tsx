@@ -11,16 +11,7 @@
 
 import CodeBlock from "../components/codeBlock";
 
-export const head = {
-    id: "TailwindNotes",
-    title: "Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS",
-    date: "2022-01-01",
-    type: "notes",
-    dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
-    repo: "https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example",
-};
-
-export function body() {
+const body = function () {
     return (
         <div className="article">
             <h2>{tailwindsDarkLink} feels like its incomplete out of the box.</h2>
@@ -580,7 +571,7 @@ export default colors;`}</CodeBlock>
             {source2}
         </div>
     );
-}
+};
 
 const localStorageLink = (
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank">
@@ -653,9 +644,4 @@ const cssFallback = (
     </a>
 );
 
-const post = {
-    head: head,
-    body: body,
-};
-
-export default post;
+export default body;

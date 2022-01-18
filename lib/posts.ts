@@ -1,22 +1,4 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
-import { postsRegister, postsComp } from "../registers/postRegister";
-
-interface postFormat {
-    id: string;
-    content: string;
-    title: string;
-    type: string;
-    date: string;
-}
-
-interface matterRet {
-    content: string;
-    data: any;
-}
+import { postsRegister } from "../registers/postRegister";
 
 export function getSortedPostsData() {
     return Object.values(postsRegister).sort(({ date: a }, { date: b }) => {

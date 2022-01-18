@@ -1,37 +1,43 @@
 import fs from "fs";
 
 const files = fs.readdirSync("./posts/");
-const regex = /\r?\n/g;
+const regex = /\r?\n/g; //new line
 const allFilesMetaData = {};
 
 try {
     files.forEach((filePath) => {
+        //for each file
         const file = fs.readFileSync(`./posts/${filePath}`).toString();
         let run = false;
         const writeList = [];
         file.split(regex).every((el) => {
+            //for each line
             if (el.includes("@start")) {
+                //start script
                 run = true;
                 return true;
             } else if (el.includes("@end")) {
+                //end script
                 run = false;
                 return false;
             } else if (run === true) {
+                //parse metadata
                 writeList.push(el);
                 return true;
             }
             return true;
         });
 
-        const metaData = writeList.reduce((red, el) => {
-            let [key, value] = el.split(":");
+        const metaData = writeList.reduce((reducer, el) => {
+            //conver meta data in to key/value object
+            let [key, ...value] = el.split(":"); // split the string, at first instance of ':' into a key [value] pair.
             key = key.trim();
-            value = value.trim();
-            red[key] = value;
-            return red;
+            value = value.join(":").trim();
+            reducer[key] = value;
+            return reducer;
         }, {});
-        metaData["sourceFile"] = filePath;
-        const fileName = filePath.slice(0, filePath.indexOf("."));
+        metaData["sourceFile"] = filePath; //add source file to meta data.
+        const fileName = filePath.slice(0, filePath.indexOf(".")); //remove file extension
         allFilesMetaData[fileName] = metaData;
     });
 
@@ -54,14 +60,13 @@ interface allPosts {
 
     Object.keys(allFilesMetaData).forEach((key) => {
         imports = imports + `import ${key} from '../posts/${key}'; \n`;
-        body = body + `${key}:  ${key}.body, \n`;
+        body = body + `${key}:  ${key}, \n`;
     });
 
     body = `export const postsComp = { \n ${body} }`;
 
-    const writeText = imports + "\n" + typeScript + "\n" + head + "\n" + body;
-    fs.writeFileSync("./registers/postRegister.ts", writeText);
-
+    const writeText = imports + "\n" + typeScript + "\n" + head + "\n" + body; //combine it all together.
+    fs.writeFileSync("./registers/postRegister.ts", writeText); //write the file.
     console.log("Build Complete");
 } catch (error) {
     console.log("---REGISTER BUILD FAILED---: ", error);

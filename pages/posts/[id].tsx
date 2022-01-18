@@ -23,6 +23,7 @@ export async function getStaticPaths() {
 }
 
 export default function PostBody(postData) {
+    console.log(postData);
     const name = "Glenn Streetman";
 
     return (
@@ -73,9 +74,3 @@ export default function PostBody(postData) {
         </div>
     );
 }
-
-// <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
-// <div className={`col-span-0 md:col-span-2`} />
-// <div className={`col-span-0 md:col-span-10`}>{/* <Bottom /> */}</div>
-// <div className={`col-span-0 md:col-span-2`} />
-// </div>

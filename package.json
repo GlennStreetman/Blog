@@ -3,7 +3,7 @@
     "scripts": {
         "pre-build": "node buildRegister.mjs",
         "dev": "npm run pre-build && next dev",
-        "build": "pre-build && next build",
+        "build": "npm run pre-build && next build",
         "start": "next start"
     },
     "dependencies": {
