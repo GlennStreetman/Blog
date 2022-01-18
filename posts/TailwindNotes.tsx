@@ -1,12 +1,12 @@
 /*
-    start
+    @start
     id: TailwindNotes
     title: Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS
     date: 2022-01-01
     type: notes
     dependancies: Tailwinds v3.08, Next v12.0.7, React v17.0.2
     repo: https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example
-    end
+    @end
 */
 
 import CodeBlock from "../components/codeBlock";

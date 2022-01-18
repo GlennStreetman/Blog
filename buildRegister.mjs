@@ -10,10 +10,10 @@ try {
         let run = false;
         const writeList = [];
         file.split(regex).every((el) => {
-            if (el.includes("start")) {
+            if (el.includes("@start")) {
                 run = true;
                 return true;
-            } else if (el.includes("end")) {
+            } else if (el.includes("@end")) {
                 run = false;
                 return false;
             } else if (run === true) {
@@ -41,6 +41,8 @@ try {
     title: string;
     date: string;
     type: string;
+    dependancies: string;
+    repo: string;
     sourceFile: string;
 }
 
