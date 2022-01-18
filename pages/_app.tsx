@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
     return (
         <>
             <UserPrefs />{" "}
-            <div className="font-body">
+            <div className="font-body pt-7 bg-primary">
                 <Component {...pageProps}> </Component>
             </div>
         </>

@@ -17,7 +17,7 @@ export async function getStaticProps() {
 
 export default function Home({ allPostsData }) {
     return (
-        <div className="min-h-screen bg-primary ">
+        <div className="min-h-screen bg-primary">
             <UserPrefs />
             <Topper />
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
