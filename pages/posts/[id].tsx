@@ -3,7 +3,6 @@ import Head from "next/head";
 import Date from "../../components/date";
 import { postsRegister, postsComp } from "../../registers/postRegister";
 import Topper from "../../components/topper";
-import Image from "next/image";
 import BackButton from "../../components/backButton";
 import styles from "./posts.module.css";
 
