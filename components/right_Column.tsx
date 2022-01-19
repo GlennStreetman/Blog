@@ -4,7 +4,7 @@ import Date from "./date";
 
 export default function Right_Column(p: any) {
     return (
-        <>
+        <div className="space-y-2">
             <h2 className="text-accent font-heading">Blog</h2>
             <div className="flex flex-col space-y-2">
                 {p.allPostsData.map(({ id, date, title }) => (
@@ -20,6 +20,6 @@ export default function Right_Column(p: any) {
                     </section>
                 ))}
             </div>
-        </>
+        </div>
     );
 }

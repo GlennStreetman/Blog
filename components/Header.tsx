@@ -30,7 +30,7 @@ export default function Header({ home }) {
                     <div className="col-span-9 sm:col-span-10 md:col-span-7 my-auto">
                         <div className="flex align-middle ">
                             <h1 className="text-primary">
-                                <b>{name}</b>: Full Stack Web Developer with a background in Financial Systems Implementations, San Diego, CA.
+                                <b>{name}</b>: Full Stack Web Developer with a background in Financial Systems Implementations, San Diego, CA
                             </h1>
                         </div>
                     </div>
