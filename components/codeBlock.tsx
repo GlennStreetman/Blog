@@ -2,10 +2,10 @@ import React from "react";
 import prism from "prismjs";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJsSquare, faCss3, faHtml5, faNode } from "@fortawesome/free-brands-svg-icons";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
+import findIcon from "./techIcons";
 
 interface props {
     language: string;
@@ -17,13 +17,6 @@ function copytext(text: string) {
     console.log(text);
     navigator.clipboard.writeText(text);
 }
-
-const findIcon = {
-    "language-javascript": <FontAwesomeIcon className="  left-2 text-xl text-[#f7df1e] " icon={faJsSquare} />,
-    "language-CSS": <FontAwesomeIcon className="  left-2 text-xl text-[#2965f1] " icon={faCss3} />,
-    "language-HTML": <FontAwesomeIcon className="  text-xl text-[#f06529] " icon={faHtml5} />,
-    "language-JSON": <FontAwesomeIcon className="  text-xl text-[#3C873A] " icon={faNode} />,
-};
 
 const copyIcon = <FontAwesomeIcon className="text-xl text-secondary active:text-accent" icon={faCopy} />;
 
