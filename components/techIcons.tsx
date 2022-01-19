@@ -13,7 +13,7 @@ import {
     SiTailwindcss,
     SiNextdotjs,
 } from "react-icons/si";
-import { FaHtml5, FaNodeJs } from "react-icons/fa";
+import { FaHtml5, FaNodeJs, FaNpm } from "react-icons/fa";
 
 const findIcon = {
     "language-javascript": <SiJavascript className="  left-2 text-xl text-[#f7df1e] " />,
@@ -31,6 +31,7 @@ const findIcon = {
     "language-React": <SiReact className="  text-xl text-[#61DBFB] " />,
     "language-Tailwind": <SiTailwindcss className="  text-xl text-[#38bdf8] " />,
     "language-Next": <SiNextdotjs className="  text-xl text-[#fc5b55] " />,
+    "language-NPM": <FaNpm className="  text-xl text-[#3C873A] " />,
 };
 
 export default findIcon;

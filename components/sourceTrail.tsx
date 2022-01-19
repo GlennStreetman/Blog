@@ -18,7 +18,8 @@ type techType =
     | "language-MaterialUI"
     | "language-React"
     | "language-Tailwind"
-    | "language-Next";
+    | "language-Next"
+    | "language-NPM";
 
 interface props {
     tech: techType[];
