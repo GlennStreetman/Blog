@@ -1,6 +1,18 @@
-// import { faJsSquare, faCss3, faHtml5, faNode } from "@fortawesome/free-brands-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SiPostgresql, SiTypescript, SiRedux, SiExpress, SiJest, SiMongodb, SiGraphql, SiMaterialui, SiCss3, SiJavascript, SiReact } from "react-icons/si";
+import {
+    SiPostgresql,
+    SiTypescript,
+    SiRedux,
+    SiExpress,
+    SiJest,
+    SiMongodb,
+    SiGraphql,
+    SiMaterialui,
+    SiCss3,
+    SiJavascript,
+    SiReact,
+    SiTailwindcss,
+    SiNextdotjs,
+} from "react-icons/si";
 import { FaHtml5, FaNodeJs } from "react-icons/fa";
 
 const findIcon = {
@@ -17,6 +29,8 @@ const findIcon = {
     "language-GraphQL": <SiGraphql className="  text-xl text-[#e535ab] " />,
     "language-MaterialUI": <SiMaterialui className="  text-xl text-[#FB8C00] " />,
     "language-React": <SiReact className="  text-xl text-[#61DBFB] " />,
+    "language-Tailwind": <SiTailwindcss className="  text-xl text-[#38bdf8] " />,
+    "language-Next": <SiNextdotjs className="  text-xl text-[#fc5b55] " />,
 };
 
 export default findIcon;

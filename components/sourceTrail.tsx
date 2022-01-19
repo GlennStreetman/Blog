@@ -16,7 +16,9 @@ type techType =
     | "language-MongoDB"
     | "language-GraphQL"
     | "language-MaterialUI"
-    | "language-React";
+    | "language-React"
+    | "language-Tailwind"
+    | "language-Next";
 
 interface props {
     tech: techType[];
