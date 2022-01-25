@@ -12,11 +12,13 @@ import {
     SiReact,
     SiTailwindcss,
     SiNextdotjs,
+    SiTestinglibrary,
+    SiDocker,
 } from "react-icons/si";
 import { FaHtml5, FaNodeJs, FaNpm } from "react-icons/fa";
 
 const findIcon = {
-    "language-javascript": <SiJavascript className="  left-2 text-xl text-[#f7df1e] " />,
+    "language-javascript": <SiJavascript className="  left-2 text-xl text-[#f68333] " />,
     "language-CSS": <SiCss3 className="  left-2 text-xl text-[#2965f1] " />,
     "language-HTML": <FaHtml5 className="  text-xl text-[#f06529] " />,
     "language-JSON": <FaNodeJs className="  text-xl text-[#3C873A] " />,
@@ -32,6 +34,8 @@ const findIcon = {
     "language-Tailwind": <SiTailwindcss className="  text-xl text-[#38bdf8] " />,
     "language-Next": <SiNextdotjs className="  text-xl text-[#fc5b55] " />,
     "language-NPM": <FaNpm className="  text-xl text-[#3C873A] " />,
+    "language-testingLibrary": <SiTestinglibrary className="  text-xl text-[#e43534] " />,
+    "language-docker": <SiDocker className="  text-xl text-[#2391e6] " />,
 };
 
 export default findIcon;

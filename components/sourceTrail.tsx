@@ -19,7 +19,9 @@ type techType =
     | "language-React"
     | "language-Tailwind"
     | "language-Next"
-    | "language-NPM";
+    | "language-NPM"
+    | "language-testingLibrary"
+    | "language-docker";
 
 interface props {
     tech: techType[];
