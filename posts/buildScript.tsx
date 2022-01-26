@@ -2,10 +2,12 @@
     @start
     id: buildScript
     title: Next.js: Dynamic import javascript modules(in effect) using a custom build script.
-    date: 2022-18-01
+    date: 2022-01-18
     type: notes
     dependancies: Tailwinds v3.08, Next v12.0.7, React v17.0.2
     repo: https://github.com/GlennStreetman/Blog
+    languages: language-NPM,language-Next
+    project: Blog
     @end
 */
 
@@ -14,19 +16,19 @@ import CodeBlock from "../components/codeBlock";
 const body = function () {
     return (
         <div className="article">
-            <h2>The setup:</h2>
+            <h2>The setup: </h2>
             <p>
-                The {nextJSTutorial} guides you through building a simple blog using Next.js. It uses {greyMatter}, a library that parses {metaDataLink} stored
-                at the top of .md markdown files. The meta data can then be used to sort and import the mark down files as necesarry. The parsed files can then
-                be used as the body content for blog posts. This is a neat trick because once a blog post is saved it automaticaly becomes available for viewing
-                through the front end of the web app. Markdown files do have limits though, they arent JS modules so you cant embed react components inside of
-                them. My preference is to write JS modules that contain my blog posts so that i can include working component examples, highlighted code block,
-                etc.
+                The {nextJSTutorial} guides you through building a simple blog using Next.js. The tutorial uses {greyMatter}, a library that parses{" "}
+                {metaDataLink} stored at the top of .md markdown files. The metadata is used to sort and categorize the blog posts. The parsed files can then be
+                used as the body content for blog posts. This is a neat trick because once a blog post is saved it automaticaly becomes available for viewing
+                through the front end of the web app. Markdown files do have limits though, they aren't JS modules so you cant embed react components inside of
+                them. My preference is to write JS modules, instead of markdown files, so that I can include working component examples, highlighted code block,
+                and add javascript as necessary.
             </p>
             <h2>The problem:</h2>
             <p>
-                Using Javascript modules for my blug but keeping the dynamic import feature of greymatter markdown files is a problem. {dnamicImportLink} state
-                the following:
+                Using Javascript modules for my blug but keeping the dynamic import feature of greymatter markdown files. {dnamicImportLink} state the
+                following:
             </p>
 
             <blockquote cite="https://nextjs.org/docs/advanced-features/dynamic-import">
@@ -41,7 +43,7 @@ const body = function () {
                 This turns out to be a bit of a problem. Without some additional work I cant dynamicaly import modules. To make matters worse I didn't see a
                 clear way to use Grey Matter to parse comments in Javascript. The simplist way i could find to import my blog posts was to maintain a register
                 file that exported all of my components and metadata. This is only a few minutes work at the backend of each blog post but giving up dynamic
-                imports wasnt something i wanted to do. What if i wanted to create thousands of blog posts and start a blogging empire? I'n 2022? Seems unlikely
+                imports wasnt something i wanted to do. What if i wanted to create thousands of blog posts and start a blogging empire? In 2022? Seems unlikely
                 but lets solve the problem anyways.
             </p>
 
@@ -49,7 +51,8 @@ const body = function () {
             <p>
                 To solve this problem i decided to write my own Javascript metadata markup at the top of each blog post. I would then write a simple parser that
                 would read each blog post in the ./blog directory and use the metadata to write a register.ts javascript module at build time. I would still be
-                able to use metadata and the work of maintaining a blog post registration file would be automated.
+                able to use metadata and the work of maintaining a blog post registration file would be automated. I would also eliminate the greymatter
+                dependancy.
             </p>
             <h2>The markup</h2>
             <p>
@@ -85,70 +88,121 @@ export default body;
             </p>
             <CodeBlock language="language-javascript" file="./buildRegister.mjs">{`import fs from "fs";
 
-const files = fs.readdirSync("./posts/");
-const regex = /\\r?\\n/g; //regular expresion to find new lines
-const allFilesMetaData = {};
+export const buildScript = function () {
+    console.log("rebuilding register");
+    const files = fs.readdirSync("./posts/");
+    const regex = /\r?\\n/g; //new line
+    const allFilesMetaData = {};
 
-try {
-    files.forEach((filePath) => { //for each file
-        const file = fs.readFileSync(\`./posts/\${filePath}\`).toString();
-        let run = false;
-        const writeList = [];
-        file.split(regex).every((el) => { //for each line
-            if (el.includes("@start")) { //start script
-                run = true;
+    try {
+        files.forEach((filePath) => {
+            //for each file
+            const file = fs.readFileSync(\`./posts/\${filePath}\`).toString();
+            let run = false;
+            const writeList = [];
+            file.split(regex).every((el) => {
+                //for each line
+                if (el.includes("@start")) {
+                    //start script
+                    run = true;
+                    return true;
+                } else if (el.includes("@end")) {
+                    //end script
+                    run = false;
+                    return false;
+                } else if (run === true) {
+                    //parse metadata
+                    writeList.push(el);
+                    return true;
+                }
                 return true;
-            } else if (el.includes("@end")) { //end script
-                run = false;
-                return false;
-            } else if (run === true) { //parse metadata
-                writeList.push(el);
-                return true;
-            }
-            return true;
+            });
+
+            const metaData = writeList.reduce((reducer, el) => {
+                //conver meta data in to key/value object
+                let [key, ...value] = el.split(":"); // split the string, at first instance of ':' into a key [value] pair.
+                key = key.trim();
+                value = value.join(":").trim();
+                reducer[key] = value;
+                return reducer;
+            }, {});
+            metaData["sourceFile"] = filePath; //add source file to meta data.
+            const fileName = filePath.slice(0, filePath.indexOf(".")); //remove file extension
+            allFilesMetaData[fileName] = metaData;
         });
 
-        const metaData = writeList.reduce((reducer, el) => {
-            //conver meta data in to key/value object
-            let [key, ...value] = el.split(":"); // split the string, at first instance of ':' into a key [value] pair.
-            key = key.trim();
-            value = value.join(":").trim();
-            reducer[key] = value;
-            return reducer;
-        }, {});
-        metaData["sourceFile"] = filePath; //add source file to meta data.
-        const fileName = filePath.slice(0, filePath.indexOf(".")); //remove file extension
-        allFilesMetaData[fileName] = metaData;
+        let imports = "";
+        const typeScript = \`interface post {
+    id: string;
+    title: string;
+    date: string;
+    type: string;
+    dependancies: string;
+    repo: string;
+    sourceFile: string;
+}
+
+interface allPosts {
+    [key: string]: post;
+}\`;
+        let head = \`export const postsRegister: allPosts = \${JSON.stringify(allFilesMetaData)}\`;
+        let body = "";
+
+        Object.keys(allFilesMetaData).forEach((key) => {
+            imports = imports + \`import \${key} from '../posts/\${key}'; \\n\`;
+            body = body + \`\${key}:  \${key}, \\n\`;
+        });
+
+        body = \`export const postsComp = { \\n \${body} }\`;
+
+        const writeText = imports + "\\n" + typeScript + "\\n" + head + "\\n" + body; //combine it all together.
+        fs.writeFileSync("./registers/postRegister.ts", writeText); //write the file.
+        console.log("Build Complete");
+    } catch (error) {
+        console.log("---REGISTER BUILD FAILED---: ", error);
+    }
+};`}</CodeBlock>
+
+            <h2>Creating a script runner</h2>
+            <p>
+                Now we need a way to run the script. We could run the script each time we start our server but that doesn't yield the best development
+                experience. Let's use {chokidar}, a file system watching package, to run the script each time there is a change to the /posts directory
+            </p>
+
+            <CodeBlock language="language-NPM" file="Console">{`>  npm install chokidar`}</CodeBlock>
+
+            <CodeBlock language="language-javascript" file="./watchPosts.mjs">{`import { buildScript } from "./buildRegister.mjs";
+import chokidar from "chokidar";
+
+buildScript();
+console.log("setting up watcher");
+
+const watcher = chokidar.watch("./posts", {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+});
+
+watcher
+    .on("new", () => {
+        console.log("new post added");
+        buildScript();
+    })
+    .on("change", () => {
+        console.log("post updated");
+        buildScript();
     });
+`}</CodeBlock>
 
-    //start writing text file.
-    let imports = ""; 
-    let head = \`export const postsRegister = \${JSON.stringify(allFilesMetaData)}\`;
-    let body = "";
-
-    Object.keys(allFilesMetaData).forEach((key) => {
-        imports = imports + \`import \${key} from '../posts/\${key}'; \\n\`;
-        body = body + \`\${key}:  \${key}, \\n\`;
-    });
-
-    body = \`export const postsComp = { \\n \${body} }\`;
-
-    const writeText = imports + "\\n"  + head + "\\n" + body; //combine it all together.
-    fs.writeFileSync("./registers/postRegister.ts", writeText); //write the file.
-
-    console.log("Build Complete");
-} catch (error) {
-    console.log("---REGISTER BUILD FAILED---: ", error);
-}`}</CodeBlock>
             <h2>Register your script to package.json</h2>
             <p>
-                The script should run on each server start. Register the script and use the && operator to force the script to run before start up. See
-                "pre-build" below.
+                'npm run watcher' will keep the "watcher" running in the background. Anytime it detects a file change, Next.js will automaticaly reflect the
+                change. If you prefer you can always use the library like {concurrently} to run both "watcher" & "dev" at the same time.
             </p>
             <CodeBlock language="language-JSON" file="./package.json">{`    "scripts": {
-        "pre-build": "node buildRegister.mjs",
-        "dev": "npm run pre-build && next dev",
-        "build": "npm run pre-build && next build",
+        "watcher": "node watchPosts.mjs",
+        "dev": "next dev ",
+        "build": "next build",
+        "start": "next start"
         ...
     },`}</CodeBlock>
             <p>
@@ -279,6 +333,18 @@ const greyMatter = (
 const nextJSTutorial = (
     <a href="https://nextjs.org/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website" target="_blank">
         Next.js tutorial
+    </a>
+);
+
+const chokidar = (
+    <a href="https://www.npmjs.com/package/concurrently" target="_blank">
+        Chokidar
+    </a>
+);
+
+const concurrently = (
+    <a href="https://www.npmjs.com/package/concurrently" target="_blank">
+        Concurrently
     </a>
 );
 
