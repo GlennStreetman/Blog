@@ -3,7 +3,11 @@ import Link from "next/link";
 import Date from "./date";
 import SourceTrail from "../components/sourceTrail";
 
-export default function Right_Column(p: any) {
+interface props {
+    allPostsData: any;
+}
+
+export default function Right_Column(p: props) {
     // console.log(p.allPostsData);
     return (
         <div className="space-y-2">

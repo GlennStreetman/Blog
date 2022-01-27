@@ -1,7 +1,7 @@
 /*
     @start
     id: buildScript
-    title: Next.js: Dynamic import javascript modules(in effect) using a custom build script.
+    title: Dynamicly importing javascript modules using a custom build script & Next.js
     date: 2022-01-18
     type: notes
     dependancies: Tailwinds v3.08, Next v12.0.7, React v17.0.2

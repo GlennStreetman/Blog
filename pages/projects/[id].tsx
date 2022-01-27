@@ -1,35 +1,33 @@
-import { getAllPostIds } from "../../lib/posts";
-import Head from "next/head";
-import Date from "../../components/date";
-import { postsRegister, postsComp } from "../../registers/postRegister";
-import Topper from "../../components/topper";
+import React from "react";
+import { getAllProjectIds } from "../../lib/projects";
+import styles from "./projects.module.css";
 import BackButton from "../../components/backButton";
-import styles from "./posts.module.css";
+import Topper from "../../components/topper";
+import { projectRegister, projectComp } from "../../registers/projectRegister";
+import Head from "next/head";
 
 export async function getStaticProps({ params }) {
     return {
         props: {
-            ...postsRegister[params.id],
+            ...projectRegister[params.id],
         },
     };
 }
 
 export async function getStaticPaths() {
-    const paths = getAllPostIds();
+    const paths = getAllProjectIds();
     return {
         paths,
         fallback: false,
     };
 }
 
-export default function PostBody(postData) {
-    // console.log(postData);
+function projects(projectData) {
     const name = "Glenn Streetman";
-
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
-                <title>{postData.title}</title>
+                <title>{projectData.title}</title>
             </Head>
             <Topper />
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
@@ -43,16 +41,14 @@ export default function PostBody(postData) {
                         </div>
 
                         <div className="col-span-10 my-auto">
-                            <h1 className="text-accent text-2xl">{postData.title}</h1>
-                            <h2 className="text-secondary">
-                                <Date dateString={postData.date} />
-                            </h2>
-                            <h3 className="text-primary">{postData.dependancies}</h3>
-                            {postData.repo ? (
+                            <h1 className="text-accent text-2xl">{projectData.title}</h1>
+                            <h2 className="text-secondary">{/* <Date dateString={projectData.date} /> */}</h2>
+                            <h3 className="text-primary">{projectData.dependancies}</h3>
+                            {projectData.repo ? (
                                 <h3 className="text-primary">
                                     <a
                                         className="text-secondary font-bold text-lg italic hover:text-accent  hover:font-bold  hover:text-lg  hover:italic"
-                                        href={postData.repo}
+                                        href={projectData.repo}
                                     >
                                         Code Example
                                     </a>
@@ -64,7 +60,7 @@ export default function PostBody(postData) {
                     </div>
                     <div>
                         <article className={styles.article}>
-                            <div>{postsComp[postData.id]()}</div>
+                            <div>{projectComp[projectData.id]()}</div>
                         </article>
                         <BackButton />
                     </div>
@@ -74,3 +70,5 @@ export default function PostBody(postData) {
         </div>
     );
 }
+
+export default projects;
