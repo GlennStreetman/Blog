@@ -7,6 +7,7 @@ import { projectRegister, projectComp } from "../../registers/projectRegister";
 import Head from "next/head";
 
 export async function getStaticProps({ params }) {
+    console.log("paramas left", params.id, projectRegister, projectRegister[params.id]);
     return {
         props: {
             ...projectRegister[params.id],
@@ -24,10 +25,11 @@ export async function getStaticPaths() {
 
 function projects(projectData) {
     const name = "Glenn Streetman";
+    console.log("projectdata id", projectData, projectRegister);
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
-                <title>{projectData.title}</title>
+                <title>{projectData.project}</title>
             </Head>
             <Topper />
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
@@ -41,7 +43,7 @@ function projects(projectData) {
                         </div>
 
                         <div className="col-span-10 my-auto">
-                            <h1 className="text-accent text-2xl">{projectData.title}</h1>
+                            <h1 className="text-accent text-2xl">{projectData.project}</h1>
                             <h2 className="text-secondary">{/* <Date dateString={projectData.date} /> */}</h2>
                             <h3 className="text-primary">{projectData.dependancies}</h3>
                             {projectData.repo ? (
@@ -50,7 +52,7 @@ function projects(projectData) {
                                         className="text-secondary font-bold text-lg italic hover:text-accent  hover:font-bold  hover:text-lg  hover:italic"
                                         href={projectData.repo}
                                     >
-                                        Code Example
+                                        Github
                                     </a>
                                 </h3>
                             ) : (

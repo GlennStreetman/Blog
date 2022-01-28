@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 }
 
 export default function PostBody(postData) {
-    // console.log(postData);
+    console.log("postData id", postData);
     const name = "Glenn Streetman";
 
     return (

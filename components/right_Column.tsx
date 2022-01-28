@@ -8,7 +8,7 @@ interface props {
 }
 
 export default function Right_Column(p: props) {
-    // console.log(p.allPostsData);
+    console.log("rightCOl", p.allPostsData);
     return (
         <div className="space-y-2">
             <h2 className="text-accent font-heading">Blog</h2>

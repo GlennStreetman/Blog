@@ -1,9 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import Header, { siteTitle } from "../components/Header";
-import Projects from "./projects";
+// import Projects from "./projects";
 import Link from "next/link";
-import Date from "./date";
+// import Date from "./date";
 import SourceTrail from "../components/sourceTrail";
 
 interface props {
@@ -11,6 +11,7 @@ interface props {
 }
 
 function Left_Column(p: props) {
+    console.log("left col", p.allProjectData);
     return (
         <>
             <Header home />

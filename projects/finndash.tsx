@@ -3,7 +3,6 @@
     id: finnDash
     project: finnDash
     description: A single page web application for designing dashboards, building & sharing dataset with GraphQL, and Excel Templating using Finnhub.io API data. The front end uses React with Redux and is styled with MaterialUi. The back end is deployed using Docker-Compose. HTTP requests are handled by Express. Account data is saved in Postgres. Caching is handled by MongoDB. Datasets can be shared using GraphQL. Testing is performed using Jest & Testing Library. Hosted on AWS EC2.
-    date: 2022-01-18
     repo: https://github.com/GlennStreetman/finnHub-Dashboard
     languages: language-typescript,language-React,language-Redux,language-Express,language-Postgres,language-MongoDB,language-GraphQL,language-MaterialUI,language-Jest,language-testingLibrary,language-docker
     @end
@@ -14,8 +13,9 @@ import CodeBlock from "../components/codeBlock";
 const body = function () {
     return (
         <div className="article">
+            <h1>Description</h1>
             <p>
-                Finndash is a single page web application that adds a graphical user interface to Finnhub.io\’s freemium financial API. It allows users, that do
+                Finndash is a single page web application that adds a graphical user interface to Finnhub.io’s freemium financial API. It allows users, that do
                 not come from a technical background, to rapidly specify groupings of API calls, which become datasets. Datasets can then be reviewed using
                 Finndash’s user arranged widget system. Groupings of widgets become dashboards. Dashboard datasets. can then be pushed directly into excel
                 templates or shared using GraphQL. In the background, Finndash freshens Finnhub.io API data at it becomes stale.
@@ -24,9 +24,9 @@ const body = function () {
 
             <h2>React: </h2>
             <p>
-                I knew when is started working on Finndash one its primary features would be private user designed dashboards. Search engine optimization would
+                I knew when I started working on Finndash one its primary features would be private user designed dashboards. Search engine optimization would
                 not be a concern as almost the entire app would be hidden behind a login. The responsiveness of a single page web application and the
-                elimination of page reloads would be a big benefit to the user. Finnhub.io\’s REST API returns JSON data and Reacts JSX templating is excellent
+                elimination of page reloads would be a big benefit to the user. Finnhub.io’s REST API returns JSON data and Reacts JSX templating is excellent
                 at converting JSON data into user interfaces. As a result, I decided use create-react-app for this project.
             </p>
             <h2>Redux & Redux Tool Kit: </h2>
@@ -36,13 +36,13 @@ const body = function () {
                 be converted into human readable and configurable user interfaces using derived state. As the user updates API data filters and reconfigures how
                 widgets display data Finndash needs to fire of actions that freshen data based on updated filters and derives new state based on updated user
                 configurations. Redux is a heavy-duty solution to global state management and is easily up to this task. Using Redux I was able to lift
-                dashboard configurations & API data up into global a global Redux state container. Derived state could consistently be updated using Redux\’s
+                dashboard configurations & API data up into global a global Redux state container. Derived state could consistently be updated using Redux’s
                 action reducer model and composable asynchronous updates to global state could be created using Redux Thunks. After dashboard and API state was
                 lifted out of Reacts component tree the need for prop drilling was greatly reduced and individual react component state could focus much more
                 heavily on the view portion of the application, leaving the data model in Redux. One benefit of Redux, that should not be overlooked, is that
-                all data store updates are handled using Immer\’s immutable state updates. Using immutable state updates avoids object reference update
-                reference errors and avoids desynchronization between store state and what react renders. Updating deeply nested object state, and consistently
-                creating new object references, is prone to error. Immer almost completely eliminates these hard to troubleshoot errors.
+                all data store updates are handled using Immer’s immutable state updates. Using immutable state updates avoids object reference update reference
+                errors and avoids desynchronization between store state and what react renders. Updating deeply nested object state, and consistently creating
+                new object references, is prone to error. Immer almost completely eliminates these hard to troubleshoot errors.
             </p>
             <h2>Typescript:</h2>
             <p>
@@ -54,9 +54,9 @@ const body = function () {
             </p>
             <h2>Express:</h2>
             <p>
-                All of FInnhub\’s route handling, database interactions, session/cookie management, file upload/download & parsing is handled by Express. I
-                found Express to be a bit frustrating at time. It has very little included out of the box and doesn’t support some things, like es6 imports, out
-                of the box. Session management, cookies, environmental variables, all require packages to be added to Express. If you come from a python
+                All of FInnhub’s route handling, database interactions, session/cookie management, file upload/download & parsing is handled by Express. I found
+                Express to be a bit frustrating at time. It has very little included out of the box and doesn’t support some things, like es6 imports, out of
+                the box. Session management, cookies, environmental variables, all require packages to be added to Express. If you come from a python
                 background, and have used Flask or Bottle, Express should feel fairly familiar.
             </p>
             <h2>Postgres:</h2>
@@ -69,7 +69,7 @@ const body = function () {
             <h2>MongoDB:</h2>
             <p>
                 MongoDB is used to cache API JSON data returned by Finnhub.io. MongoDB promises to quickly and efficiently deal with large collections of JSON
-                data that are frequently updated, which is exactly what I\’m doing with Finnhub.io\’s API data. Avoiding any bottlenecking, by separating user
+                data that are frequently updated, which is exactly what I’m doing with Finnhub.io’s API data. Avoiding any bottlenecking, by separating user
                 login database requests from API data caching also might have some advantages if this project ever became more than a hobby Application.
             </p>
 
