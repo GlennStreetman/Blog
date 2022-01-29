@@ -5,12 +5,23 @@ import BackButton from "../../components/backButton";
 import Topper from "../../components/topper";
 import { projectRegister, projectComp } from "../../registers/projectRegister";
 import Head from "next/head";
+import { getSortedPostsData } from "../../lib/posts";
+import Link from "next/link";
+import SourceTrail from "../../components/sourceTrail";
+import Date from "../../components/date";
 
 export async function getStaticProps({ params }) {
-    console.log("paramas left", params.id, projectRegister, projectRegister[params.id]);
+    const allPostsData = getSortedPostsData();
+    const filteredPosts = allPostsData.reduce((prev, curr) => {
+        if (curr.project === params.id) {
+            prev.push(curr);
+        }
+        return prev;
+    }, []);
     return {
         props: {
             ...projectRegister[params.id],
+            filteredPosts,
         },
     };
 }
@@ -25,7 +36,7 @@ export async function getStaticPaths() {
 
 function projects(projectData) {
     const name = "Glenn Streetman";
-    console.log("projectdata id", projectData, projectRegister);
+
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
@@ -44,7 +55,6 @@ function projects(projectData) {
 
                         <div className="col-span-10 my-auto">
                             <h1 className="text-accent text-2xl">{projectData.project}</h1>
-                            <h2 className="text-secondary">{/* <Date dateString={projectData.date} /> */}</h2>
                             <h3 className="text-primary">{projectData.dependancies}</h3>
                             {projectData.repo ? (
                                 <h3 className="text-primary">
@@ -63,7 +73,33 @@ function projects(projectData) {
                     <div>
                         <article className={styles.article}>
                             <div>{projectComp[projectData.id]()}</div>
+                            <h2>Related Posts: </h2>
+                            {projectData.filteredPosts.map((el) => (
+                                <section key={el.id}>
+                                    <Link href={`/posts/${el.id}`} passHref>
+                                        <div className="shadow rounded-md border-2 p-2 outline-4 hover:bg-weak">
+                                            <div className="text-secondary font-heading">{el.title}</div>
+                                            <div className="flex gap-2 my-auto">
+                                                <small className="text-primary">
+                                                    <Date dateString={el.date} />
+                                                </small>
+                                                <SourceTrail
+                                                    tech={
+                                                        el?.languages
+                                                            ? el.languages.split(",").map(function (item) {
+                                                                  return item.trim();
+                                                              })
+                                                            : []
+                                                    }
+                                                    post={`post-${el.id}`}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </section>
+                            ))}
                         </article>
+
                         <BackButton />
                     </div>
                 </div>
