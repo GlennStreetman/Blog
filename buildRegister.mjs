@@ -1,7 +1,7 @@
 import fs from "fs";
 
 export const buildScript = function () {
-    console.log("rebuilding register");
+    // console.log("rebuilding register");
     const files = fs.readdirSync("./posts/");
     const regex = /\r?\n/g; //new line
     const allFilesMetaData = {};
@@ -49,9 +49,11 @@ export const buildScript = function () {
     title: string;
     date: string;
     type: string;
-    dependancies: string;
-    repo: string;
-    sourceFile: string;
+    dependancies?: string;
+    repo?: string;
+    sourceFile?: string;
+    project?: string;
+    languages?: string;
 }
 
 interface allPosts {
@@ -69,7 +71,7 @@ interface allPosts {
 
         const writeText = imports + "\n" + typeScript + "\n" + head + "\n" + body; //combine it all together.
         fs.writeFileSync("./registers/postRegister.ts", writeText); //write the file.
-        console.log("Build Complete");
+        // console.log("Build Complete");
     } catch (error) {
         console.log("---REGISTER BUILD FAILED---: ", error);
     }
