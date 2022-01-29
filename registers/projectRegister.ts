@@ -1,4 +1,4 @@
-import finnDash from "../projects/finnDash";
+import FinnDash from "../projects/FinnDash";
 import copyExcelChart from "../projects/copyExcelChart";
 import resumeBlogGenerator from "../projects/resumeBlogGenerator";
 
@@ -17,9 +17,9 @@ interface allProjects {
 }
 
 export const projectRegister: allProjects = {
-    finnDash: {
-        id: "finnDash",
-        project: "finnDash",
+    FinnDash: {
+        id: "FinnDash",
+        project: "FinnDash",
         description:
             "A single page web application for designing dashboards, building & sharing dataset with GraphQL, and Excel Templating using Finnhub.io API data. The front end uses React with Redux and is styled with MaterialUi. The back end is deployed using Docker-Compose. HTTP requests are handled by Express. Account data is saved in Postgres. Caching is handled by MongoDB. Datasets can be shared using GraphQL. Testing is performed using Jest & Testing Library. Hosted on AWS EC2.",
         repo: "https://github.com/GlennStreetman/finnHub-Dashboard",
@@ -43,7 +43,7 @@ export const projectRegister: allProjects = {
     },
 };
 export const projectComp = {
-    finnDash: finnDash,
+    FinnDash: FinnDash,
     copyExcelChart: copyExcelChart,
     resumeBlogGenerator: resumeBlogGenerator,
 };

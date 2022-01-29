@@ -5,7 +5,7 @@
     date: 2022-01-25
     type: notes
     languages: language-MaterialUI
-    project: Finndash
+    project: FinnDash
     @end
 */
 

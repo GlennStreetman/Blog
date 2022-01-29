@@ -19,7 +19,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData, allProjectData }) {
-    console.log("allProjectData", allProjectData);
     return (
         <div className="min-h-screen bg-primary">
             <UserPrefs />

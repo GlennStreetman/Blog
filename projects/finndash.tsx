@@ -1,7 +1,7 @@
 /*
     @start
-    id: finnDash
-    project: finnDash
+    id: FinnDash
+    project: FinnDash
     description: A single page web application for designing dashboards, building & sharing dataset with GraphQL, and Excel Templating using Finnhub.io API data. The front end uses React with Redux and is styled with MaterialUi. The back end is deployed using Docker-Compose. HTTP requests are handled by Express. Account data is saved in Postgres. Caching is handled by MongoDB. Datasets can be shared using GraphQL. Testing is performed using Jest & Testing Library. Hosted on AWS EC2.
     repo: https://github.com/GlennStreetman/finnHub-Dashboard
     languages: language-typescript,language-React,language-Redux,language-Express,language-Postgres,language-MongoDB,language-GraphQL,language-MaterialUI,language-Jest,language-testingLibrary,language-docker
@@ -15,26 +15,26 @@ const body = function () {
         <div className="article">
             <h1>Description</h1>
             <p>
-                Finndash is a single page web application that adds a graphical user interface to Finnhub.io’s freemium financial API. It allows users, that do
+                FinnDash is a single page web application that adds a graphical user interface to Finnhub.io’s freemium financial API. It allows users, that do
                 not come from a technical background, to rapidly specify groupings of API calls, which become datasets. Datasets can then be reviewed using
                 Finndash’s user arranged widget system. Groupings of widgets become dashboards. Dashboard datasets. can then be pushed directly into excel
-                templates or shared using GraphQL. In the background, Finndash freshens Finnhub.io API data at it becomes stale.
+                templates or shared using GraphQL. In the background, FinnDash freshens Finnhub.io API data at it becomes stale.
             </p>
             <h1>Technologies:</h1>
 
             <h2>React: </h2>
             <p>
-                I knew when I started working on Finndash one its primary features would be private user designed dashboards. Search engine optimization would
+                I knew when I started working on FinnDash one its primary features would be private user designed dashboards. Search engine optimization would
                 not be a concern as almost the entire app would be hidden behind a login. The responsiveness of a single page web application and the
                 elimination of page reloads would be a big benefit to the user. Finnhub.io’s REST API returns JSON data and Reacts JSX templating is excellent
                 at converting JSON data into user interfaces. As a result, I decided use create-react-app for this project.
             </p>
             <h2>Redux & Redux Tool Kit: </h2>
             <p>
-                Users of Finndash can rapidly specify thousands of API calls, associated with any number of dashboards, that can return large chunks of JSON
+                Users of FinnDash can rapidly specify thousands of API calls, associated with any number of dashboards, that can return large chunks of JSON
                 data. The data then needs to somehow be stored on the client side or cached as needed. The data that is stored on the client side then needs to
                 be converted into human readable and configurable user interfaces using derived state. As the user updates API data filters and reconfigures how
-                widgets display data Finndash needs to fire of actions that freshen data based on updated filters and derives new state based on updated user
+                widgets display data FinnDash needs to fire of actions that freshen data based on updated filters and derives new state based on updated user
                 configurations. Redux is a heavy-duty solution to global state management and is easily up to this task. Using Redux I was able to lift
                 dashboard configurations & API data up into global a global Redux state container. Derived state could consistently be updated using Redux’s
                 action reducer model and composable asynchronous updates to global state could be created using Redux Thunks. After dashboard and API state was
@@ -46,7 +46,7 @@ const body = function () {
             </p>
             <h2>Typescript:</h2>
             <p>
-                As Finndash grew in complexity debugging simple errors started eating up more and more time. Tracking down undefined reference errors started
+                As FinnDash grew in complexity debugging simple errors started eating up more and more time. Tracking down undefined reference errors started
                 eating up more time and remembering all the parameters a function required when it was called was creating more and more mental overhead.
                 Typescript greatly reduced time spent debugging reference errors, made it easier to shared functions, and has more often than not created a more
                 enjoyable developer experience. Using typescript to define function interfaces and return values has been a huge time saver and regularly
@@ -76,7 +76,7 @@ const body = function () {
             <h2>GraphQL:</h2>
             <p>
                 Empowering users, from a non-technical background, to share data specifications & API data, with both technical and non-technical team members,
-                is one of the driving goals of Finndash. GraphQL makes it easy to create links to datasets, pivots data, and communicate data specifications
+                is one of the driving goals of FinnDash. GraphQL makes it easy to create links to datasets, pivots data, and communicate data specifications
                 between team members. After a dashboard is created, the data stored in MongoDB, becomes accessible through GraphQL to team members. Team members
                 can share links to their data sets and pivot the view, specifying which widgets & which securities, they want to share. Talking about GraphQL
                 datasets is easier than managing, updating, and sharing groups of API endpoint query strings.
@@ -101,7 +101,7 @@ const body = function () {
             </p>
             <h2>Infrastructure and Deployment</h2>
             <p>
-                The best way to deploy Finndash is currently using Docker Compose and Make. “Make prod” will currently build and deploy the entire environment
+                The best way to deploy FinnDash is currently using Docker Compose and Make. “Make prod” will currently build and deploy the entire environment
                 assuming the host system has Docker & Make properly setup. A demo of this application is currently running on an AWS EC2 Ubuntu Server. This
                 does leave the door open for problems with deployments because images change over time. A Virtual Machine template build using a something like
                 Packer could help streamline the deployment.
