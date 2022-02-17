@@ -5,6 +5,7 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BiLogInCircle } from "react-icons/bi";
 // import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import BackButton from "./backButton";
 import { useRouter } from "next/router";
@@ -32,6 +33,11 @@ function Topper() {
                 </Tippy>
             </Tippy>
             <DarkModeButton />
+            <div>
+                <Link href="/loginStatus">
+                    <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" />
+                </Link>
+            </div>
         </div>
     );
 }
