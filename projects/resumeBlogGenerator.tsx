@@ -4,7 +4,7 @@
     project: resumeBlogGenerator
     description: Place holder gibberish
     repo: https://github.com/GlennStreetman/Blog
-    languages: language-javascript,language-Next,language-Tailwind
+    languages: language-typescript,language-Next,language-Tailwind
     @end
 */
 
