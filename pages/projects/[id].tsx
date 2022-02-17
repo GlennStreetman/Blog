@@ -73,7 +73,7 @@ function projects(projectData) {
                     <div>
                         <article className={styles.article}>
                             <div>{projectComp[projectData.id]()}</div>
-                            <h2>Related Posts: </h2>
+                            {projectData?.filteredPost?.length > 0 ? <h2>Related Posts: </h2> : <></>}
                             {projectData.filteredPosts.map((el) => (
                                 <section key={el.id}>
                                     <Link href={`/posts/${el.id}`} passHref>
