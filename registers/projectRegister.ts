@@ -1,4 +1,4 @@
-import FinnDash from "../projects/FinnDash";
+import FinnDash from "../projects/finndash";
 import copyExcelChart from "../projects/copyExcelChart";
 import resumeBlogGenerator from "../projects/resumeBlogGenerator";
 
@@ -10,6 +10,7 @@ interface project {
     sourceFile?: string;
     languages?: string;
     project?: string;
+    date?: string;
 }
 
 interface allProjects {
@@ -39,12 +40,6 @@ export const projectRegister: allProjects = {
         project: "App: Personal Blog",
         description: "Place holder gibberish",
         repo: "https:github.com/GlennStreetman/Blog",
-        languages: "language-javascript,language-Next,language-Tailwind",
-    },
-    SQLReporting: {
-        id: "SQLReporting",
-        project: "Past Work: Financial system SQL Reporting",
-        description: "Lessons from Building SQL Reports for Financial Systems",
         languages: "language-javascript,language-Next,language-Tailwind",
     },
 };
