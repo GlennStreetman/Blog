@@ -23,13 +23,17 @@ function loginStatus() {
 
     useEffect(() => {
         async function getSessionObject() {
-            const authURL = `http://localhost:3000/api/auth/session`;
-            console.log("login api", authURL);
-            const sessionDataRaw = await fetch(authURL);
-            const sessionData = await sessionDataRaw.json();
-            // const sessionDataRaw = await fetch("/api/remoteLogin");
-            // const sessionData = await sessionDataRaw.json();
-            setThisSession(sessionData);
+            try {
+                const authURL = `http://gstreet.test/api/auth/session`; //redirect using next.config to auth server
+                console.log("login api", authURL);
+                const sessionDataRaw = await fetch(authURL, {mode: 'cors', credentials: 'include' });
+                const sessionData = await sessionDataRaw.json();
+                // const sessionDataRaw = await fetch("/api/remoteLogin");
+                // const sessionData = await sessionDataRaw.json();
+                setThisSession(sessionData);
+            } catch (error) {
+                console.log('Error connecting to login server', error)
+            }
         }
         getSessionObject();
     }, []);
