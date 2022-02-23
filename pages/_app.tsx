@@ -1,10 +1,11 @@
 import "../styles/global.css";
 import "../styles/codeBlockFormat.css";
 import { useEffect } from "react";
+import { SessionProvider } from "next-auth/react"
 
 import UserPrefs from "../components/userPrefs";
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
     useEffect(() => {
         if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
             document.documentElement.classList.add("dark");
@@ -21,10 +22,12 @@ export default function App({ Component, pageProps }) {
 
     return (
         <>
+        <SessionProvider session={session}>
             <UserPrefs />{" "}
             <div className="font-body pt-7 bg-primary">
                 <Component {...pageProps}> </Component>
             </div>
+            </SessionProvider>
         </>
     );
 }
