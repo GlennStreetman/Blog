@@ -10,6 +10,7 @@ import { BiLogInCircle } from "react-icons/bi";
 import BackButton from "./backButton";
 import { useRouter } from "next/router";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import Loginbutton from '../components/loginButton'
 
 const DarkModeButton = dynamic(() => import("./darkModeButton"), { ssr: false });
 
@@ -31,11 +32,12 @@ function Topper() {
                     )}
                 </Tippy>
             <DarkModeButton />
-            <div>
+            <Loginbutton />
+            {/* <div>
                 <Link href="/loginStatus" passHref>
                     <a><BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" /></a>
                 </Link>
-            </div>
+            </div> */}
         </div>
     );
 }
