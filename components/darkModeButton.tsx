@@ -3,6 +3,8 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import { faSun } from "@fortawesome/free-solid-svg-icons";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
 
 interface props {
     secondary?: Function;
@@ -34,9 +36,17 @@ function DarkModeButton(p: props) {
                 }}
             >
                 {darkMode ? (
-                    <FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faSun} />
+                    <div>
+                        <Tippy content="Toggle Dark Mode" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+                            <div><FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faSun} /></div>
+                        </Tippy>
+                    </div>
                 ) : (
-                    <FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faMoon} />
+                    <div>
+                        <Tippy content="Toggle Dark Mode" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+                            <div><FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faMoon} /></div>
+                        </Tippy>
+                    </div>
                 )}
             </button>
         </div>
