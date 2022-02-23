@@ -6,6 +6,7 @@ import Bottom from "../components/bottom";
 import Gutter from "../components/gutter";
 import Topper from "../components/topper";
 import UserPrefs from "../components/userPrefs";
+import SignedIn from '../components/signedIn'
 
 export async function getStaticProps() {
     const allPostsData = getSortedPostsData();
@@ -19,6 +20,7 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData, allProjectData }) {
+
     return (
         <div className="min-h-screen bg-primary">
             <UserPrefs />
@@ -31,10 +33,12 @@ export default function Home({ allPostsData, allProjectData }) {
                 <div className="w-screen sm:w-auto col-span-12 md:col-span-5 p-2">
                     <Right_Column allPostsData={allPostsData} />
                 </div>
+                <SignedIn />
                 <Gutter />
                 <Gutter />
                 <div className="w-screen sm:w-auto col-span-12 md:col-span-5 p-2">
-                    <Bottom />
+                <Bottom />
+
                 </div>
                 <Gutter />
             </div>

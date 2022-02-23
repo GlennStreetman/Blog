@@ -24,7 +24,7 @@ function loginStatus() {
     useEffect(() => {
         async function getSessionObject() {
             try {
-                const authURL = `http://gstreet.test/api/auth/session`; //redirect using next.config to auth server
+                const authURL = `https://gstreet.test/api/auth/session`; //redirect using next.config to auth server
                 console.log("login api", authURL);
                 const sessionDataRaw = await fetch(authURL, {mode: 'cors', credentials: 'include' });
                 const sessionData = await sessionDataRaw.json();
