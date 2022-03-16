@@ -28,8 +28,6 @@ function loginStatus() {
                 console.log("login api", authURL);
                 const sessionDataRaw = await fetch(authURL, {mode: 'cors', credentials: 'include' });
                 const sessionData = await sessionDataRaw.json();
-                // const sessionDataRaw = await fetch("/api/remoteLogin");
-                // const sessionData = await sessionDataRaw.json();
                 setThisSession(sessionData);
             } catch (error) {
                 console.log('Error connecting to login server', error)
