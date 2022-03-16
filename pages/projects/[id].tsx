@@ -56,6 +56,7 @@ function projects(projectData) {
                         <div className="col-span-10 my-auto">
                             <h1 className="text-accent text-2xl">{projectData.project}</h1>
                             <h3 className="text-primary">{projectData.dependancies}</h3>
+                            
                             {projectData.repo ? (
                                 <h3 className="text-primary">
                                     <a
@@ -68,6 +69,20 @@ function projects(projectData) {
                             ) : (
                                 <></>
                             )}
+
+                            {projectData.live ? (
+                                <h3 className="text-primary">
+                                    <a
+                                        className="text-secondary font-bold text-lg italic hover:text-accent  hover:font-bold  hover:text-lg  hover:italic"
+                                        href={projectData.live}
+                                    >
+                                        {projectData.live}
+                                    </a>
+                                </h3>
+                            ) : (
+                                <></>
+                            )}
+
                         </div>
                     </div>
                     <div>

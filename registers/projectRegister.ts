@@ -11,6 +11,7 @@ interface project {
     languages?: string;
     project?: string;
     date?: string;
+    live?: string;
 }
 
 interface allProjects {
@@ -26,6 +27,7 @@ export const projectRegister: allProjects = {
         repo: "https://github.com/GlennStreetman/finnHub-Dashboard",
         languages:
             "language-typescript,language-React,language-Redux,language-Express,language-Postgres,language-MongoDB,language-GraphQL,language-MaterialUI,language-Jest,language-testingLibrary,language-docker",
+        live: 'https://finndash.gstreet.dev'
     },
     copyExcelChart: {
         id: "copyExcelChart",
