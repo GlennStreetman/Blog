@@ -1,26 +1,29 @@
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
-import { BiLogInCircle } from "react-icons/bi";
+import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
+
 
 export default function LoginButton() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+
+  console.log('session data', session, status)
   if (session) {
     return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
+        <Tippy content={`Logout ${session.user.email}`} interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+            <button onClick={() => signOut({redirect: false})}>
+                <BiLogOutCircle className="h-7 w-7 text-primary hover:text-accent" />
+            </button>
+        </Tippy>
     )
   }
   return (
     <div>
-     <Tippy content="Login" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
-      <a href='https://gstreet.test/login?callbackUrl=https://blog.gstreet.test/'>
-      {/* <button onClick={() => signIn()}>Sign in</button> */}
-      <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" />
-      </a>
-      </Tippy>
+        <Tippy content="Login" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+            <a href={process.env.NEXTAUTH_REDIRECT}>
+              <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" />
+            </a>
+        </Tippy>
     </div>
   )
 }
