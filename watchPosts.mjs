@@ -2,7 +2,7 @@ import { buildScript } from "./buildRegister.mjs";
 import chokidar from "chokidar";
 
 buildScript();
-// console.log("setting up watcher");
+console.log("setting up watcher");
 
 const watcher = chokidar.watch("./posts", {
     ignored: /(^|[\/\\])\../, // ignore dotfiles
@@ -11,10 +11,10 @@ const watcher = chokidar.watch("./posts", {
 
 watcher
     .on("new", () => {
-        // console.log("new post added");
+        console.log("new post added");
         buildScript();
     })
     .on("change", () => {
-        // console.log("post updated");
+        console.log("post updated");
         buildScript();
     });
