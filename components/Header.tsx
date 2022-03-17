@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import ActiveLogo from "./activeLogo";
 
 const name = "Glenn Streetman";
 export const siteTitle = "Glenn Streetmans Dev Blog";
@@ -22,9 +22,10 @@ export default function Header({ home }) {
             <header>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-3 sm:col-span-2 md:col-span-5">
-                        <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3">
-                            <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} />
-                        </div>
+                        {/* <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3"> */}
+                        <ActiveLogo />
+                            {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
+                        {/* </div> */}
                     </div>
 
                     <div className="col-span-9 sm:col-span-10 md:col-span-7 my-auto">

@@ -1,0 +1,18 @@
+.imgBox {
+    @apply flex flex-row justify-center relative bg-primary h-fit aspect-w-3 aspect-h-3 ;
+}
+
+.imgBox .visable {
+    opacity: 1;
+    -webkit-transition: 2.5s;
+    /* @apply ml-0 mr-0; */
+}
+
+.imgBox .hidden {
+    -webkit-transition: 2.5s;
+    pointer-events: none;
+    @apply opacity-0 absolute;
+}
+
+
+/* h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3 */

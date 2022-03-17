@@ -33,6 +33,8 @@ function DarkModeButton(p: props) {
                         setDarkMode(true);
                     }
                     if (p.secondary) p.secondary();
+                    const event = new CustomEvent('darkEvent')
+                    window.dispatchEvent(event)
                 }}
             >
                 {darkMode ? (
