@@ -17,10 +17,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const useSecureCookies = process.env.NEXTAUTH_URL.startsWith('https://')
-const cookiePrefix = useSecureCookies ? '__Secure-' : ''
-const hostName = new URL(process.env.NEXTAUTH_URL).hostname
-console.log('HOST NAME----------------', hostName, useSecureCookies)
+const useSecureCookies = process.env.NEXTAUTH_URL.startsWith("https://");
+const cookiePrefix = useSecureCookies ? "__Secure-" : "";
+const hostName = new URL(process.env.NEXTAUTH_URL).hostname;
+// console.log('HOST NAME----------------', hostName, useSecureCookies)
 
 export default NextAuth({
     // https://next-auth.js.org/configuration/providers
@@ -100,18 +100,17 @@ export default NextAuth({
         updateAge: 24 * 60 * 60, // 24 hours
     },
     cookies: {
-      sessionToken: 
-      {
-        name: `${cookiePrefix}next-auth.session-token`,
-        options: {
-          httpOnly: true,
-          sameSite: 'lax',
-          path: '/',
-          secure: useSecureCookies,
-          // domain: .gstreet.test 
-          domain: hostName == 'localhost' ? hostName : '.' + hostName // add a . in front so that subdomains are included
-        }
-      },
+        sessionToken: {
+            name: `${cookiePrefix}next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: useSecureCookies,
+                // domain: .gstreet.test
+                domain: hostName == "localhost" ? hostName : "." + hostName, // add a . in front so that subdomains are included
+            },
+        },
     },
 
     // JSON Web tokens are only used for sessions if the `jwt: true` session
