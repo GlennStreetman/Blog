@@ -33,3 +33,15 @@
 .article blockquote {
     @apply bg-secondary text-xs text-accent p-3 rounded-md;
 }
+
+.article table {
+    @apply border-2 m-2 rounded-sm border-solid;
+}
+
+.article th {
+    @apply text-accent font-bold text-lg italic;
+}
+
+.article td {
+    @apply text-primary p-2;
+}
