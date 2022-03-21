@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+    blogserver:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 3000:3000
+        volumes:
+            - ./:/Blog/
+        command: "npm run start"
+volumes:
+    postgres-data:
+        driver: local
