@@ -8,9 +8,7 @@ services:
             - 3000:3000
         volumes:
             - ./:/Blog/
-
-
-        command: 'npm run dev'
+        command: "npm run dev"
 volumes:
     postgres-data:
         driver: local
