@@ -5,8 +5,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         // const authURL = `${process.env.NEXTAUTH_URL}/session`;
         // console.log("login api", authURL);
-        console.log('FETCHING ')
-        const sessionDataRaw = await fetch('https://gstreet.test/api/auth/session');
+        console.log("FETCHING ");
+        const sessionDataRaw = await fetch(`https://${process.env.NEXT_PUBLIC_baseDomain}/api/auth/session`);
         const sessionData = await sessionDataRaw.json();
         console.log("sessiondata", sessionData);
         res.status(200).json(sessionData);
