@@ -9,6 +9,6 @@ services:
         volumes:
             - ./:/Blog/
         command: "npm run dev"
-volumes:
-    postgres-data:
-        driver: local
+# volumes:
+#     postgres-data:
+#         driver: local
