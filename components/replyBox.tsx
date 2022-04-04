@@ -1,0 +1,63 @@
+import { useState } from "react";
+// import { useSession } from "next-auth/react";
+
+interface props {
+    post: string;
+}
+
+function replyBox(p: props) {
+    // const { data: session, status } = useSession();
+    const [comment, setComment] = useState("");
+
+    const updateComment = (e) => {
+        e.preventDefault;
+        setComment(e.target.value);
+    };
+
+    const postComment = (e) => {
+        e.preventDefault;
+
+        const data = {
+            comment: comment,
+            post: p.post,
+        };
+        fetch(`/api/postComment`, {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+    };
+
+    return (
+        <div className="max-w-lg shadow-md">
+            <form action="" className="w-full p-4">
+                <div className="mb-2">
+                    <label className=" text-accent font-bold text-xl py-5 text-lg">Add a comment</label>
+                    <textarea
+                        value={comment}
+                        className="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                        name="comment"
+                        // placeholder=""
+                        onChange={(e) => {
+                            updateComment(e);
+                        }}
+                    ></textarea>
+                </div>
+                <button
+                    className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded"
+                    onClick={(e) => {
+                        postComment(e);
+                    }}
+                >
+                    save
+                </button>
+            </form>
+        </div>
+    );
+}
+
+export default replyBox;

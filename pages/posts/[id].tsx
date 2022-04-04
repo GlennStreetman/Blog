@@ -5,6 +5,7 @@ import { postsRegister, postsComp } from "../../registers/postRegister";
 import Topper from "../../components/topper";
 import BackButton from "../../components/backButton";
 import styles from "./posts.module.css";
+import Comments from "../../components/comment";
 
 export async function getStaticProps({ params }) {
     return {
@@ -65,6 +66,7 @@ export default function PostBody(postData) {
                         <article className={styles.article}>
                             <div>{postsComp[postData.id]()}</div>
                         </article>
+                        <Comments post={postData.id} />
                         <BackButton />
                     </div>
                 </div>

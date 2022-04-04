@@ -9,6 +9,16 @@ services:
         volumes:
             - ./:/Blog/
         command: "npm run dev"
-# volumes:
-#     postgres-data:
-#         driver: local
+    postgresdockerdashboard:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: "${pguser}"
+            POSTGRES_PASSWORD: "${pgpassword}"
+        ports:
+            - 5435:5432
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+volumes:
+    postgres-data:
+        driver: local
