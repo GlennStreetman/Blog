@@ -39,7 +39,7 @@ function comment(p: userPost) {
                 setOpenComment(!openComment);
             }}
         >
-            reply
+            Post Reply
         </ButtonStandard>
     );
 
