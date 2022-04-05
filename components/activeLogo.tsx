@@ -9,11 +9,11 @@ function ActiveLogo() {
     const [darkStyleOn, setDarkStyleOn] = useState(styles.hidden);
     const [lightStyle, setLightStyle] = useState(styles.hidden);
     const [lightStyleOn, setLightStyleOn] = useState(styles.hidden);
-    const [darkModeStatus, setDarkModeStatus] = useState('pass')
-    
+    const [darkModeStatus, setDarkModeStatus] = useState("pass");
+
     useEffect(() => {
-        function changeDarkMode(){
-            console.log('running change dark mode')
+        function changeDarkMode() {
+            console.log("running change dark mode");
             const lightSwitches = {
                 darkOff: setDarkStyle,
                 darkOn: setDarkStyleOn,
@@ -31,31 +31,29 @@ function ActiveLogo() {
                 }
             });
         }
-        
-        console.log('adding storage event listener')
-        window.addEventListener('darkEvent', ()=>{
-            console.log('storage event logged')
-            changeDarkMode()
-        })
 
-        return ()=>{
-            console.log('removing storage event listener')
-            window.removeEventListener('darkEvent', changeDarkMode)
-        }
+        console.log("adding storage event listener");
+        window.addEventListener("darkEvent", () => {
+            console.log("storage event logged");
+            changeDarkMode();
+        });
 
+        return () => {
+            console.log("removing storage event listener");
+            window.removeEventListener("darkEvent", changeDarkMode);
+        };
     }, []);
 
     useEffect(() => {
         if (typeof window !== "undefined" && localStorage) {
             if (localStorage.siteDarkMode == "true") {
-                console.log("setting dark", localStorage.siteDarkMode);
+                // console.log("setting dark", localStorage.siteDarkMode);
                 setDarkStyle(styles.visable);
             } else {
-                console.log("setting light", localStorage.siteDarkMode);
+                // console.log("setting light", localStorage.siteDarkMode);
                 setLightStyle(styles.visable);
             }
         }
-        
     }, []);
 
     const toggleLights = (on: any, num: string) => {
@@ -96,6 +94,5 @@ function ActiveLogo() {
 }
 
 export default ActiveLogo;
-
 
 //h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3
