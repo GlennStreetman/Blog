@@ -32,14 +32,14 @@ function ActiveLogo() {
             });
         }
 
-        console.log("adding storage event listener");
+        // console.log("adding storage event listener");
         window.addEventListener("darkEvent", () => {
             console.log("storage event logged");
             changeDarkMode();
         });
 
         return () => {
-            console.log("removing storage event listener");
+            // console.log("removing storage event listener");
             window.removeEventListener("darkEvent", changeDarkMode);
         };
     }, []);
