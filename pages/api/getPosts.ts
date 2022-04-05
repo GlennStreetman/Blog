@@ -2,16 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Client from "pg";
 import format from "pg-format";
 
-let db = new Client.Client({
-    sslmode: "disable",
-    user: process.env.pguser,
-    host: process.env.pghost,
-    database: process.env.pgdatabase,
-    password: process.env.pgpassword,
-    port: process.env.pgporInternal,
-});
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    let db = new Client.Client({
+        sslmode: "disable",
+        user: process.env.pguser,
+        host: process.env.pghost,
+        database: process.env.pgdatabase,
+        password: process.env.pgpassword,
+        port: process.env.pgporInternal,
+    });
     const post = format(req.query.post);
 
     try {
@@ -26,6 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await db.query(postCommentQuery, (err, rows) => {
             if (err) {
                 console.log("problem getting comments for post", err);
+                db.end();
                 res.status(200).json({});
             } else {
                 const posts = {};
@@ -37,12 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         message: post["usermessage"],
                     };
                 }
-                console.log("--posts--", posts);
+                // console.log("--posts--", posts);
+                db.end();
                 res.status(200).json(posts);
             }
         });
         // res.status(200).json("post complete");
     } catch (err) {
+        db.end();
         console.log("Problem posting message", err);
         res.status(200).json({ message: "failed to retrieve comments" });
     }
