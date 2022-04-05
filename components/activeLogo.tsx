@@ -9,7 +9,7 @@ function ActiveLogo() {
     const [darkStyleOn, setDarkStyleOn] = useState(styles.hidden);
     const [lightStyle, setLightStyle] = useState(styles.hidden);
     const [lightStyleOn, setLightStyleOn] = useState(styles.hidden);
-    const [darkModeStatus, setDarkModeStatus] = useState("pass");
+    // const [darkModeStatus, setDarkModeStatus] = useState("pass");
 
     useEffect(() => {
         function changeDarkMode() {

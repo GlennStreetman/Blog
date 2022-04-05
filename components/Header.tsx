@@ -24,7 +24,7 @@ export default function Header({ home }) {
                     <div className="col-span-3 sm:col-span-2 md:col-span-5">
                         {/* <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3"> */}
                         <ActiveLogo />
-                            {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
+                        {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
                         {/* </div> */}
                     </div>
 
