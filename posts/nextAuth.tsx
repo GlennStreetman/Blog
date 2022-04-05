@@ -27,10 +27,12 @@ const body = function () {
             <h2>gstreet.dev sub domain setup</h2>
 
             <table className="table-auto">
-                <tr>
-                    <th>Domain</th>
-                    <th>Description</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <td>Domain</td>
+                        <td>Description</td>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td>gstreet.dev</td>
