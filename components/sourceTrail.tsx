@@ -3,7 +3,7 @@ import findIcon from "./techIcons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 
-type techType =
+export type techType =
     | "language-javascript"
     | "language-CSS"
     | "language-HTML"

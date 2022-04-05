@@ -17,7 +17,7 @@ interface userPost {
 }
 
 function comment(p: userPost) {
-    const [openComment, setOpenComment] = useState(false);
+    const [openComment, setOpenComment] = useState<boolean>(false);
     const [comments, setComments] = useState<comments>({});
 
     useEffect(() => {
@@ -32,14 +32,14 @@ function comment(p: userPost) {
     }, []);
 
     const replyButton = openComment ? (
-        <ReplyBox post={p.post} />
+        <ReplyBox post={p.post} cancel={setOpenComment} />
     ) : (
         <ButtonStandard
             onClick={() => {
                 setOpenComment(!openComment);
             }}
         >
-            Post Reply
+            <div className="text-accent my-2">Post Reply</div>
         </ButtonStandard>
     );
 

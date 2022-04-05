@@ -7,11 +7,24 @@ import BackButton from "../../components/backButton";
 import styles from "./posts.module.css";
 import Comments from "../../components/comment";
 import ActiveLogo from "../../components/activeLogo";
+import { getSortedProjectData } from "../../lib/projects";
+import SourceTrail from "../../components/sourceTrail";
+import Link from "next/link";
 
 export async function getStaticProps({ params }) {
+    const allProjectData = getSortedProjectData();
+    const filteredProjects = allProjectData.reduce((prev, curr) => {
+        console.log("filtering", curr.id, postsRegister[params.id].project);
+        if (curr.id === postsRegister[params.id].project) {
+            console.log("match");
+            prev.push(curr);
+        }
+        return prev;
+    }, []);
     return {
         props: {
             ...postsRegister[params.id],
+            filteredProjects,
         },
     };
 }
@@ -25,8 +38,6 @@ export async function getStaticPaths() {
 }
 
 export default function PostBody(postData) {
-    const name = "Glenn Streetman";
-
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
@@ -39,9 +50,6 @@ export default function PostBody(postData) {
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-5 sm:col-span-4 md:col-span-3 lg:col-span-3">
                             <ActiveLogo />
-                            {/* <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-2 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3"> */}
-                            {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
-                            {/* </div> */}
                         </div>
 
                         <div className="col-span-7 sm:col-span-8 md:col-span-9 lg:col-span-9 my-auto">
@@ -67,6 +75,34 @@ export default function PostBody(postData) {
                     <div>
                         <article className={styles.article}>
                             <div>{postsComp[postData.id]()}</div>
+
+                            {postData?.filteredProjects?.length > 0 ? <h2>Related Project: </h2> : <></>}
+                            {postData.filteredProjects.map((el) => (
+                                <section key={el.id}>
+                                    <Link href={`/projects/${el.id}`} passHref>
+                                        <div className="shadow rounded-md border-2 p-2 mt-2 outline-4 hover:bg-weak">
+                                            <div className="text-secondary font-heading">{el.project}</div>
+                                            <div className="flex gap-2 my-auto">
+                                                <small className="text-primary">
+                                                    <Date dateString={el.description} />
+                                                </small>
+                                            </div>
+                                            <div>
+                                                <SourceTrail
+                                                    tech={
+                                                        el?.languages
+                                                            ? el.languages.split(",").map(function (item) {
+                                                                  return item.trim();
+                                                              })
+                                                            : []
+                                                    }
+                                                    post={`post-${el.id}`}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </section>
+                            ))}
                         </article>
                         <Comments post={postData.id} />
                         <BackButton />

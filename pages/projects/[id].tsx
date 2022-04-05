@@ -10,6 +10,7 @@ import Link from "next/link";
 import SourceTrail from "../../components/sourceTrail";
 import Date from "../../components/date";
 import ActiveLogo from "../../components/activeLogo";
+import Comments from "../../components/comment";
 
 export async function getStaticProps({ params }) {
     const allPostsData = getSortedPostsData();
@@ -36,8 +37,6 @@ export async function getStaticPaths() {
 }
 
 function projects(projectData) {
-    const name = "Glenn Streetman";
-
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
@@ -49,10 +48,7 @@ function projects(projectData) {
                 <div className={`flex flex-col w-screen sm:w-auto col-span-12 md:col-span-8 p-2 gap-2`}>
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-5 sm:col-span-4 md:col-span-3 lg:col-span-3">
-                            {/* <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-2 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3"> */}
                             <ActiveLogo />
-                            {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
-                            {/* </div> */}
                         </div>
 
                         <div className="col-span-7 sm:col-span-8 md:col-span-9 lg:col-span-9 my-auto">
@@ -89,11 +85,11 @@ function projects(projectData) {
                     <div>
                         <article className={styles.article}>
                             <div>{projectComp[projectData.id]()}</div>
-                            {projectData?.filteredPost?.length > 0 ? <h2>Related Posts: </h2> : <></>}
+                            {projectData?.filteredPosts?.length > 0 ? <h2>Related Posts: </h2> : <></>}
                             {projectData.filteredPosts.map((el) => (
                                 <section key={el.id}>
                                     <Link href={`/posts/${el.id}`} passHref>
-                                        <div className="shadow rounded-md border-2 p-2 outline-4 hover:bg-weak">
+                                        <div className="shadow rounded-md border-2 p-2 mt-2 outline-4 hover:bg-weak">
                                             <div className="text-secondary font-heading">{el.title}</div>
                                             <div className="flex gap-2 my-auto">
                                                 <small className="text-primary">
@@ -115,7 +111,7 @@ function projects(projectData) {
                                 </section>
                             ))}
                         </article>
-
+                        <Comments post={projectData.project} />
                         <BackButton />
                     </div>
                 </div>

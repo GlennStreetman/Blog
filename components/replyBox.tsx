@@ -3,6 +3,7 @@ import { useState } from "react";
 
 interface props {
     post: string;
+    cancel: Function;
 }
 
 function replyBox(p: props) {
@@ -47,14 +48,26 @@ function replyBox(p: props) {
                         }}
                     ></textarea>
                 </div>
-                <button
-                    className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded"
-                    onClick={(e) => {
-                        postComment(e);
-                    }}
-                >
-                    save
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded"
+                        onClick={(e) => {
+                            e.preventDefault;
+                            postComment(e);
+                        }}
+                    >
+                        save
+                    </button>
+                    <button
+                        className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded"
+                        onClick={(e) => {
+                            e.preventDefault;
+                            p.cancel(false);
+                        }}
+                    >
+                        cancel
+                    </button>
+                </div>
             </form>
         </div>
     );
