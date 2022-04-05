@@ -6,6 +6,7 @@ import Topper from "../../components/topper";
 import BackButton from "../../components/backButton";
 import styles from "./posts.module.css";
 import Comments from "../../components/comment";
+import ActiveLogo from "../../components/activeLogo";
 
 export async function getStaticProps({ params }) {
     return {
@@ -36,13 +37,14 @@ export default function PostBody(postData) {
                 <div className={`col-span-0 md:col-span-2`} />
                 <div className={`flex flex-col w-screen sm:w-auto col-span-12 md:col-span-8 p-2 gap-2`}>
                     <div className="grid grid-cols-12 gap-4">
-                        <div className="col-span-2">
-                            <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-2 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3">
-                                <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} />
-                            </div>
+                        <div className="col-span-5 sm:col-span-4 md:col-span-3 lg:col-span-3">
+                            <ActiveLogo />
+                            {/* <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-2 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3"> */}
+                            {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
+                            {/* </div> */}
                         </div>
 
-                        <div className="col-span-10 my-auto">
+                        <div className="col-span-7 sm:col-span-8 md:col-span-9 lg:col-span-9 my-auto">
                             <h1 className="text-accent text-2xl">{postData.title}</h1>
                             <h2 className="text-secondary">
                                 <Date dateString={postData.date} />
