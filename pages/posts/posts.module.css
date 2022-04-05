@@ -38,7 +38,7 @@
     @apply border-2 m-2 rounded-sm border-solid;
 }
 
-.article th {
+.article thead tr td {
     @apply text-accent font-bold text-lg italic;
 }
 
