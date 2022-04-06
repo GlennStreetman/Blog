@@ -15,10 +15,9 @@ function Bottom() {
                     </div>
                     <div className="text-xs sm:text-base ">
                         <a href="mailto:glennstreetman@gmail.com" className="text-accent">
-                            glennstreetman@gmail.com
+                            glenn@gstreet.dev
                         </a>
                     </div>
-                    <div className="text-xs sm:text-base text-primary">858 761 8738</div>
                 </div>
             </div>
         </>
