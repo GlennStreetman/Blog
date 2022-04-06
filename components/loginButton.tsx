@@ -2,7 +2,6 @@ import { useSession, signOut } from "next-auth/react";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
-import pg from "pg";
 
 export default function LoginButton() {
     const { data: session, status } = useSession();
