@@ -10,6 +10,7 @@
     --color-text-accent: #5eead4;
     --color-hover-strong: #155e75;
     --color-hover-weak: #0e7490;
+    --color-line: #ffffff;
 }
 
 .light {
@@ -20,6 +21,7 @@
     --color-text-accent: #6d28d9;
     --color-hover-strong: #a5f3fc;
     --color-hover-weak: #cffafe;
+    --color-line: #000000;
 }
 
 html {

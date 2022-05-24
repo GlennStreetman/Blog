@@ -18,6 +18,7 @@ module.exports = {
             colors: {
                 strong: "var(--color-hover-strong-user, var(--color-hover-strong))",
                 weak: "var(--color-hover-weak-user, var(--color-hover-weak))",
+                line: "var(--color-line)",
             },
             fontFamily: {
                 heading: ["Righteous", "sans-serif"],
