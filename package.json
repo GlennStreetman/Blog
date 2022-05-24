@@ -12,11 +12,6 @@
         "buildp": "docker-compose -f app.prod.yaml up --build "
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.36",
-        "@fortawesome/free-brands-svg-icons": "^5.15.4",
-        "@fortawesome/free-solid-svg-icons": "^5.15.4",
-        "@fortawesome/react-fontawesome": "^0.1.16",
-        "@heroicons/react": "^1.0.5",
         "@next-auth/prisma-adapter": "^1.0.1",
         "@popperjs/core": "^2.11.2",
         "@tailwindcss/aspect-ratio": "^0.4.0",
