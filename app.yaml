@@ -9,23 +9,30 @@ services:
         volumes:
             - ./:/Blog/
         command: "npm run dev"
-    postgresdockerBlog:
+    blogPosts:
         image: postgres
         restart: always
         environment:
             POSTGRES_USER: "${pguser}"
             POSTGRES_PASSWORD: "${pgpassword}"
+        expose:
+            - "5433" # Publishes 5433 to other containers but NOT to host machine
         ports:
-            - 5435:5432
+            - 5435:5433
         volumes:
-            - loginDBVolume:/var/lib/postgresql/data
+            - blogPosts-data:/var/lib/postgresql/data
+        command: -p 5433
     adminer:
         image: adminer
         restart: always
         ports:
             - 8088:8080
         links:
-            - postgresdockerBlog
+            - blogPosts
 volumes:
-    loginDBVolume:
-        external: true
+    blogPosts-data:
+        driver: local
+networks:
+    default:
+        external:
+            name: gstreet
