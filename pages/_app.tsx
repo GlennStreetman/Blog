@@ -1,7 +1,9 @@
 import "../styles/global.css";
 import "../styles/codeBlockFormat.css";
 import { useEffect } from "react";
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from "next-auth/react";
+import Topper from "../components/topper";
+import Bottom from "../components/bottom";
 
 import UserPrefs from "../components/userPrefs";
 
@@ -22,12 +24,14 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
     return (
         <>
-        <SessionProvider session={session}>
-            <UserPrefs />{" "}
-            <div className="font-body pt-7 bg-primary">
-                <Component {...pageProps}> </Component>
-            </div>
+            <SessionProvider session={session}>
+                <UserPrefs />
+                <Topper />
+                <div className="font-body pt-7">
+                    <Component {...pageProps}> </Component>
+                </div>
             </SessionProvider>
+            <Bottom />
         </>
     );
 }

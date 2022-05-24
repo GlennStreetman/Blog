@@ -2,7 +2,6 @@
     "private": true,
     "scripts": {
         "watcher": "node watchPosts.mjs",
-        "buildDB": "node buildDB.mjs",
         "dev": "next dev ",
         "build": "next build",
         "start": "next start",

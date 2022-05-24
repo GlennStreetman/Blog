@@ -1,11 +1,10 @@
 import React from "react";
 import prism from "prismjs";
 import { useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import findIcon from "./techIcons";
+import { IoIosCopy } from "react-icons/io";
 
 interface props {
     language: string;
@@ -18,7 +17,7 @@ function copytext(text: string) {
     navigator.clipboard.writeText(text);
 }
 
-const copyIcon = <FontAwesomeIcon className="text-xl text-secondary active:text-accent" icon={faCopy} />;
+const copyIcon = <IoIosCopy className="text-xl text-secondary active:text-accent" />;
 
 function CodeBlock(p: props) {
     useEffect(() => {

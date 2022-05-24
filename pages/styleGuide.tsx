@@ -1,20 +1,12 @@
 import React from "react";
-import dynamic from "next/dynamic";
 import ColorPallet from "../components/colorPallet";
-import Link from "next/link";
-import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
-import BackButton from "../components/backButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
-import Topper from "./../components/topper";
-
-const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
+import DarkModeButton from "../components/darkModeButton";
+import Thembutton from "../components/themeButton";
 
 function styleGuide() {
     return (
         <>
-            <Topper />
             <div className={`min-h-screen bg-primary`}>
                 <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                     <div className={`col-span-0 md:col-span-3`} />
@@ -68,8 +60,8 @@ function styleGuide() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex justify-center">
-                            <BackButton></BackButton>
+                        <div className="flex justify-center mt-2">
+                            <Thembutton text="Back to Colors" />
                         </div>
                     </div>
                     <div className={`col-span-0 md:col-span-3`} />

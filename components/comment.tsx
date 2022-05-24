@@ -3,7 +3,6 @@ import ButtonStandard from "./buttonStandard";
 import ReplyBox from "./replyBox";
 import ShowComments from "./showComments";
 import { useSession } from "next-auth/react";
-import { BiLogInCircle } from "react-icons/bi";
 
 interface comment {
     userid: string;
@@ -28,7 +27,7 @@ function comment(p: userPost) {
         const fetchData = async () => {
             const data = await fetch(`/api/getPosts?post=${p.post}`);
             const commentData = await data.json();
-            setComments(commentData);
+            if (commentData.message === "success") setComments(commentData.posts);
         };
 
         fetchData();
@@ -58,13 +57,9 @@ function comment(p: userPost) {
         </div>
     );
 
-    console.log("status", status);
-
     return (
         <>
-            <div>
-                <ShowComments comments={comments} />{" "}
-            </div>
+            <div>{Object.keys(comments).length > 0 ? <ShowComments comments={comments} /> : <></>}</div>
             <div>{status === "authenticated" ? replyButton : loginLink}</div>
         </>
     );

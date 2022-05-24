@@ -1,8 +1,7 @@
 import React from "react";
 import { getAllProjectIds } from "../../lib/projects";
 import styles from "./projects.module.css";
-import BackButton from "../../components/backButton";
-import Topper from "../../components/topper";
+import HomeButton from "../../components/HomeButton";
 import { projectRegister, projectComp } from "../../registers/projectRegister";
 import Head from "next/head";
 import { getSortedPostsData } from "../../lib/posts";
@@ -11,6 +10,7 @@ import SourceTrail from "../../components/sourceTrail";
 import Date from "../../components/date";
 import ActiveLogo from "../../components/activeLogo";
 import Comments from "../../components/comment";
+import HoverSurface from "../../components/hoverSurface";
 
 export async function getStaticProps({ params }) {
     const allPostsData = getSortedPostsData();
@@ -42,7 +42,6 @@ function projects(projectData) {
             <Head>
                 <title>{projectData.project}</title>
             </Head>
-            <Topper />
             <div className="grid grid-cols-12 gap-6 mb-auto text-xs sm:text-base">
                 <div className={`col-span-0 md:col-span-2`} />
                 <div className={`flex flex-col w-screen sm:w-auto col-span-12 md:col-span-8 p-2 gap-2`}>
@@ -87,32 +86,42 @@ function projects(projectData) {
                             <div>{projectComp[projectData.id]()}</div>
                             {projectData?.filteredPosts?.length > 0 ? <h2>Related Posts: </h2> : <></>}
                             {projectData.filteredPosts.map((el) => (
-                                <section key={el.id}>
-                                    <Link href={`/posts/${el.id}`} passHref>
-                                        <div className="shadow rounded-md border-2 p-2 mt-2 outline-4 hover:bg-weak">
-                                            <div className="text-secondary font-heading">{el.title}</div>
-                                            <div className="flex gap-2 my-auto">
-                                                <small className="text-primary">
-                                                    <Date dateString={el.date} />
-                                                </small>
-                                                <SourceTrail
-                                                    tech={
-                                                        el?.languages
-                                                            ? el.languages.split(",").map(function (item) {
-                                                                  return item.trim();
-                                                              })
-                                                            : []
-                                                    }
-                                                    post={`post-${el.id}`}
-                                                />
-                                            </div>
-                                        </div>
-                                    </Link>
+                                <section className="mt-2" key={el.id}>
+                                    <HoverSurface>
+                                        <Link href={`/posts/${el.id}`} passHref>
+                                            <a>
+                                                {/* <div className="shadow rounded-md border-2 p-2 mt-2 outline-4 hover:bg-weak"> */}
+                                                <h2>{el.title}</h2>
+                                                <div className="flex gap-2 my-auto">
+                                                    <small className="text-primary">
+                                                        <Date dateString={el.date} />
+                                                    </small>
+                                                    <SourceTrail
+                                                        tech={
+                                                            el?.languages
+                                                                ? el.languages.split(",").map(function (item) {
+                                                                      return item.trim();
+                                                                  })
+                                                                : []
+                                                        }
+                                                        post={`post-${el.id}`}
+                                                    />
+                                                </div>
+                                                {/* </Link> </div> */}
+                                            </a>
+                                        </Link>
+                                    </HoverSurface>
                                 </section>
                             ))}
                         </article>
-                        <Comments post={projectData.project} />
-                        <BackButton />
+                        <div className="mt-2">
+                            <Comments post={projectData.project} />
+                        </div>
+                        <div className="flex mt-2">
+                            <HomeButton text="Home" />
+                        </div>
+                        {/* <Comments post={projectData.project} />
+                        <HomeButton>Back</HomeButton> */}
                     </div>
                 </div>
                 <div className={`col-span-0 md:col-span-2`} />

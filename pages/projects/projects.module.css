@@ -3,11 +3,11 @@
 }
 
 .article h1 {
-    @apply text-accent font-bold text-xl py-5;
+    @apply text-accent font-bold text-xl py-5 tracking-wide;
 }
 
 .article h2 {
-    @apply text-secondary font-bold text-lg;
+    @apply text-secondary font-bold text-lg tracking-wide;
 }
 
 .article p {

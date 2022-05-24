@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (err) {
                 console.log("problem getting comments for post", err);
                 db.end();
-                res.status(200).json({});
+                res.status(500).json({ message: "problem getting comments" });
             } else {
                 const posts = {};
                 for (const row in rows.rows) {
@@ -37,15 +37,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         message: post["usermessage"],
                     };
                 }
-                // console.log("--posts--", posts);
                 db.end();
-                res.status(200).json(posts);
+                res.status(200).json({ message: "success", posts });
             }
         });
-        // res.status(200).json("post complete");
     } catch (err) {
         db.end();
-        console.log("Problem posting message", err);
-        res.status(200).json({ message: "failed to retrieve comments" });
+        console.log("Problem getting message", err);
+        res.status(500).json({ message: "failed to retrieve comments" });
     }
 }

@@ -1,7 +1,4 @@
 import React from "react";
-import Button from "../components/buttonStandard";
-import IconButton from "./iconButton";
-import { AdjustmentsIcon } from "@heroicons/react/solid";
 
 function ColorPallet() {
     return (

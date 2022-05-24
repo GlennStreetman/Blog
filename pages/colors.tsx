@@ -1,13 +1,11 @@
 import React from "react";
 import tailColors from "../registers/tailwindsColors";
 import { useState, useEffect } from "react";
-import UserPrefs from "../components/userPrefs";
 import Button from "../components/buttonStandard";
-import BackButton from "../components/backButton";
+import HomeButton from "../components/HomeButton";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faToilet, faEye } from "@fortawesome/free-solid-svg-icons";
-import Topper from "./../components/topper";
+import { GiCancel } from "react-icons/gi";
+import { AiOutlineEye } from "react-icons/ai";
 
 import dynamic from "next/dynamic";
 const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
@@ -260,7 +258,7 @@ function colors() {
                         <div>
                             <Button onClick={() => {}}>
                                 <div className="my-auto">
-                                    <FontAwesomeIcon icon={faEye} />{" "}
+                                    <AiOutlineEye />
                                 </div>
                                 <div className="my-auto">Review</div>
                             </Button>
@@ -274,7 +272,7 @@ function colors() {
                         }}
                     >
                         <div className="my-auto">
-                            <FontAwesomeIcon icon={faToilet} />{" "}
+                            <GiCancel />
                         </div>
                         <div className="my-auto">RESET</div>
                     </Button>
@@ -312,8 +310,6 @@ function colors() {
 
     return (
         <>
-            <Topper />
-            <UserPrefs />
             <div className={`min-h-screen bg-primary content-center grid grid-cols-12 `}>
                 <div className="col-span-1" />
                 <div className="col-span-10 m-auto">{selectionGrid}</div>
@@ -322,8 +318,8 @@ function colors() {
                 <div className="col-span-10 m-auto">{colorGrid}</div>
                 <div className="col-span-1" />
                 <div className="col-span-1" />
-                <div className="col-span-10 m-auto">
-                    <BackButton />
+                <div className="col-span-10 m-auto mt-2">
+                    <HomeButton text="Return home" />
                 </div>
                 <div className="col-span-1" />
             </div>
