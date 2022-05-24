@@ -22,13 +22,21 @@
     --color-hover-weak: #cffafe;
 }
 
-html,
+html {
+    @apply bg-primary min-h-screen;
+}
+
+#__next {
+    @apply min-h-screen relative;
+}
+
 body {
     padding: 0;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     line-height: 1.6;
     font-size: 18px;
+    @apply min-h-screen;
 }
 
 * {
@@ -40,9 +48,9 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+/* a:hover {
     text-decoration: underline;
-}
+} */
 
 img {
     max-width: 100%;
