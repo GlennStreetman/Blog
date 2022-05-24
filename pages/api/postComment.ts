@@ -6,8 +6,8 @@ import format from "pg-format";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // dotenv.config();
     const session = await getSession({ req });
-    const comment = format(req.body.comment);
-    const post = format(req.body.post);
+    const comment = format.string(req.body.comment);
+    const post = format.string(req.body.post);
 
     let db = new Client.Client({
         sslmode: "disable",
