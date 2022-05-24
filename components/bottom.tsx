@@ -9,7 +9,7 @@ function Bottom() {
                 <a className="text-primary " href="https://github.com/GlennStreetman" target="_blank">
                     <VscGithub className="h-7 w-7 text-primary hover:text-accent" />
                 </a>
-                <a className="text-xs sm:text-base text-accent" href="mailto:glennstreetman@gmail.com">
+                <a className="text-xs sm:text-base text-primary hover:text-accent" href="mailto:glennstreetman@gmail.com">
                     glenn@gstreet.dev
                 </a>
             </div>
