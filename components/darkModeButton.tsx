@@ -1,21 +1,22 @@
-import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
-import { faSun } from "@fortawesome/free-solid-svg-icons";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
+import { BiMoon, BiSun } from "react-icons/bi";
 
 interface props {
     secondary?: Function;
 }
 
 function DarkModeButton(p: props) {
-    const [darkMode, setDarkMode] = useState(Object.values(document.documentElement.classList).includes("dark"));
+    const [darkMode, setDarkMode] = useState(true);
+
+    useEffect(() => {
+        setDarkMode(Object.values(document.documentElement.classList).includes("dark"));
+    }, [darkMode]);
 
     return (
         <div className="my-auto">
             <button
+                className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1"
                 onClick={() => {
                     if (darkMode) {
                         document.documentElement.classList.add("light");
@@ -33,22 +34,18 @@ function DarkModeButton(p: props) {
                         setDarkMode(true);
                     }
                     if (p.secondary) p.secondary();
-                    const event = new CustomEvent('darkEvent')
-                    window.dispatchEvent(event)
+                    const event = new CustomEvent("darkEvent");
+                    window.dispatchEvent(event);
                 }}
             >
                 {darkMode ? (
-                    <div>
-                        <Tippy content="Toggle Dark Mode" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
-                            <div><FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faSun} /></div>
-                        </Tippy>
-                    </div>
+                    // <div className="m-auto">
+                    <BiSun className="h-7 w-7 text-primary hover:text-accent" />
                 ) : (
-                    <div>
-                        <Tippy content="Toggle Dark Mode" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
-                            <div><FontAwesomeIcon className="h-7 w-7 text-primary hover:text-accent" icon={faMoon} /></div>
-                        </Tippy>
-                    </div>
+                    // </div>
+                    // <div className="m-auto">
+                    <BiMoon className="h-7 w-7 text-primary hover:text-accent" />
+                    // </div>
                 )}
             </button>
         </div>
