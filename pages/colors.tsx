@@ -6,14 +6,15 @@ import HomeButton from "../components/HomeButton";
 import Link from "next/link";
 import { GiCancel } from "react-icons/gi";
 import { AiOutlineEye } from "react-icons/ai";
-
-import dynamic from "next/dynamic";
-const DarkModeButton = dynamic(() => import("../components/darkModeButton"), { ssr: false });
+import UserPrefs from "../components/userPrefs";
+import DarkModeButton from "../components/darkModeButton";
+import { useRouter } from "next/router";
 
 function colors() {
     const [editCategory, setEditCategory] = useState("primaryText");
     const [editColor, setEditColor] = useState("");
     const [reset, setReset] = useState(1); //set to rerender page
+    const router = useRouter();
 
     useEffect(() => {
         if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
@@ -79,6 +80,9 @@ function colors() {
         delete localStorage.textAccentL;
         delete localStorage.highlightStrongL;
         delete localStorage.highlightWeakL;
+        setEditCategory("primaryText");
+        setEditColor("");
+        router.push("/colors");
     }
 
     function setCustomColor(color) {
@@ -285,7 +289,7 @@ function colors() {
         const row = Object.entries(val).map(([key2, val]) => {
             return (
                 <div
-                    key={key2}
+                    key={`${key2}${reset}`}
                     className={`flex flex-col p-2 hover:bg-strong rounded-md ${val === editColor ? "border-red-700 border-4" : ""}`}
                     onClick={() => {
                         setCustomColor(val);
@@ -299,7 +303,7 @@ function colors() {
         });
 
         return (
-            <div key={key1} className="grid grid-cols-12">
+            <div key={`${key1}${reset}`} className="grid grid-cols-12">
                 <div className="col-span-1 text-primary m-auto">{key1}</div>
                 <div className="col-span-11">
                     <div className="flex">{row}</div>
@@ -310,6 +314,7 @@ function colors() {
 
     return (
         <>
+            <UserPrefs />
             <div className={`min-h-screen bg-primary content-center grid grid-cols-12 `}>
                 <div className="col-span-1" />
                 <div className="col-span-10 m-auto">{selectionGrid}</div>

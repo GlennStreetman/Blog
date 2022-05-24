@@ -14,7 +14,8 @@ function styleGuide() {
                         <div className="flex flex-col shadow rounded-md border-2 relative p-3 gap-2">
                             <ColorPallet />
                             <div className="flex absolute top-0 right-0 p-3 gap-2">
-                                <div>
+                                <div className="flex gap-2">
+                                    <Thembutton />
                                     <DarkModeButton />
                                 </div>
                             </div>
