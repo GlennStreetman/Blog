@@ -1,16 +1,19 @@
-import { getAllPostIds } from "../../lib/posts";
 import Head from "next/head";
-import Date from "../../components/date";
-import postsRegister from "../../lib/buildRegister";
-import HomeButton from "../../components/HomeButton";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+
 import styles from "./posts.module.css";
+
+import { getAllPostIds } from "../../lib/posts";
+import postsRegister from "../../lib/buildRegister";
+import { getSortedProjectData } from "../../lib/projects";
+
+import HomeButton from "../../components/HomeButton";
 import Comments from "../../components/comment";
 import ActiveLogo from "../../components/activeLogo";
-import { getSortedProjectData } from "../../lib/projects";
+import Date from "../../components/date";
 import SourceTrail from "../../components/sourceTrail";
-import Link from "next/link";
 import HoverSurface from "../../components/hoverSurface";
-import dynamic from "next/dynamic";
 
 export async function getStaticProps({ params }) {
     const register = postsRegister();

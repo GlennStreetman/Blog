@@ -1,11 +1,15 @@
 import React from "react";
-import { getAllProjectIds } from "../../lib/projects";
-import styles from "./projects.module.css";
-import HomeButton from "../../components/HomeButton";
-import { projectRegister, projectComp } from "../../registers/projectRegister";
 import Head from "next/head";
-import { getSortedPostsData } from "../../lib/posts";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+import styles from "./projects.module.css";
+
+import { getAllProjectIds } from "../../lib/projects";
+import { getSortedPostsData } from "../../lib/posts";
+import buildProjects from "../../lib/buildProjects";
+
+import HomeButton from "../../components/HomeButton";
 import SourceTrail from "../../components/sourceTrail";
 import Date from "../../components/date";
 import ActiveLogo from "../../components/activeLogo";
@@ -13,6 +17,7 @@ import Comments from "../../components/comment";
 import HoverSurface from "../../components/hoverSurface";
 
 export async function getStaticProps({ params }) {
+    const allProjects = buildProjects();
     const allPostsData = getSortedPostsData();
     const filteredPosts = allPostsData.reduce((prev, curr) => {
         if (curr.project === params.id) {
@@ -22,7 +27,7 @@ export async function getStaticProps({ params }) {
     }, []);
     return {
         props: {
-            ...projectRegister[params.id],
+            ...allProjects[params.id],
             filteredPosts,
         },
     };
@@ -37,6 +42,7 @@ export async function getStaticPaths() {
 }
 
 function projects(projectData) {
+    const DynamicBody = dynamic(() => import(`../../projects/${projectData.id}.mdx`));
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
@@ -83,7 +89,7 @@ function projects(projectData) {
                     </div>
                     <div>
                         <article className={styles.article}>
-                            <div>{projectComp[projectData.id]()}</div>
+                            <DynamicBody />
                             {projectData?.filteredPosts?.length > 0 ? <h2>Related Posts: </h2> : <></>}
                             {projectData.filteredPosts.map((el) => (
                                 <section className="mt-2" key={el.id}>

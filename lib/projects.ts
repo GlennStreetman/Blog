@@ -1,7 +1,8 @@
-import { projectRegister } from "../registers/projectRegister";
+import buildProjects from "../lib/buildProjects";
 
 export function getSortedProjectData() {
-    return Object.values(projectRegister).sort(({ date: a }, { date: b }) => {
+    console.log("build projects", buildProjects());
+    return Object.values(buildProjects()).sort(({ date: a }, { date: b }) => {
         if (a < b) {
             return 1;
         } else if (a > b) {
@@ -13,7 +14,7 @@ export function getSortedProjectData() {
 }
 
 export function getAllProjectIds() {
-    return Object.values(projectRegister).map((register) => {
+    return Object.values(buildProjects()).map((register) => {
         return {
             params: {
                 id: register.id,
