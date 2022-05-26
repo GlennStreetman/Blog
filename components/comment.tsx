@@ -25,9 +25,14 @@ function comment(p: userPost) {
     useEffect(() => {
         //get all comments related to this post.
         const fetchData = async () => {
+            console.log("getting post data");
             const data = await fetch(`/api/getPosts?post=${p.post}`);
             const commentData = await data.json();
-            if (commentData.message === "success") setComments(commentData.posts);
+            if (commentData.message === "success") {
+                setComments(commentData.posts);
+            } else {
+                console.log("Problem retrieving posts");
+            }
         };
 
         fetchData();

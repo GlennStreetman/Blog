@@ -1,7 +1,7 @@
-import { postsRegister } from "../registers/postRegister";
+import postsRegister from "../lib/buildRegister";
 
 export function getSortedPostsData() {
-    return Object.values(postsRegister).sort(({ date: a }, { date: b }) => {
+    return Object.values(postsRegister()).sort(({ date: a }, { date: b }) => {
         if (a < b) {
             return 1;
         } else if (a > b) {
@@ -13,7 +13,7 @@ export function getSortedPostsData() {
 }
 
 export function getAllPostIds() {
-    return Object.values(postsRegister).map((register) => {
+    return Object.values(postsRegister()).map((register) => {
         return {
             params: {
                 id: register.id,

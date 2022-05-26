@@ -1,7 +1,6 @@
-import { getAllPostIds } from "../../lib/posts";
 import Head from "next/head";
 import Date from "../../components/date";
-import postsRegister from "../../lib/buildRegister";
+import postsRegister from "./../../lib/buildRegister";
 import HomeButton from "../../components/HomeButton";
 import styles from "./posts.module.css";
 import Comments from "../../components/comment";
@@ -10,7 +9,6 @@ import { getSortedProjectData } from "../../lib/projects";
 import SourceTrail from "../../components/sourceTrail";
 import Link from "next/link";
 import HoverSurface from "../../components/hoverSurface";
-import dynamic from "next/dynamic";
 
 export async function getStaticProps({ params }) {
     const register = postsRegister();
@@ -29,16 +27,7 @@ export async function getStaticProps({ params }) {
     };
 }
 
-export async function getStaticPaths() {
-    const paths = getAllPostIds();
-    return {
-        paths,
-        fallback: false,
-    };
-}
-
-export default function PostBody(postData) {
-    const DynamicBody = dynamic(() => import(`../../posts/${postData.id}.mdx`));
+export default function PostView(postData) {
     return (
         <div className="min-h-screen bg-primary ">
             <Head>
@@ -73,9 +62,7 @@ export default function PostBody(postData) {
                     </div>
                     <div>
                         <article className={styles.article}>
-                            <div className="article">
-                                <DynamicBody />
-                            </div>
+                            <div>{postData.children}</div>
                             {postData?.filteredProjects?.length > 0 ? <h2 className="mt-2">Related Project: </h2> : <></>}
                             {postData.filteredProjects.map((el) => (
                                 <section className="mt-2" key={el.id}>

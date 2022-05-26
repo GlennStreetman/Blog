@@ -1,0 +1,37 @@
+import CodeBlock from "../components/codeBlock2";
+import Meta from "../components/meta";
+
+<Meta
+    text={`
+@start
+    id: test
+    title: test
+    date: 2022-03-17
+    type: notes
+    dependancies: Nextjsv12.0.9, NextAuthv4.2.1
+    languages: language-Next
+    project: Blog
+@end
+`}
+/>
+
+# Test
+
+Test  
+[google](https://www.google.com)
+
+<CodeBlock language="language-javascript" file="./posts/examplePost.js" code={`/*
+    @start
+    id: TailwindNotes
+    title: Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS
+    date: 2022-01-01
+    type: notes
+    dependancies: Tailwinds v3.08, Next v12.0.7, React v17.0.2
+    repo: https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example
+    @end
+*/
+
+import CodeBlock from "../components/codeBlock";
+
+const body = function () {...blog stuff}
+export default body;`} />
