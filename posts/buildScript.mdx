@@ -1,316 +1,41 @@
 import CodeBlock from "../components/codeBlock2";
-import Meta from "../components/meta";
 
-<Meta
-    text={`
-@start
-    id: buildScript
-    title: Dynamicly importing javascript modules using a custom build script & Next.js
-    date: 2022-01-18
-    type: notes
-    dependancies: Tailwinds v3.08, Next v12.0.7, React v17.0.2
-    repo: https://github.com/GlennStreetman/Blog
-    languages: language-NPM,language-Next
-    project: Blog
-@end
-`}
-/>
+export const Meta = {
+    id: "buildScript",
+    title: "MDX Dynamic import and parsing Meta data.",
+    date: "2022-01-18",
+    type: "notes",
+    dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
+    repo: "https://github.com/GlennStreetman/Blog",
+    languages: "language-NPM,language-Next",
+    project: "Blog",
+};
 
-## The setup:
+## The Problem:
 
 The [Next.js tutorial](https://nextjs.org/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website)
-guides you through building a simple blog using Next.js. The tutorial uses [Grey Matter](https://www.npmjs.com/package/gray-matter), a library that parses{" "}
-[metadata](https://nextjs.org/learn/basics/assets-metadata-css/metadata) stored at the top of .md markdown files. In the tutorial, the metadata is used to sort and categorize blog posts. The parsed
-files can then be used as the body content for blog posts. The .md blog post files are then available using Next.js's dynamic routes. Markdown
-files do have limits though, they aren't JS modules so you cant embed react components inside of them without help from additional libraries. My
-preference is to write JS modules, instead of markdown files, so that I can include working component examples, highlighted code block, and add
-javascript as necessary.
+guides you through building a simple blog using Next.js. The tutorial uses [Grey Matter](https://www.npmjs.com/package/gray-matter), a library that parses
+[metadata](https://nextjs.org/learn/basics/assets-metadata-css/metadata) stored at the top of .md markdown files. In the Next.js tutorial, metadata is used to sort and categorize blog posts.
+The .md files, used in the tutorial, are not javascript though so you can't include javascript directly in your blog posts. [MDX](https://mdxjs.com/) fills this gap, allowing javascript to be imported
+into markdown files (.mdx), but MDX does not support Grey Matter without using plugings. In this post we will use an easy work-around to include Grey Matter style markdown in MDX files, without including
+any additional libraries or pluggins.
 
-## The problem:
+## Create a .mdx file, and export a component named meta:
 
-Using Javascript modules for my blog but keeping the dynamic import feature of greymatter markdown files. [The Next.js docs](https://nextjs.org/docs/advanced-features/dynamic-import) state the
-following:
-
-> Note: In import('path/to/component'), the path <b className="text-secondary">must be explicitly written. It can't be a template string nor a variable.</b>{" "}
-> Furthermore the import() has to be inside the dynamic() call for Next.js to be able to match webpack bundles / module ids to the specific dynamic() call and
-> preload them before rendering. dynamic() can't be used inside of React rendering as it needs to be marked in the top level of the module for preloading to
-> work, similar to React.lazy.
-> [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import)
-
-This turns out to be a bit of a problem. Without some additional work I cant dynamicaly import modules. To make matters worse I didn't see a
-clear way to use Grey Matter to parse comments in Javascript. The simplist way i could find to import my blog posts was to maintain a register
-file that exported all of my components and metadata. This is only a few minutes work at the backend of each blog post but giving up dynamic
-imports wasnt something i wanted to do. What if i wanted to create thousands of blog posts and start a blogging empire? In 2022? Seems unlikely
-but lets solve the problem anyways.
-
-## The Solution:
-
-To solve this problem i decided to write my own Javascript metadata markup at the top of each blog post. I would then write a simple parser that
-would read each blog post in the ./blog directory and use the metadata to write a register.ts javascript module at build time. I would still be
-able to use metadata and the work of maintaining a blog post registration file would be automated. I would also eliminate the greymatter
-dependancy.
-
-## The markup
-
-At the top of each blog post file i added some simple markup. The parse that shown in the next step will look for this comment block. Shown
-below is the metadata for this post.
-
-<CodeBlock language="language-javascript" file="./posts/examplePost.js" code={`/*
-    @start
-    id: TailwindNotes
-    title: Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS
-    date: 2022-01-01
-    type: notes
-    dependancies: Tailwinds v3.08, Next v12.0.7, React v17.0.2
-    repo: https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example
-    @end
-*/
-
-import CodeBlock from "../components/codeBlock";
-
-const body = function () {...blog stuff}
-export default body;
-`} />
-
-## The parsing script:
-
-The parser would need to:
-
-1. Iterate through each file in the ./posts directory
-2. Parse the metadata
-   en after all files are parsed, write the register file.
-
-It's definitly a bit ugly but hopefully i wont need to look at it again for a bit. Note that the script should be saved as a .mjs file. /n is
-telling the parser to insert a new line. The rest of the magic is just simple file system operations and javascript string methods.
-
-<CodeBlock language="language-javascript" file="./buildRegister.mjs" code={`import fs from "fs";
-
-export const buildScript = function () {
-    console.log("rebuilding register");
-    const files = fs.readdirSync("./posts/");
-    const regex = /\r?\\n/g; //new line
-    const allFilesMetaData = {};
-
-    try {
-        files.forEach((filePath) => {
-            //for each file
-            const file = fs.readFileSync(\`./posts/\${filePath}\`).toString();
-            let run = false;
-            const writeList = [];
-            file.split(regex).every((el) => {
-                //for each line
-                if (el.includes("@start")) {
-                    //start script
-                    run = true;
-                    return true;
-                } else if (el.includes("@end")) {
-                    //end script
-                    run = false;
-                    return false;
-                } else if (run === true) {
-                    //parse metadata
-                    writeList.push(el);
-                    return true;
-                }
-                return true;
-            });
-
-            const metaData = writeList.reduce((reducer, el) => {
-                //conver meta data in to key/value object
-                let [key, ...value] = el.split(":"); // split the string, at first instance of ':' into a key [value] pair.
-                key = key.trim();
-                value = value.join(":").trim();
-                reducer[key] = value;
-                return reducer;
-            }, {});
-            metaData["sourceFile"] = filePath; //add source file to meta data.
-            const fileName = filePath.slice(0, filePath.indexOf(".")); //remove file extension
-            allFilesMetaData[fileName] = metaData;
-        });
-
-        let imports = "";
-        const typeScript = \`interface post {
-    id: string;
-    title: string;
-    date: string;
-    type: string;
-    dependancies: string;
-    repo: string;
-    sourceFile: string;
-
-}
-
-interface allPosts {
-[key: string]: post;
-}\`;
-let head = \`export const postsRegister: allPosts = \${JSON.stringify(allFilesMetaData)}\`;
-let body = "";
-
-        Object.keys(allFilesMetaData).forEach((key) => {
-            imports = imports + \`import \${key} from '../posts/\${key}'; \\n\`;
-            body = body + \`\${key}:  \${key}, \\n\`;
-        });
-
-        body = \`export const postsComp = { \\n \${body} }\`;
-
-        const writeText = imports + "\\n" + typeScript + "\\n" + head + "\\n" + body; //combine it all together.
-        fs.writeFileSync("./registers/postRegister.ts", writeText); //write the file.
-        console.log("Build Complete");
-    } catch (error) {
-        console.log("---REGISTER BUILD FAILED---: ", error);
-    }
-
-};`} />
-
-## Creating a script runner
-
-Now we need a way to run the script. We could run the script each time we start our server but that doesn't yield the best development
-experience. Let's use [Chokidar](https://www.npmjs.com/package/concurrently), a file system watching package, to run the script each time there is a change to the /posts directory
-
-<CodeBlock language="language-NPM" file="Console" code={`>  npm install chokidar`} />
-
-<CodeBlock language="language-javascript" file="./watchPosts.mjs" code={`import { buildScript } from "./buildRegister.mjs";
-import chokidar from "chokidar";
-
-buildScript();
-console.log("setting up watcher");
-
-const watcher = chokidar.watch("./posts", {
-ignored: /(^|[\/\\])\../, // ignore dotfiles
-persistent: true,
-});
-
-watcher
-.on("new", () => {
-console.log("new post added");
-buildScript();
-})
-.on("change", () => {
-console.log("post updated");
-buildScript();
-});
-`} />
-
-## Register your script to package.json
-
-'npm run watcher' will keep the "watcher" running in the background. Anytime it detects a file change, Next.js will automaticaly reflect the
-change. If you prefer you can always use the library like [Concurrently](https://www.npmjs.com/package/concurrently) to run both "watcher" & "dev" at the same time.
+MDX allows you to export javascript objects from markdown files. In each .mdx file, export your metadata as a javascript object. Add any metadata you plan on using for your blog or wiki.
 
 <CodeBlock
-    language="language-JSON"
-    file="./package.json"
-    code={`    "scripts": {
-        "watcher": "node watchPosts.mjs",
-        "dev": "next dev ",
-        "build": "next build",
-        "start": "next start"
-        ...
-    },`}
+    language="language-javascript"
+    code={`export const Meta = {
+    id: "buildScript",
+    title: "MDX Dynamic import and parsing Meta data.",
+    date: "2022-01-18",
+    type: "notes",
+    dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
+    repo: "https://github.com/GlennStreetman/Blog",
+    languages: "language-NPM,language-Next",
+    project: "Blog",
+};`}
 />
 
-Shown below is an example of the buildRegister.mjs output for my first two blog posts. The postRegister export contains all of the post meta
-data and postComp contains references to each posts body module.
-
-<CodeBlock language="language-javascript" file="./registers/postRegister.ts" code={`import buildScript from "../posts/buildScript";
-import TailwindNotes from "../posts/TailwindNotes";
-
-export const postsRegister = {
-    buildScript: {
-        id: "buildScript",
-        title: "Custom Build Script",
-        date: "2022-18-01",
-        type: "notes",
-        dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
-        repo: "false",
-        sourceFile: "buildScript.tsx",
-    },
-    TailwindNotes: {
-        id: "TailwindNotes",
-        title: "Next.js Custom Dark Mode Theme using CSS Variables & Tailwind CSS",
-        date: "2022-01-01",
-        type: "notes",
-        dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
-        repo: "https",
-        sourceFile: "TailwindNotes.tsx",
-    },
-};
-export const postsComp = {
-    buildScript: buildScript,
-    TailwindNotes: TailwindNotes,
-};`} />
-
-Create a few functions to get and sort get post id's & sort post data.
-
-<CodeBlock language="language-javascript" file="./components/posts.js" code={`import { postsRegister } from "../registers/postRegister";
-
-export function getSortedPostsData() {
-    return Object.values(postsRegister).sort(({ date: a }, { date: b }) => {
-        if (a < b) {
-            return 1;
-        } else if (a > b) {
-            return -1;
-        } else {
-            return 0;
-        }
-    });
-}
-
-export function getAllPostIds() {
-    return Object.values(postsRegister).map((register) => {
-        return {
-            params: {
-                id: register.id,
-            },
-        };
-    });
-}`} />
-
-Include the sorted post data to my home page getStaticProps().
-
-<CodeBlock language="language-javascript" file="./pages/_app.js" code={`
-import { useEffect } from "react";
-import UserPrefs from "../components/userPrefs";
-
-export default function App({ Component, pageProps }) {
-
-    return (
-        <>
-            <UserPrefs />{" "}
-            <div className="font-body pt-7 bg-primary">
-                <Component {...pageProps}> </Component>
-            </div>
-        </>
-    );
-
-}`} />
-
-And finaly add static paths to the dynamic posts page.
-
-<CodeBlock language="language-javascript" file="./pages/[id].js" code={`import { postsRegister, postsComp } from "../../registers/postRegister";
-
-    export async function getStaticProps({ params }) {
-        return {
-            props: {
-                ...postsRegister[params.id],
-            },
-        };
-    }
-
-    export async function getStaticPaths() {
-        const paths = getAllPostIds();
-        return {
-            paths,
-            fallback: false,
-        };
-    }
-
-    export default function PostBody(postData) {
-        const name = "Glenn Streetman";
-
-        return (
-            <div className="min-h-screen bg-primary ">
-                <Head>
-                    <title>{postData.title}</title>
-                </Head> ....
-
-            `} />
+## The Solution:

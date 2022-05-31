@@ -1,8 +1,8 @@
 import buildProjects from "../lib/buildProjects";
 
-export function getSortedProjectData() {
-    console.log("build projects", buildProjects());
-    return Object.values(buildProjects()).sort(({ date: a }, { date: b }) => {
+export async function getSortedProjectData() {
+    const projects = await buildProjects();
+    return Object.values(projects).sort(({ date: a }, { date: b }) => {
         if (a < b) {
             return 1;
         } else if (a > b) {
@@ -13,8 +13,9 @@ export function getSortedProjectData() {
     });
 }
 
-export function getAllProjectIds() {
-    return Object.values(buildProjects()).map((register) => {
+export async function getAllProjectIds() {
+    const projects = await buildProjects();
+    return Object.values(projects).map((register) => {
         return {
             params: {
                 id: register.id,

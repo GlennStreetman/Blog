@@ -1,18 +1,15 @@
 import CodeBlock from "../components/codeBlock2";
-import Meta from "../components/meta";
 
-<Meta
-    text={`
-@start
-    id: FinnDash
-    project: FinnDash
-    description: A single page web application for designing dashboards, building & sharing dataset with GraphQL, and Excel Templating using Finnhub.io API data. The front end uses React with Redux and is styled with MaterialUi. The back end is deployed using Docker-Compose. HTTP requests are handled by Express. Account data is saved in Postgres. Caching is handled by MongoDB. Datasets can be shared using GraphQL. Testing is performed using Jest & Testing Library. Hosted on AWS EC2.
-    repo: https://github.com/GlennStreetman/finnHub-Dashboard
-    languages: language-typescript,language-React,language-Redux,language-Express,language-Postgres,language-MongoDB,language-GraphQL,language-MaterialUI,language-Jest,language-testingLibrary,language-docker
-live: https://finndash.gstreet.dev
-    @end
-`}
-/>
+export const Meta = {
+    id: "FinnDash",
+    project: "FinnDash",
+    description:
+        "A single page web application for designing dashboards, building & sharing dataset with GraphQL, and Excel Templating using Finnhub.io API data. The front end uses React with Redux and is styled with MaterialUi. The back end is deployed using Docker-Compose. HTTP requests are handled by Express. Account data is saved in Postgres. Caching is handled by MongoDB. Datasets can be shared using GraphQL. Testing is performed using Jest & Testing Library. Hosted on AWS EC2.",
+    repo: "https://github.com/GlennStreetman/finnHub-Dashboard",
+    languages:
+        "language-typescript,language-React,language-Redux,language-Express,language-Postgres,language-MongoDB,language-GraphQL,language-MaterialUI,language-Jest,language-testingLibrary,language-docker",
+    live: "https://finndash.gstreet.dev",
+};
 
 # Description
 

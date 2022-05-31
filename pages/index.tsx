@@ -5,8 +5,8 @@ import { getSortedProjectData } from "../lib/projects";
 import Gutter from "../components/gutter";
 
 export async function getStaticProps() {
-    const allPostsData = getSortedPostsData();
-    const allProjectData = getSortedProjectData();
+    const allPostsData = await getSortedPostsData();
+    const allProjectData = await getSortedProjectData();
     return {
         props: {
             allPostsData,

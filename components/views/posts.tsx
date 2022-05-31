@@ -11,8 +11,8 @@ import Link from "next/link";
 import HoverSurface from "../../components/hoverSurface";
 
 export async function getStaticProps({ params }) {
-    const register = postsRegister();
-    const allProjectData = getSortedProjectData();
+    const register = await postsRegister();
+    const allProjectData = await getSortedProjectData();
     const filteredProjects = allProjectData.reduce((prev, curr) => {
         if (curr.id === register[params.id].project) {
             prev.push(curr);

@@ -17,8 +17,9 @@ import Comments from "../../components/comment";
 import HoverSurface from "../../components/hoverSurface";
 
 export async function getStaticProps({ params }) {
-    const allProjects = buildProjects();
-    const allPostsData = getSortedPostsData();
+    const allProjects = await buildProjects();
+    const allPostsData = await getSortedPostsData();
+    // @ts-ignore
     const filteredPosts = allPostsData.reduce((prev, curr) => {
         if (curr.project === params.id) {
             prev.push(curr);
@@ -34,7 +35,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = getAllProjectIds();
+    const paths = await getAllProjectIds();
     return {
         paths,
         fallback: false,
