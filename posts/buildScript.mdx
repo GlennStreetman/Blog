@@ -28,14 +28,14 @@ The Next.js docs do offer somewhat vague hint on how to add Grey Matter style hi
 > [Source: Using MDX](https://nextjs.org/docs/advanced-features/using-mdx#frontmatter)
 
 This is a bit vague and leaves it up to you to figure out how to implement gray-matter style metadata in your .MDX files.
-After you gather up all of your metadata what do you do with it?. Along the way i ran into some cryptic debugging messages genered by
+After you gather up all of your metadata what do you do with it?. Along the way [I ran](https://www.youtube.com/watch?v=iIpfWORQWhU) into some cryptic debugging messages genered by
 the nextjs implementation of MDX. Hopefuly this post will help you avoid some of these pitfalls. What is an acorn?
 
 <Image layout="intrinsic" src="/acorn.jpg" width={700} height={200} />
 
 ## Creating a function to parse my metadata.
 
-After converting all of my blog posts to .mdx files and adding a metadata export, I created a function that would parse each .mdx file in the posts directory and return it's metadata.  
+After converting all of my blog posts to .mdx files and adding a metadata export, I created a function that would parse each .mdx file in the posts directory and return it's metadata.
 Note that importing a module in the body of a function is asynchronous.
 
 <CodeBlock language="language-javascript" file="/lib/buildPosts.js" code={`import fs from "fs";
@@ -143,4 +143,4 @@ export default function PostBody(postData) {
 ## Now my posts are created using .mdx files, use grey-matter style metadata, and can include JSX components.
 
 Now each /posts/\*.mdx route has the same layout/view, can access its own metadata, find the metadata for any related projects, and using javascript components. Creating and editing
-posts should be a simple task going forward.
+posts should be a simple task going forward. See the source code for this [blog](https://github.com/GlennStreetman/Blog) to see how everything is done.
