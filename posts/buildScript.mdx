@@ -1,8 +1,9 @@
 import CodeBlock from "../components/codeBlock2";
+import Image from "next/image";
 
 export const Meta = {
     id: "buildScript",
-    title: "MDX Dynamic import and parsing Meta data.",
+    title: "Next.js Blogs/Wiki posts using front-matter style metadata and predefined views/layouts",
     date: "2022-01-18",
     type: "notes",
     dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
@@ -17,25 +18,129 @@ The [Next.js tutorial](https://nextjs.org/learn/basics/create-nextjs-app?utm_sou
 guides you through building a simple blog using Next.js. The tutorial uses [Grey Matter](https://www.npmjs.com/package/gray-matter), a library that parses
 [metadata](https://nextjs.org/learn/basics/assets-metadata-css/metadata) stored at the top of .md markdown files. In the Next.js tutorial, metadata is used to sort and categorize blog posts.
 The .md files, used in the tutorial, are not javascript though so you can't include javascript directly in your blog posts. [MDX](https://mdxjs.com/) fills this gap, allowing javascript to be imported
-into markdown files (.mdx), but MDX does not support Grey Matter without using plugings. In this post we will use an easy work-around to include Grey Matter style markdown in MDX files, without including
-any additional libraries or pluggins.
+into markdown files (.mdx), but MDX does not support Grey Matter without using plugings.
 
-## Create a .mdx file, and export a component named meta:
+The Next.js docs do offer somewhat vague hint on how to add Grey Matter style hints if you want to use MDX:
 
-MDX allows you to export javascript objects from markdown files. In each .mdx file, export your metadata as a javascript object. Add any metadata you plan on using for your blog or wiki.
+> @next/mdx does not support frontmatter by default, though there are many solutions for  
+> adding frontmatter to your MDX content, such as gray-matter.  
+> To access page metadata with @next/mdx, you can export a meta object from within the .mdx file:  
+> [Source: Using MDX](https://nextjs.org/docs/advanced-features/using-mdx#frontmatter)
 
-<CodeBlock
-    language="language-javascript"
-    code={`export const Meta = {
-    id: "buildScript",
-    title: "MDX Dynamic import and parsing Meta data.",
-    date: "2022-01-18",
-    type: "notes",
-    dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
-    repo: "https://github.com/GlennStreetman/Blog",
-    languages: "language-NPM,language-Next",
-    project: "Blog",
-};`}
-/>
+This is a bit vague and leaves it up to you to figure out how to implement gray-matter style metadata in your .MDX files.
+After you gather up all of your metadata what do you do with it?. Along the way i ran into some cryptic debugging messages genered by
+the nextjs implementation of MDX. Hopefuly this post will help you avoid some of these pitfalls. What is an acorn?
 
-## The Solution:
+<Image layout="intrinsic" src="/acorn.jpg" width={700} height={200} />
+
+## Creating a function to parse my metadata.
+
+After converting all of my blog posts to .mdx files and adding a metadata export, I created a function that would parse each .mdx file in the posts directory and return it's metadata.  
+Note that importing a module in the body of a function is asynchronous.
+
+<CodeBlock language="language-javascript" file="/lib/buildPosts.js" code={`import fs from "fs";
+
+    const buildPosts = function () {
+        return new Promise(async (res, rej) => {
+            const files = fs.readdirSync("./posts/");
+            const allFilesMetaData: allPosts = {};
+            try {
+                const readFiles = files.map((filePath) => {
+                    return new Promise(async (res, rej) => {
+                        const { Meta } = await import(\`/posts/\${filePath}\`);
+                        allFilesMetaData[filePath.replace(".mdx", "")] = Meta;
+                        res(true);
+                    });
+                });
+                Promise.all(readFiles).then(() => {
+                    res(allFilesMetaData);
+                });
+            } catch (error) {
+                console.log("---Build Posts failed--: ", error);
+                rej(false);
+            }
+        });
+    };
+
+export default buildPosts;`} />
+
+## Sort my posts
+
+With my metadata setup and a function that could extra it, i created a function to sort my posts based on date and
+a second function to find all post ids.
+
+<CodeBlock language="language-javascript" file="/lib/posts.js" code={`import postsRegister from "../lib/buildRegister";
+
+export async function getSortedPostsData() {
+    return new Promise(async (res, rej) => {
+        const posts = await postsRegister();
+        const sorted = Object.values(posts).sort(({ date: a }, { date: b }) => {
+            if (a < b) {
+                return 1;
+            } else if (a > b) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+        res(sorted);
+    });
+}
+
+export async function getAllPostIds() {
+    return new Promise(async (res, rej) => {
+        const posts = await postsRegister();
+        const IDs = Object.values(posts).map((register) => {
+            return {
+                params: {
+                    id: register.id,
+                },
+            };
+        });
+        res(IDs);
+    });
+}`} />
+
+## Use dynamic routes to wrap each post in a consitent layout.
+
+I decided that the easiest way to add a consistent layout to each blog post would be to use a dynamic route.
+Useing a dynamic route i wouldn't need to go through a process in each .mdx file of importing a custom layout component,
+creating the layout component in the .mdx file, then re-exporting the layout component with the body of the .mdx file defined as a child.
+Note that the code exmple below also references a function that sorts my project metadata.
+
+<CodeBlock language="language-javascript" file="/pages/posts/[id].js" code={`import { getAllPostIds } from "../../lib/posts";
+import postsRegister from "../../lib/buildRegister";
+
+export async function getStaticProps({ params }) {
+    const register = await postsRegister();
+    const allProjectData = await getSortedProjectData();
+    const filteredProjects = allProjectData.reduce((prev, curr) => {
+        if (curr.id === register[params.id].project) {
+            prev.push(curr);
+        }
+        return prev;
+    }, []);
+    return {
+        props: {
+            ...register[params.id],
+            filteredProjects,
+        },
+    };
+}
+
+export async function getStaticPaths() {
+    const paths = await getAllPostIds();
+    return {
+        paths,
+        fallback: false,
+    };
+}
+
+export default function PostBody(postData) {
+    const DynamicBody = dynamic(() => import(\`../../posts/\${postData.id}.mdx\`));
+    return (<div> ...formatting <DynamicBody /> ...formatting </div>  )`} />
+
+## Now my posts are created using .mdx files, use grey-matter style metadata, and can include JSX components.
+
+Now each /posts/\*.mdx route has the same layout/view, can access its own metadata, find the metadata for any related projects, and using javascript components. Creating and editing
+posts should be a simple task going forward.
