@@ -25,7 +25,7 @@ The Next.js docs do offer a somewhat vague hint on how to add Grey Matter style 
 > @next/mdx does not support frontmatter by default, though there are many solutions for  
 > adding frontmatter to your MDX content, such as gray-matter.  
 > To access page metadata with @next/mdx, you can export a meta object from within the .mdx file:  
-> [Source: Using MDX](https://nextjs.org/docs/advanced-features/using-mdx#frontmatter)
+> Source [Using MDX](https://nextjs.org/docs/advanced-features/using-mdx#frontmatter)
 
 This is a bit vague and leaves it up to you to figure out how to implement gray-matter style metadata in your .MDX files.
 After you gather up all of your metadata what do you do with it?. Along the way [I ran](https://www.youtube.com/watch?v=iIpfWORQWhU) into some cryptic debugging messages genered by
@@ -33,7 +33,7 @@ the nextjs implementation of MDX. Hopefuly this post will help you avoid some of
 
 <Image layout="intrinsic" src="/acorn.jpg" width={700} height={200} />
 
-## Creating a function to parse my metadata.
+## Creating a function to parse my metadata:
 
 After converting all of my blog posts to .mdx files and adding a metadata export, I created a function that would parse each .mdx file in the posts directory and return it's metadata.
 Note that importing a module in the body of a function is asynchronous.
@@ -64,7 +64,7 @@ Note that importing a module in the body of a function is asynchronous.
 
 export default buildPosts;`} />
 
-## Sort my posts
+## Sort my posts:
 
 With my metadata setup and a function that could extra it, i created a function to sort my posts based on date and
 a second function to find all post ids.
@@ -101,7 +101,7 @@ export async function getAllPostIds() {
     });
 }`} />
 
-## Use dynamic routes to wrap each post in a consistent layout.
+## Use dynamic routes to wrap each post in a consistent layout:
 
 I decided that the easiest way to add a consistent layout to each blog post would be to use a dynamic route.
 Useing a dynamic route i wouldn't need to go through a process in each .mdx file of importing a custom layout component,
@@ -134,7 +134,7 @@ export default function PostBody(postData) {
     const DynamicBody = dynamic(() => import(\`../../posts/\${postData.id}.mdx\`));
     return (<div> ...formatting <DynamicBody /> ...formatting </div>  )`} />
 
-## Now my posts are created using .mdx files, use grey-matter style metadata, and can include JSX components.
+## Now my posts are created using .mdx files, use grey-matter style metadata, and can include JSX components:
 
 Now each /posts/\*.mdx route has the same layout/view, can access its metadata for use in its view, and include javascript components directly in the markdown file. Creating and editing
 posts should be a simple task going forward. See the source code for this [blog](https://github.com/GlennStreetman/Blog) to see how everything is done.
