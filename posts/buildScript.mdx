@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const Meta = {
     id: "buildScript",
-    title: "Next.js Blogs/Wiki posts using front-matter style metadata and predefined views/layouts",
+    title: "Recipe: Next.js Blog/Wiki + MDX + Metadata",
     date: "2022-01-18",
     type: "notes",
     dependancies: "Tailwinds v3.08, Next v12.0.7, React v17.0.2",
@@ -20,7 +20,7 @@ guides you through building a simple blog using Next.js. The tutorial uses [Grey
 The .md files, used in the tutorial, are not javascript though so you can't include javascript directly in your blog posts. [MDX](https://mdxjs.com/) fills this gap, allowing javascript to be imported
 into markdown files (.mdx), but MDX does not support Grey Matter without using plugings.
 
-The Next.js docs do offer somewhat vague hint on how to add Grey Matter style hints if you want to use MDX:
+The Next.js docs do offer a somewhat vague hint on how to add Grey Matter style hints if you want to use MDX:
 
 > @next/mdx does not support frontmatter by default, though there are many solutions for  
 > adding frontmatter to your MDX content, such as gray-matter.  
@@ -101,31 +101,25 @@ export async function getAllPostIds() {
     });
 }`} />
 
-## Use dynamic routes to wrap each post in a consitent layout.
+## Use dynamic routes to wrap each post in a consistent layout.
 
 I decided that the easiest way to add a consistent layout to each blog post would be to use a dynamic route.
 Useing a dynamic route i wouldn't need to go through a process in each .mdx file of importing a custom layout component,
 creating the layout component in the .mdx file, then re-exporting the layout component with the body of the .mdx file defined as a child.
-Note that the code exmple below also references a function that sorts my project metadata.
 
 <CodeBlock language="language-javascript" file="/pages/posts/[id].js" code={`import { getAllPostIds } from "../../lib/posts";
 import postsRegister from "../../lib/buildRegister";
+import dynamic from "next/dynamic";
 
 export async function getStaticProps({ params }) {
     const register = await postsRegister();
-    const allProjectData = await getSortedProjectData();
-    const filteredProjects = allProjectData.reduce((prev, curr) => {
-        if (curr.id === register[params.id].project) {
-            prev.push(curr);
-        }
-        return prev;
-    }, []);
     return {
         props: {
             ...register[params.id],
-            filteredProjects,
+
         },
     };
+
 }
 
 export async function getStaticPaths() {
@@ -142,5 +136,5 @@ export default function PostBody(postData) {
 
 ## Now my posts are created using .mdx files, use grey-matter style metadata, and can include JSX components.
 
-Now each /posts/\*.mdx route has the same layout/view, can access its own metadata, find the metadata for any related projects, and using javascript components. Creating and editing
+Now each /posts/\*.mdx route has the same layout/view, can access its metadata for use in its view, and include javascript components directly in the markdown file. Creating and editing
 posts should be a simple task going forward. See the source code for this [blog](https://github.com/GlennStreetman/Blog) to see how everything is done.

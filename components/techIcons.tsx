@@ -15,7 +15,7 @@ import {
     SiTestinglibrary,
     SiDocker,
 } from "react-icons/si";
-import { FaHtml5, FaNodeJs, FaNpm } from "react-icons/fa";
+import { FaHtml5, FaNodeJs, FaNpm, FaAws } from "react-icons/fa";
 
 const findIcon = {
     "language-javascript": <SiJavascript className="  left-2 text-xl text-[#f68333] " />,
@@ -36,6 +36,7 @@ const findIcon = {
     "language-NPM": <FaNpm className="  text-xl text-[#3C873A] " />,
     "language-testingLibrary": <SiTestinglibrary className="  text-xl text-[#e43534] " />,
     "language-docker": <SiDocker className="  text-xl text-[#2391e6] " />,
+    "language-AWS": <FaAws className="  text-xl text-[#FF9900] " />,
 };
 
 export default findIcon;
