@@ -107,10 +107,10 @@ export default function PostBody(postData) {
                                 </section>
                             ))}
                         </article>
-                        <div className="mt-2">
+                        <div className="mt-4">
                             <Comments post={postData.id} />
                         </div>
-                        <div className="flex mt-2">
+                        <div className="flex mt-4">
                             <HomeButton text="Home" />
                         </div>
                     </div>
