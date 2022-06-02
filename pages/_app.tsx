@@ -30,6 +30,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
                 <div className="font-body pt-7">
                     <Component {...pageProps}> </Component>
                 </div>
+                <div className="h-4" />
             </SessionProvider>
             <Bottom />
         </>

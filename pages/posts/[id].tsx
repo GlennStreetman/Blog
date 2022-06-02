@@ -56,10 +56,12 @@ export default function PostBody(postData) {
                         </div>
                         <div className="col-span-7 sm:col-span-8 md:col-span-9 lg:col-span-9 my-auto">
                             <h1 className="text-accent text-2xl">{postData.title}</h1>
+                            {postData.oneliner ? <div className="text-primary font-extralight text-sm tracking-wide ">{postData.oneliner}</div> : <></>}
+
                             <h2 className="text-secondary">
                                 <Date dateString={postData.date} />
                             </h2>
-                            <h3 className="text-primary">{postData.dependancies}</h3>
+                            <h3 className="text-primary">Requirements: {postData.dependancies}</h3>
                             {postData.repo ? (
                                 <h3 className="text-primary">
                                     <a

@@ -3,16 +3,17 @@ import CodeBlock from "../components/codeBlock2";
 export const Meta = {
     id: "sshProfile",
     title: "Getting started with SSH",
+    oneliner: "and a few tips to make life easier.",
     date: "2022-05-31",
     type: "notes",
-    dependancies: "",
+    dependancies: "Bash, SSH Server",
     languages: "language-Bash",
-    project: "autohaus",
 };
 
 ## Prerequisites:
 
-This article assumes you are using Bash.
+This article assumes you are using Bash and that you have a remote machine with some sort of SSH server installed running on the default port 22.
+The default ssh server will be refered to as jump in this article.
 If you are on Linux you are likely good to go for this tutorial.
 If you are on windows install [Gitbash](https://git-scm.com/download/win) and use it to run all commands.
 Note that tilde(~), in reference to file paths, is the home directory for a user.
@@ -30,9 +31,8 @@ git conflicts if I do something out of order. Jumping through SSH boxes can get 
 
 Connecting to a host using SSH can be done with either password authentication or a Private/Public key pair. They public key can be freely shared, the private key you never share. Many hosts have
 password authentication disabled for security reasons. As a result i strongly recommend you always useing public/private key authentication when using SSH. If you don't already have a public/private key pair
-you can create one with the command below.  
--C allows you to add a description.  
-Make sure to enter a passphrase for your key.
+you can create one with the command below. Make sure to enter a passphrase for your key. In this example the key file is saved as new_key.  
+-C allows you to add a description.
 
 <CodeBlock language="language-Bash" file="BASH>" code={`> ssh-keygen -C "bob-desktop"`} />
 
@@ -68,10 +68,10 @@ Open your ssh config file and add a new host:
 
 Going forward typing "ssh jump" will connect to 192.168.0.102 on port 22.
 
-## SSH Agent:
+## [SSH Agent](https://www.ssh.com/academy/ssh/agent):
 
 Opening SSH connections repeatedly requires entering ssh passwords on each connection, and for each command you remotely run.
-Using SSH agent you can enter your ssh password once per window then open as many connections as you want without having to re-enter the password.
+Using [SSH agent](https://www.ssh.com/academy/ssh/agent) you can enter your ssh password once per window then open as many connections as you want without having to re-enter the password.
 In order to use ssh-agent you first need to start it up.
 
 <CodeBlock language="language-Bash" file="BASH>" code={`> eval $(ssh-agent)`} />
@@ -92,12 +92,11 @@ I added a user defined function, that i can run from my bash terminal, by adding
     file="~/.bashrc"
     code={`function ssha {
     if [ -n "\$1" ]; then
-        runKey=\$1p
-        IDKEY=\$(ls ~/.ssh/ -1 | grep -v pub | sed -n 2p)
+        IDKEY=\$(ls ~/.ssh/ -1 | grep -v pub  | head -\$1 | tail -1)
         eval \$(ssh-agent)
         ssh-add ~/.ssh/\${IDKEY}
     else
-        echo "Append key number to ssha command to add key to ssh agent"
+        echo "Append key number to ssha to add key to ssh agent"
         ls ~/.ssh/ -1 | grep -v pub | nl;
     fi
 }`}
