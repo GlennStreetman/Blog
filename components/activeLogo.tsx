@@ -1,5 +1,6 @@
 import styles from "./activeLogo.module.css";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 function ActiveLogo() {
     const [darkStyle, setDarkStyle] = useState(styles.hidden);
@@ -69,16 +70,40 @@ function ActiveLogo() {
     return (
         <div className={styles.imgBox}>
             <div className={darkStyle}>
-                <img id="darkOff" src="/gstreetDarkOff.png" alt="logo" onMouseOver={() => toggleLights("darkOn", "1")} />
+                <Image width={1080} height={1080} layout="responsive" src="/gstreetDarkOff.png" alt="logo" onMouseOver={() => toggleLights("darkOn", "1")} />
             </div>
             <div className={darkStyleOn}>
-                <img id="darkOn" src="/gstreetDarkOn.png" alt="logo" onMouseLeave={() => toggleLights("darkOff", "2")} />
+                <Image
+                    width={1080}
+                    height={1080}
+                    layout="responsive"
+                    id="darkOn"
+                    src="/gstreetDarkOn.png"
+                    alt="logo"
+                    onMouseLeave={() => toggleLights("darkOff", "2")}
+                />
             </div>
             <div className={lightStyle}>
-                <img id="lightOff" src="/gstreetLightOff.png" alt="logo" onMouseOver={() => toggleLights("lightOn", "3")} />
+                <Image
+                    width={1080}
+                    height={1080}
+                    layout="responsive"
+                    id="lightOff"
+                    src="/gstreetLightOff.png"
+                    alt="logo"
+                    onMouseOver={() => toggleLights("lightOn", "3")}
+                />
             </div>
             <div className={lightStyleOn}>
-                <img id="lightOn" src="/gstreetLightOn.png" alt="logo" onMouseLeave={() => toggleLights("lightOff", "4")} />
+                <Image
+                    width={1080}
+                    height={1080}
+                    layout="responsive"
+                    id="lightOn"
+                    src="/gstreetLightOn.png"
+                    alt="logo"
+                    onMouseLeave={() => toggleLights("lightOff", "4")}
+                />
             </div>
         </div>
     );
