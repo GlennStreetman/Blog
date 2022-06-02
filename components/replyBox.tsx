@@ -6,7 +6,7 @@ interface props {
     cancel: Function;
 }
 
-function replyBox(p: props) {
+function ReplyBox(p: props) {
     // const { data: session, status } = useSession();
     const [comment, setComment] = useState("");
 
@@ -73,4 +73,4 @@ function replyBox(p: props) {
     );
 }
 
-export default replyBox;
+export default ReplyBox;

@@ -18,7 +18,7 @@ function mapUser(user) {
     return userMap;
 }
 
-function loginStatus() {
+function LoginStatus() {
     const [thisSession, setThisSession] = useState<sessionInt>({});
 
     useEffect(() => {
@@ -39,4 +39,4 @@ function loginStatus() {
     return <div>{thisSession?.user ? mapUser(thisSession.user) : "No user"}</div>;
 }
 
-export default loginStatus;
+export default LoginStatus;

@@ -10,7 +10,7 @@ import UserPrefs from "../components/userPrefs";
 import DarkModeButton from "../components/darkModeButton";
 import { useRouter } from "next/router";
 
-function colors() {
+function Colors() {
     const [editCategory, setEditCategory] = useState("primaryText");
     const [editColor, setEditColor] = useState("");
     const [reset, setReset] = useState(1); //set to rerender page
@@ -332,4 +332,4 @@ function colors() {
     );
 }
 
-export default colors;
+export default Colors;

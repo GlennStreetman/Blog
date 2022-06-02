@@ -17,7 +17,7 @@ interface userPost {
     post: string;
 }
 
-function comment(p: userPost) {
+function Comment(p: userPost) {
     const { data: session, status } = useSession();
     const [openComment, setOpenComment] = useState<boolean>(false);
     const [comments, setComments] = useState<comments>({});
@@ -70,4 +70,4 @@ function comment(p: userPost) {
     );
 }
 
-export default comment;
+export default Comment;

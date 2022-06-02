@@ -4,7 +4,7 @@ import { formatPhone, stripPhone, validPhone } from "../lib/formatPhone";
 
 import React from "react";
 
-function labeledInputExample() {
+function LabeledInputExample() {
     const [phone, setPhone] = useState("");
     const [phoneHelp, setPhoneHelp] = useState("");
 
@@ -52,4 +52,4 @@ function labeledInputExample() {
     );
 }
 
-export default labeledInputExample;
+export default LabeledInputExample;

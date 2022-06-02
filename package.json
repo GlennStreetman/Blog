@@ -7,7 +7,8 @@
         "dUp": "docker-compose -f app.yaml up",
         "buildd": "docker-compose -f app.yaml up --build ",
         "pUp": "docker-compose -f app.prod.yaml up",
-        "buildp": "docker-compose -f app.prod.yaml up --build "
+        "buildp": "docker-compose -f app.prod.yaml up --build ",
+        "lint": "next lint"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",
@@ -44,6 +45,7 @@
         "@types/node": "^17.0.5",
         "@types/react": "^17.0.38",
         "autoprefixer": "^10.4.1",
+        "eslint-config-next": "12.1.6",
         "postcss": "^8.4.5",
         "prisma": "^3.10.0",
         "tailwindcss": "^3.0.8",
