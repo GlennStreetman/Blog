@@ -1,5 +1,6 @@
 import Head from "next/head";
 import ActiveLogo from "./activeLogo";
+import Link from "next/link";
 
 const name = "Glenn Streetman";
 export const siteTitle = "Glenn Streetmans Dev Blog";
@@ -22,16 +23,33 @@ export default function Header({ home }) {
             <header>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-3 sm:col-span-2 md:col-span-5">
-                        {/* <div className="h-full aspect-w-3 aspect-h-3 sm:aspect-w-3 sm:aspect-h-4 md:aspect-w-3 md:aspect-h-3 lg:aspect-h-2 lg:aspect-w-3"> */}
                         <ActiveLogo />
-                        {/* <img className="object-cover shadow-lg rounded-lg" src="/images/profile.jpg" alt={name} /> */}
-                        {/* </div> */}
                     </div>
-
                     <div className="col-span-9 sm:col-span-10 md:col-span-7 my-auto">
-                        <div className="flex align-middle ">
+                        <div className="flex flex-col align-middle  tracking-wide gap-1">
                             <h1 className="text-primary">
-                                <b>{name}</b>: Full Stack Web Developer with a background in Financial Systems Implementations, San Diego, CA
+                                <b>{name}:</b> Full Stack Web Developer with a background in Financial Systems Implementations
+                            </h1>
+                            <h1 className="text-primary">
+                                <b>Location:</b> San Diego, California
+                            </h1>
+                            <h1 className="text-primary">
+                                <b>Reading: </b>
+                                <a
+                                    className="text-xs sm:text-base text-primary hover:text-accent"
+                                    href="https://github.com/opsdisk/the_cyber_plumbers_handbook"
+                                >
+                                    Cyber Plumbers Handbook
+                                </a>
+                            </h1>
+                            <h1 className="text-primary">
+                                <b>Building: </b>
+                                <a className="text-xs sm:text-base text-primary hover:text-accent" href="autohaus.gstreet.dev">
+                                    Autohaus
+                                </a>
+                            </h1>
+                            <h1 className="text-primary">
+                                <b>Status:</b> Looking for Group
                             </h1>
                         </div>
                     </div>
@@ -39,8 +57,4 @@ export default function Header({ home }) {
             </header>
         </div>
     );
-}
-
-{
-    /* <Image priority src="/images/profile.jpg" className="rounded-full" height={144} width={144} alt={name} /> */
 }
