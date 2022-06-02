@@ -2,18 +2,189 @@ import CodeBlock from "../components/codeBlock2";
 
 export const Meta = {
     id: "sshProfile",
-    title: "Setting up an SSH profile, taking your SSH prfile with you..",
+    title: "Getting started with SSH",
     date: "2022-05-31",
     type: "notes",
     dependancies: "",
-    languages: "language-javascript",
+    languages: "language-Bash",
     project: "autohaus",
 };
 
-## The setup:
+## Prerequisites:
 
-adsfasdfasdf
+This article assumes you are using Bash.
+If you are on Linux you are likely good to go for this tutorial.
+If you are on windows install [Gitbash](https://git-scm.com/download/win) and use it to run all commands.
+Note that tilde(~), in reference to file paths, is the home directory for a user.
 
-## The problem:
+## SSH:
 
-asdfadsfadsf
+I use virtual machines & containers for all of my developer workflows. My deployments are hosted in Amazon [EC2](https://aws.amazon.com/pm/ec2/) virtual machines and the individual services
+are containerized in [docker](https://www.docker.com/). As much as possible i try and build local development environments that are as similar as possible to my production envvironments.
+My Amazon EC2 deployments use virtualized Ubuntu Server instances so my local development environment does the same on a local hypervisor. When i need to diagnose problems
+with my EC2 deployment I connect to them using [SSH](https://en.wikipedia.org/wiki/Secure_Shell) & I do the same for my local environment. Because i shell into my dev environment
+whenever I move between my desktop and laptop i simly open my shell from my new location and pick up directly where i left off. I'm never having to juggle git commits/pulls and having to worry about resolving
+git conflicts if I do something out of order. Jumping through SSH boxes can get to be a bit arduous so here are some tricks to make the experience a bit better.
+
+## SSH Key Pairs:
+
+Connecting to a host using SSH can be done with either password authentication or a Private/Public key pair. They public key can be freely shared, the private key you never share. Many hosts have
+password authentication disabled for security reasons. As a result i strongly recommend you always useing public/private key authentication when using SSH. If you don't already have a public/private key pair
+you can create one with the command below.  
+-C allows you to add a description.  
+Make sure to enter a passphrase for your key.
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> ssh-keygen -C "bob-desktop"`} />
+
+The above command generated two files, the one ending in .pub is your public key and can be freely shared.
+Now that your keys have been generated lets copy our public key to our first destination.  
+-i first: public key to be copied second: user/address to be copied too.
+-p add this if ssh is not running on port 22. ex -p 2222
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> ssh-copy-id -i ~/.ssh/new_key.pub bob@192.168.102`} />
+
+You can now login to 192.168.0.102 using your private key, shown below. Note that we are specifying the private key this time.
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> ssh-i ~/.ssh/new_key bob@192.168.102`} />
+
+## SSH config file:
+
+Having to specify keys and destinations can get tiring. You can create a shortcut by updating your ssh config file.
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> touch ~/.ssh/config`} />
+
+Open your ssh config file and add a new host:
+
+<CodeBlock
+    language="language-Bash"
+    file="~/.ssh/config"
+    code={`HOST jump                         # new shortcut
+    HostName 192.168.0.102        # can use IP address or domain name.
+    user bob                      # user on target machine where ssh public key was copied to in previous step
+    Port 22                       # defined on target machine in /etc/ssh/sshd_config (Linux)
+    IdentityFile ~/.ssh/new_key   # SSH private key, created in previous step.
+`}
+/>
+
+Going forward typing "ssh jump" will connect to 192.168.0.102 on port 22.
+
+## SSH Agent:
+
+Opening SSH connections repeatedly requires entering ssh passwords on each connection, and for each command you remotely run.
+Using SSH agent you can enter your ssh password once per window then open as many connections as you want without having to re-enter the password.
+In order to use ssh-agent you first need to start it up.
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> eval $(ssh-agent)`} />
+
+Then you can add your keys
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> ssh-add ~/.ssh/new_key`} />
+After running the above command you will be prompted for your password. Once you have entered it you wont need to enter it again as long as the terminal window stays
+open.
+
+## Streamlining SSH Agent by updating your .bashrc file:
+
+Once you start to deal with more than a couple of ssh RSA keys adding your keys to ssh agent can become a bit clumsy.
+I added a user defined function, that i can run from my bash terminal, by adding the function definition to my ~/.bashrc file.
+
+<CodeBlock
+    language="language-Bash"
+    file="~/.bashrc"
+    code={`function ssha {
+    if [ -n "\$1" ]; then
+        runKey=\$1p
+        IDKEY=\$(ls ~/.ssh/ -1 | grep -v pub | sed -n 2p)
+        eval \$(ssh-agent)
+        ssh-add ~/.ssh/\${IDKEY}
+    else
+        echo "Append key number to ssha command to add key to ssh agent"
+        ls ~/.ssh/ -1 | grep -v pub | nl;
+    fi
+}`}
+/>
+
+Save the above to ~/.bashrc then run the below command to reload your .bashrc file.
+
+<CodeBlock language="language-Bash" file="BASH>" code={`> source ~/.bashrc`} />
+
+With your .bashrc file updated and having executed the above command a new user defined command should be available in bash.  
+ssha will return a numbered list of ssha keys saved in the users ~/.ssh/ directory. Update the script as needed if you save your RSA keys elsewhere.
+ssha # will add the selected key to SSH Agent.
+
+## Managing HOST names
+
+As you add additional hosts to your host file remembering host names can become difficult. Add the below command to your .bashrc to quickly review your host names:
+
+<CodeBlock
+    language="language-Bash"
+    file="~/.bashrc"
+    code={`function host {
+    if [ -n "$1" ]; then
+        cat -n ~/.ssh/config | sed -n $1,$2p 
+    else
+        cat -n ~/.ssh/config | grep HOST
+    fi
+}`}
+/>
+
+Typing **_host_** will now print a numbered list of your HOST's, specified by your '~/.ssh/config' file. The number corresponds
+to the line the host configuration starts on.
+
+<CodeBlock
+    language="language-Bash"
+    file="BASH>"
+    code={`> host
+     3  HOST laptop
+     9  HOST jump
+    14  HOST localDev
+    19  HOST remoteDev
+    25  HOST deploy
+`}
+/>
+
+Typing **_host # #_** will print a range of lines from the ~/ssh/config file, starting with the first number, ending with the second.
+Use the second version of the command to peak at your HOST configuration without reviewing the whole file.
+If the first command shows that the host you want to review starts on line 10, you could type **_host 9 18_** to print lines 9 through 18 from you config file.
+
+<CodeBlock
+    language="language-Bash"
+    file="BASH>"
+    code={`> host 9 18
+     9  HOST jump
+    10      HostName 192.168.0.102
+    11      User bob
+    12      Port 22
+    13
+    14  HOST localDev
+    15      HostName 192.168.0.103
+    16      user bob
+    17      Port 2222
+`}
+/>
+
+## Taking your .bashrc file with you
+
+If you are spending time customizing your .bashrc file with new commands, themese, filter history, etc its disapointing to shell into a box
+and not have your custom crafted profile with you. A couple of quick lines though and you can copy your .bashrc file from your local machine each time you jump
+into a host. Go back to your ~/.ssh/config file from earlier and add the two new lines shown below. The LocalCommand line will run before the interactive ssh terminal is opened.
+Each time an interactive terminal is opened **_source ~/.bashrc_** is automaticaly executed so all of your configuratations should be available on the remote machine.
+
+<CodeBlock
+    language="language-Bash"
+    file="~/.ssh/config"
+    code={`    PermitLocalCommand yes                                 #add this line
+
+    HOST jump
+        HostName 192.168.0.102
+        user bob
+        Port 22
+        IdentityFile ~/.ssh/new_key
+        LocalCommand scp ~/.bashrc jump:/home/bob/.bashrc  #add this line
+
+`}
+/>
+
+## Conclusion
+
+Hopefully some of the configurations have made your SSH standard of living a bit better. SSH is a bit of a rabbit hole. SSH Security, jump boxes, tunneling
+are all fun subjects to read up on. If you have any favorit SSH config tricks leave them as a comment below.
