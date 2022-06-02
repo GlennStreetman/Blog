@@ -22,7 +22,8 @@ export type techType =
     | "language-NPM"
     | "language-testingLibrary"
     | "language-docker"
-    | "language-AWS";
+    | "language-AWS"
+    | "language-Bash";
 
 interface props {
     tech: techType[];

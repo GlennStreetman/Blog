@@ -14,6 +14,7 @@ import {
     SiNextdotjs,
     SiTestinglibrary,
     SiDocker,
+    SiGnubash,
 } from "react-icons/si";
 import { FaHtml5, FaNodeJs, FaNpm, FaAws } from "react-icons/fa";
 
@@ -37,6 +38,7 @@ const findIcon = {
     "language-testingLibrary": <SiTestinglibrary className="  text-xl text-[#e43534] " />,
     "language-docker": <SiDocker className="  text-xl text-[#2391e6] " />,
     "language-AWS": <FaAws className="  text-xl text-[#FF9900] " />,
+    "language-Bash": <SiGnubash className="  text-xl text-[#4EAA25] " />,
 };
 
 export default findIcon;
