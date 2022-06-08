@@ -9,7 +9,7 @@ export const Meta = {
     dependancies: "",
     languages: "language-javascript, language-React",
     project: "autohaus",
-    oneliner: "\\just keep it simple\\",
+    oneliner: "/just keep it simple/g",
 };
 
 ## Building a Phone Number form component.
@@ -33,10 +33,10 @@ The above doesn't answer the whole question though. Do i really want to store ev
 to spend time trouble shooting that. After giving it a bit of thought the answer on how to handle phone numbers is obvios. Phone numbers are just numbers, everything else is for display purposes only.
 I should store phone numbers as numbers and layer formatting back in for display purposes.
 
-## Create two functions
+## Create three functions
 
-I first created two functions. One function to strip all of the user provided formatting out of the phone number and a second function to layer dashes back in as needed.
-Notice that the regular expression is a bit less complex.
+I first created three functions. A function to strip all of the user provided formatting out of the phone number. A second function to layer dashes back in as needed. Finaly, a third function
+to check if the phone number is valid. Notice that the regular expression is a bit less complex.
 
 <CodeBlock
     language="language-javascript"
@@ -67,7 +67,7 @@ Notice that the regular expression is a bit less complex.
 
     export function validPhone(phone) {
         if (phone && typeof phone === "string") {
-            return /^\d{10}/.test(phone);
+            return phone.length === 10;
         } else {
             return false;
         }

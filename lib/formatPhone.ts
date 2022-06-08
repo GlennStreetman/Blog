@@ -23,7 +23,7 @@ export function stripPhone(phone) {
 
 export function validPhone(phone) {
     if (phone && typeof phone === "string") {
-        return /^\d{10}/.test(phone);
+        return phone.length === 10;
     } else {
         return false;
     }
