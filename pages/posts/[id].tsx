@@ -61,7 +61,7 @@ export default function PostBody(postData) {
                             <h2 className="text-secondary">
                                 <Date dateString={postData.date} />
                             </h2>
-                            <h3 className="text-primary">Requirements: {postData.dependancies}</h3>
+                            {postData.dependancies ? <h3 className="text-primary">Requirements: {postData.dependancies}</h3> : <></>}
                             {postData.repo ? (
                                 <h3 className="text-primary">
                                     <a
