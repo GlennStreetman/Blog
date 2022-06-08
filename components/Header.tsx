@@ -45,7 +45,7 @@ export default function Header({ home }) {
                             <h1 className="text-primary">
                                 <b>Building: </b>
                                 <a className="text-xs sm:text-base text-primary hover:text-accent" href="autohaus.gstreet.dev">
-                                    Autohaus
+                                    AutoHaus
                                 </a>
                             </h1>
                             <h1 className="text-primary">

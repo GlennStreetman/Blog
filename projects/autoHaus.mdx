@@ -3,14 +3,43 @@ import CodeBlock from "../components/codeBlock2";
 export const Meta = {
     id: "autoHaus",
     project: "autoHaus",
-    description: "A landing page for a automotive repair shop in L.A.",
+    description: `A landing page for an automotive repair shop in L.A. SEO Optimized and easily updated by my clients.`,
     repo: "https://github.com/GlennStreetman/autohaus",
-    languages: "language-typescript,language-NPM, language-tailwinds, language-docker, language-postgres",
+    languages: "language-typescript, language-Next, language-Tailwind, language-docker, language-Postgres",
+    live: "https://autohaus.gstreet.dev",
 };
 
-## Automotive small business website.
+## A Small business automotive website.
 
-Development Story:
+A contact of mine recently reached out to let me know they were starting a small business, a Porsche and Exotic specialty repair shop. While the business partners know
+the ins and outs of running a small auotomotive repair shop they had no plans for creating a business website, setting up email services, or building their small office network.
+A quick pitch later and I was building their site, getting them a domain, and taking care of all of their IT odds and ends.
 
-The Goal:
-aaaaa
+## What did they need their site to do?
+
+After reviewing their needs I had a short list of items their site needed to do: They needed something to put them on the [map](https://www.google.com/maps) with all of their contact info.
+Potentianl customers needed to be able to reach out to schedule service. It would be good if potential employees could submit resumes. The site needed to be optimized for search engines and have a good change
+of showing up in regional search results. Everything needed to be easy to use as well as update and help drive their business.
+
+## What stack to use
+
+Potential clients might be accessing the site with a cell phone that has limited internet access. Long rendering times can reduce SEO placement. The site needed to be SEO friendly and fast. As a result i decided to reach
+for [Next.js(https://nextjs.org/)]. Nextjs offers [static site generation](https://nextjs.org/docs/basic-features/data-fetching/overview) using [react](https://reactjs.org/),
+[Image optimization](https://nextjs.org/docs/basic-features/image-optimization), and [file system routing](https://nextjs.org/docs/routing/introduction) out of the box with zero configuration.
+Next.js looked like a quick way to put together a small website that check all of the boxes for my clients needs.
+For styling and data needs i decided to reach for what I already knew, [Tailwinds](https://tailwindcss.com/) & [Postgres](https://www.postgresql.org/). Both choices would easily get the job done and have widespread addoption, so
+hopefuly if anyone else ever needs to maintain the site there would be plent of documentation.
+
+## Site Content
+
+Outside of a quick checklist I wasn't given a lot of guidenance on site content. Entrepreneurs will always have more work than time so I decided it would be import to build a site
+that they could easily update on their own terms. I could build them a site template, fill it with example text, pictures, and content, then let them update it on their own time using a site management backend.
+Next.js's [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation-beta) turned out to work well for this purpose.
+While the client facing part of the site was all staticly rendered to help with SEO, the static content could be re-redendered on the fly, without restarting the website App, using Incremental Static regeneration.
+My client could update text, add new logos & pictures, and adjust site content, using the management backend i built for them, and all the changes would be rerendered into static content.
+After only a couple hours of lighthouse tweaks all of my [lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=en) scores were pushing into the 90s and the static content should
+play well with any SEO web crawler.
+
+## Status
+
+I'm currently finalizing the deployment details and working with my client team to get their network setup done. Launch date is set for July 3rd, 2022. Updates to come.
