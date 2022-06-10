@@ -15,11 +15,11 @@ export const Meta = {
 
 [https://next-auth.js.org/](NextAuth.js) is an open source [0Auth](https://oauth.net/) solution for [Next.js](https://nextjs.org/) applications.
 Authentication can be performed with either stateless JSON webtokens or
-a database sessions. Using NextAuth you can quickly setup a login system for a single Next.js application. Things get tricky though if you want
+a database session. Using NextAuth you can quickly setup a login system for a single Next.js application. Things get tricky though if you want
 to use NextAuth as a login provider for multiple web applications. gstreet.dev has multiple web apps hosted under the same root domain but using
-seperate subdomains. This article outlines some of the hurdles I encountered using NextAuth as a shared login service for a Nextjs app & an
-Express app. If you are not familier with NextAuth you should go through the [Next Auth Tutorial](https://next-auth.js.org/tutorials) first. Make sure to setup a database [nextAdapter](https://next-auth.js.org/adapters/overview) as
-I'm not sure this can be done using a serverless approach. I recommend Prisma with postgres.
+separate subdomains. This article outlines some of the hurdles I encountered using NextAuth as a shared login service for a Nextjs app & an
+Express app. If you are not familiar with NextAuth you should go through the [Next Auth Tutorial](https://next-auth.js.org/tutorials) first. Make sure to setup a database [nextAdapter](https://next-auth.js.org/adapters/overview) as
+I'm not sure this can be done using a serverless approach. I recommend Prisma with Postgres.
 
 ## gstreet.dev sub domain setup
 
@@ -29,14 +29,14 @@ finndash.gstreet.dev: Express.js Financial App
 
 ## Nextauth session cookie
 
-NextAuth expects there to be a cookie in the clients browser in order to check the clients authentication status. If your web applications are
+NextAuth expects there to be a cookie in the client’s browser to check the client’s authentication status. If your web applications are
 divided up using subdomains this will violate the client side CORS:[Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy),
 gstreet.dev, blog.street.dev and finndash.gstreet.dev are all
-different origins, so the cookie createdwill by the login server will be unavailable to blog and finndash. When the user is authenticated,
-NextAuth needs to create a cookie thatis available domain wide. My Auth server is served under the root domain, gstreet.dev, so the cookies the
+different origins, so the cookie created will by the login server will be unavailable to blog and Finndash. When the user is authenticated,
+NextAuth needs to create a cookie that is available domain wide. My Auth server is served under the root domain, gstreet.dev, so the cookies the
 auth server create have a domain of gstreet.dev by default. If, however, the cookies domain has a "." appended to the beginning of the domain it
-will become available to all gstreet.dev subdomains. NextAuths default cookie behavior can be changed by modifying the [...nextauth].js
-configuration file. The code below will append a "." to the login servers domain.
+will become available to all gstreet.dev subdomains. NextAuth’s default cookie behavior can be changed by modifying the [...nextauth].js
+configuration file. The code below will append a "." to the login server’s domain.
 
 <CodeBlock language="language-javascript" file="/pages/api/auth/[...nextauth].js" code={`
 
@@ -67,22 +67,22 @@ export default NextAuth({
 
 ## Checking shared login status with Nextjs app
 
-    Once your session cookie is available accross all subdomains checking the session status with a Nextjs application is easy assuming your login
-    server is persisting sessions using a database [nextAdapter](https://next-auth.js.org/adapters/overview). All you need to do is install NextAuth as a dependancy of each Next application
+    Once your session cookie is available across all subdomains checking the session status with a Nextjs application is easy assuming your login
+    server is persisting sessions using a database [nextAdapter](https://next-auth.js.org/adapters/overview). All you need to do is install NextAuth as a dependency of each Next application
     and point its adapter at the same database as the login server. Because the auth token is available domain wide your session status will be
     maintained.
 
 ## Checking shared login status with non-Nextjs application
 
-    Nextjs provides a number of Nextjs hooks for dealing with sessions. Nextjs does not provide a way to check session status for react apps,
-    pythons apps, PHP, etc. You will need to add a custom API to your NextAuth login application to handle login status and logout requests from non
+    Nextjs provides several Nextjs hooks for dealing with sessions. Nextjs does not provide a way to check session status for react apps,
+    pythons’ apps, PHP, etc. You will need to add a custom API to your NextAuth login application to handle login status and logout requests from non
     NextJS applications. Login requests should be handled directly by your NextAuth application.
 
 ##
 
-    Create an API route that non-Nextjs applications can use to check login status. Because the session cookie is avaiable domain wide the custom
+    Create an API route that non-Nextjs applications can use to check login status. Because the session cookie is available domain wide the custom
     API route defined below will be able to check the session status and return the users email address. The example below assumes you are using
-    prisma with postgres.
+    Prisma with Postgres.
 
 <CodeBlock language="language-javascript" file="/pages/api/remoteLogin.js" code={`
 
@@ -199,6 +199,6 @@ export default async function handler(req , res) {
 
 ## Conclusion
 
-At this point you should have a NextAuth application that can provide authentication, as a microservice, to all of the applications being served
+At this point you should have a NextAuth application that can provide authentication, as a microservice, to all the applications being served
 under the same domain. Other Nextjs applications can simply check session status using the same backend database as your NextAuth application.
-Non-NextAuth applications can query the custom API your create to check session status.
+Non-NextAuth applications can query the custom API you create to check session status.

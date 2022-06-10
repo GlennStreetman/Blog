@@ -43,22 +43,22 @@ export const Meta = {
     heavily on the view portion of the application, leaving the data model in Redux. One benefit of Redux, that should not be overlooked, is that
     all data store updates are handled using Immer’s immutable state updates. Using immutable state updates avoids object reference update reference
     errors and avoids desynchronization between store state and what react renders. Updating deeply nested object state, and consistently creating
-    new object references, is prone to error. Immer almost completely eliminates these hard to troubleshoot errors.
+    new object references, is prone to error. Immer almost eliminates these hard to troubleshoot errors.
 
 ## Typescript:
 
     As FinnDash grew in complexity debugging simple errors started eating up more and more time. Tracking down undefined reference errors started
     eating up more time and remembering all the parameters a function required when it was called was creating more and more mental overhead.
-    Typescript greatly reduced time spent debugging reference errors, made it easier to shared functions, and has more often than not created a more
+    Typescript greatly reduced time spent debugging reference errors, made it easier to shared functions, and has often created a more
     enjoyable developer experience. Using typescript to define function interfaces and return values has been a huge time saver and regularly
     catches errors while coding.
 
 ## Express:
 
-    All of FInnhub’s route handling, database interactions, session/cookie management, file upload/download & parsing is handled by Express. I found
+    FInnhub’s route handling, database interactions, session/cookie management, file upload/download & parsing is handled by Express. I found
     Express to be a bit frustrating at time. It has very little included out of the box and doesn’t support some things, like es6 imports, out of
     the box. Session management, cookies, environmental variables, all require packages to be added to Express. If you come from a python
-    background, and have used Flask or Bottle, Express should feel fairly familiar.
+    background, and have used Flask or Bottle, Express should feel familiar.
 
 ## Postgres:
 
@@ -69,7 +69,7 @@ export const Meta = {
 
 ## MongoDB:
 
-    MongoDB is used to cache API JSON data returned by Finnhub.io. MongoDB promises to quickly and efficiently deal with large collections of JSON
+    MongoDB is used to cache API JSON data returned by Finnhub.io. MongoDB promises to deal with large collections of JSON quickly and efficiently
     data that are frequently updated, which is exactly what I’m doing with Finnhub.io’s API data. Avoiding any bottlenecking, by separating user
     login database requests from API data caching also might have some advantages if this project ever became more than a hobby Application.
 
@@ -78,7 +78,7 @@ export const Meta = {
     Empowering users, from a non-technical background, to share data specifications & API data, with both technical and non-technical team members,
     is one of the driving goals of FinnDash. GraphQL makes it easy to create links to datasets, pivots data, and communicate data specifications
     between team members. After a dashboard is created, the data stored in MongoDB, becomes accessible through GraphQL to team members. Team members
-    can share links to their data sets and pivot the view, specifying which widgets & which securities, they want to share. Talking about GraphQL
+    can share links to their data sets and pivot the view, specifying which widgets & which securities, they want to share. Sharing GraphQL
     datasets is easier than managing, updating, and sharing groups of API endpoint query strings.
 
 ## Material UI:
@@ -93,7 +93,7 @@ export const Meta = {
     specified to avoid contaminating the production database. Frontend tests are isolated from any HTTP requests using a mock HTTP server. HTTP
     requests are intercepted using a web worker and mock data is returned. By mocking HTTP responses tests can be performed against consistent HTTP
     return data. Each frontend test loads the component being tested into a fresh version of the app so that integration tests can be performed.
-    Each frontend test loads the target component and interacts with the components various functionalities so that all of the component’s views and
+    Each frontend test loads the target component and interacts with the components various functionalities so that all the component’s views and
     resulting side effects can be tested. This testing approach currently allows for integration tests for the front and back end separately but
     leaves the application open to end-to-end issues. Down the road end-to-end tests could be added, with any mocks removed, or a different testing
     approach, like cypress could be added.

@@ -14,10 +14,10 @@ export const Meta = {
 
 ## Building a Phone Number form component.
 
-Recently i was building out forms for an automotive website. I needed to collect user phone numbers. Phone numbers are often formatted differently, 555-555-5555, (555) 555 5555, etc.
-I knew that during my form validation step i would want to check that the phone number was valid before submitting the form. I found
-[this Stack Overflow thread](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number) and was getting ready to start writing code when i stopped myself.
-Yes, i could use some horrific blob of regex to check every conceivable phone number format and validate that it looks like it might be a phone number
+Recently I was building out forms for an automotive website. I needed to collect user phone numbers. Phone numbers are often formatted differently, 555-555-5555, (555) 555 5555, etc.
+I knew that during my form validation step I would want to check that the phone number was valid before submitting the form. I found
+[this Stack Overflow thread](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number) and was getting ready to start writing code when I stopped myself.
+Yes, I could use some horrific blob of regex to check every conceivable phone number format and validate that it looks like it might be a phone number
 
 <CodeBlock
     language="language-javascript"
@@ -29,13 +29,13 @@ Yes, i could use some horrific blob of regex to check every conceivable phone nu
 `}
 />
 
-The above doesn't answer the whole question though. Do i really want to store every possible phone number format combination in my database? What do i do if i find something wrong with the regex above. I don't want
-to spend time trouble shooting that. After giving it a bit of thought the answer on how to handle phone numbers is obvios. Phone numbers are just numbers, everything else is for display purposes only.
+The above doesn't answer the whole question though. Do I really want to store every possible phone number format combination in my database? What do I do if I find something wrong with the regex above? I don't want
+to spend time trouble shooting that. After giving it a bit of thought the answer on how to handle phone numbers is obvious. Phone numbers are just numbers, everything else is for display purposes only.
 I should store phone numbers as numbers and layer formatting back in for display purposes.
 
 ## Create three functions
 
-I first created three functions. A function to strip all of the user provided formatting out of the phone number. A second function to layer dashes back in as needed. Finaly, a third function
+I first created three functions. A function to strip all the user provided formatting out of the phone number. A second function to layer dashes back in as needed. Finally, a third function
 to check if the phone number is valid. Notice that the regular expression is a bit less complex.
 
 <CodeBlock
@@ -44,7 +44,7 @@ to check if the phone number is valid. Notice that the regular expression is a b
     code={` 
     export function formatPhone(phone) {
         if (phone && typeof phone === "string") {
-            const raw = phone.replace(/\D/g, ""); //replace any non number
+            const raw = phone.replace(/\D/g, ""); //replace any non-number
             let formatPhone;
             if (raw.length > 6) formatPhone = raw.slice(0, 3) + "-" + raw.slice(3, 6) + "-" + raw.slice(6);
             if (raw.length <= 6) formatPhone = raw.slice(0, 3) + "-" + raw.slice(3, 6);
@@ -57,7 +57,7 @@ to check if the phone number is valid. Notice that the regular expression is a b
 
     export function stripPhone(phone) {
         if (phone && typeof phone === "string") {
-            let strippedPhone = phone.replace(/\D/g, ""); //replace any non number
+            let strippedPhone = phone.replace(/\D/g, ""); //replace any non-number
             strippedPhone = strippedPhone.slice(0, 10);
             return strippedPhone;
         } else {
@@ -76,9 +76,9 @@ to check if the phone number is valid. Notice that the regular expression is a b
 `}
 />
 
-## Setting up the the phone number form field:
+## Setting up the phone number form field:
 
-Now all i needed to do was create an Input field that uses the two function above and check that the phone number is 10 digits before submitting.
+Now all I needed to do was create an Input field that uses the two functions above and check that the phone number is 10 digits before submitting.
 
 <CodeBlock
     language="language-javascript"
@@ -122,7 +122,7 @@ Notice that any extra characters do not get loaded into state. The display funct
 ## Phone numbers are database keys
 
 A phone book is just a big database of key value pairs. The phone number is a key, and the person is the value.
-There is no reason to dirty your keys by including "for display purposes only" data. While i can't say for sure, I believe the
+There is no reason to dirty your keys by including "for display purposes only" data. While I can't say for sure, I believe the
 [Stack Overflow thread](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number),
-linked at the beginning of the article, was most likely asking the wrong quesiton. "How do i use a regex to identify all phone number formats" should most likely have been
-"How do i consistently store phone number." Life is a lot easier when you don't /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]_(\d{3})[-. ]_(\d{4})(?: _x(\d+))?\s_$/.test(phone);
+linked at the beginning of the article, was most likely asking the wrong question. "How do I use a regex to identify all phone number formats" should most likely have been
+"How do I consistently store phone number." Life is a lot easier when you don't /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]_(\d{3})[-. ]_(\d{4})(?: _x(\d+))?\s_$/.test(phone);

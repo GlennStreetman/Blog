@@ -14,15 +14,15 @@ export const Meta = {
 
 ## Amazon S3:
 
-Amazon S3 is a cloud object storage service. Each S3 bucket's size scales as needed, bespoke permissions are easy to setup, and CRUD opperations can be performed
-using the S3 API. I was recently building a small site for an automotive repair shop and their site needed the ability to upload files; Resumes, pictures, etc. I would
+Amazon S3 is a cloud object storage service. Each S3 bucket's size scales as needed, bespoke permissions are easy to setup, and CRUD operations can be performed
+using the S3 API. I was recently building a small site for an automotive repair shop and their site needed the ability to upload files, Resumes, pictures, etc. I would
 be deploying their website to an EC2 container in AWS with only a couple giga-bytes of storage allocated to the container. I didn't want there to be any possibility
-of running out of space on the EC2 container and affecting the functionality of my clients site so I decided to store uploaded files in public/private S3 containers as needed.
+of running out of space on the EC2 container and affecting the functionality of my client’s site so I decided to store uploaded files in public/private S3 containers as needed.
 
 ## Creating a bucket:
 
-Creating a bucket is easy, log into your AWS account, fire up S3, click create bucket, set your region, Object ownership, public access, etc and you have
-a brand new object storage container in a few minutes. Make a publick accessable bucket and a privately accessable bucket. At this point you should have two buckets but
+Creating a bucket is easy, log into your AWS account, fire up S3, click create bucket, set your region, object ownership, public access, etc. and you have
+a brand-new object storage container in a few minutes. Make a publicly accessible bucket and a privately accessible bucket. At this point you should have two buckets but
 you can't do anything with them yet, you need to setup access to the buckets which isn't done in S3, its done in IAM. Head over to the AWS IAM dashboard,
 click Policies, and then Create Policy. Switch over to the JSON editor and enter the policy shown below. Be sure to update your bucket names under "Resources."
 Note that the files saved in our public bucket can be directly linked to in your HTML.
@@ -53,13 +53,13 @@ Note that the files saved in our public bucket can be directly linked to in your
 `}
 />
 
-Click Net: Tags, Next: Review, and add a name and description then click Create policy. Your policy is now create but you still need to attach the policy to a user.
-Click over to Users, select your user, and add permission. Search for the name of your policy and add add it to the user. At this point you should now have two buckets
+Click Net: Tags, Next: Review, and add a name and description then click Create policy. Your policy is now created but you still need to attach the policy to a user.
+Click over to Users, select your user, and add permission. Search for the name of your policy and add it to the user. At this point you should now have two buckets
 governed by your new policy that is attached to your user account. The buckets are ready to go, we just need to build a way to interact with the S3 API.
 
 ## S3 Function Examples
 
-AWS maintains an [SDK for Node](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-nodejs.html). Make sure to install it. Next we
+AWS maintains an [SDK for Node](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-nodejs.html). Make sure to install it. Next, we
 create functions for uploading to our public and private buckets and a third function for retrieving files from either bucket. The functions below use Node's
 [createReadStream](https://nodejs.org/api/fs.html#fscreatereadstreampath-options). Make sure to setup your AWS keys in your .env file.
 
@@ -182,10 +182,10 @@ it doesn't seem to play well with file streams. If you are not using Nextjs dele
 
 `} />
 
-## Creating an upload components
+## Creating an upload component
 
-We now have buckets to store our files, access setup, and a back end API for uploading files to our bucket. We just need a React component to upload
-our files. For my project i create a drag box. It allows the user to either drag and drop a file or click on the box and select a file. It only allows one file to be
+We now have buckets to store our files, access setup, and a back-end API for uploading files to our bucket. We just need a React component to upload
+our files. For my project I create a drag box. It allows the user to either drag and drop a file or click on the box and select a file. It only allows one file to be
 uploaded at a time and ignores additional files if a group are selected. It uses [React Icons](https://react-icons.github.io/react-icons/) and is styled by [Tailwinds](https://tailwindcss.com/).
 Typescript definitions are left in place to help with readability of the props. setState hooks should be passed in for the functions. The fileName string should be empty before a file is uploaded.
 
@@ -281,7 +281,7 @@ Typescript definitions are left in place to help with readability of the props. 
 
 ## Final Thoughts
 
-My clients website uses their private s3 bucket to collect resumes from potential new hires and their public bucket to host images and other assets used by their website.
+My client’s website uses their private s3 bucket to collect resumes from potential new hires and their public bucket to host images and other assets used by their website.
 At any point their website manager can switch out images, literature, and sections using a hidden backend management page. Any time a new object is uploaded to S3 that is used by
-the frontend of their site any affected pages are recompiled useing Next.js's [On-Demand Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation-beta).
-As a result a non-technical user can redesign and republish most of the site on the fly with no action needed from their webmater(me).
+the frontend of their site any affected pages are recompiled using Next.js's [On-Demand Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation-beta).
+As a result, a non-technical user can redesign and republish most of the site on the fly with no action needed from their webmaster(me).

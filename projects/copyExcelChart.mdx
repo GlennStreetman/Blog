@@ -2,7 +2,7 @@ import CodeBlock from "../components/codeBlock2";
 
 export const Meta = {
     id: "copyExcelChart",
-    project: "copyExcelChart",
+    project: "CopyExcelChart",
     description:
         "An NPN Package used to copy charts between excel spreadsheets using NodeJS. Uses AdmZip to unpack Excel templates into source XML files. xml2js is then used to find and copy excel charts into destination files.",
     repo: "https://github.com/GlennStreetman/copyExcelChart",
@@ -16,59 +16,58 @@ export const Meta = {
 ## The Goal:
 
 One of my goals, when working on my project FinnDash, was to be able to push Finnhub.io API data into excel using a custom excel templating
-parser. Many of the Finnhub.io API routes return time series data that is best accompanies with charts. I reviewed a number of different
-libraries like [ExcelJS](https://www.npmjs.com/package/exceljs) and [sheetJS](https://sheetjs.com/) but couldn’t find a free open source library that fit my needs. I could of course use Microsoft{" "}
+parser. Many of the Finnhub.io API routes return time series data that is best accompanies with charts. I reviewed several different
+libraries like [ExcelJS](https://www.npmjs.com/package/exceljs) and [sheetJS](https://sheetjs.com/) but couldn’t find a free open-source library that fit my needs. I could of course use Microsoft’s
 [Excel JavaScript API](https://docs.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-charts) but then I would need have Excel installed on my server.
 
 I decided to attempt my own solution. I knew that Excel files were just collections of XML documents so I could just unzip the target Excel
 document, copy the chart XML documents, and move them into the target Excel file. I would soon learn this was easier said than done, the fact
-that non one else had already done this was my first tip off.
+that no one else had already done this was my first tip off.
 
 ## Research:
 
 Excel’s XML schema is complicated. The introductory document to Excel’s XML [schema](https://interoperability.blob.core.windows.net/files/MS-XLSX/%5bMS-XLSX%5d.pdf) is 384 pages long and doesn’t have a lot of fluff, it’s
 dense. To make matters worse I don’t have a background working with XML data. No problem, I’ll just reverse engineer Excel’s chart schema. Armed
-with the desktop version of Excel, [Winmerge](https://winmerge.org/?lang=en): An open source differencing tool to finds differences in folder structure and file content, and
+with the desktop version of Excel, [WinMerge](https://winmerge.org/?lang=en): An open-source differencing tool to finds differences in folder structure and file content, and
 VS Code I got to work.
 
-I created and excel file and populated it with time series data, saved the file, then copied its source XML. I then took got to work comparing
-the differences using Winmerge.
+I created and Excel file and populated it with time series data, saved the file, then copied its source XML. I then took got to work comparing
+the differences using WinMerge.
 
-Excel’s XML structure uses a hierarchical set of documents. Each Workbook contains a workbook.xml file that references to all of the
+Excel’s XML structure uses a hierarchical set of documents. Each Workbook contains a workbook.xml file that references to all the
 worksheet.xml documents as well named ranges used in the workbook. All charts reference a series of named ranges. -Each worksheet.xml has a
-related relationship file, if a worksheet contains a chart the worksheets rel file needs a relationship connecting it to a chart drawing. -Each
+related relationship file, if a worksheet contains a chart the worksheets Rel file needs a relationship connecting it to a chart drawing. -Each
 chart drawing has its own relationship file that connects it to its color and style XML files -Each Drawing, chart, Color, and Style file needs
-to registered a master [Content_Types].xml file. -If worksheet name or the length/location of any time series data differs between source and
+to register a master [Content_Types].xml file. -If worksheet name or the length/location of any time series data differs between source and
 target spreadsheets then any references to cell ranges need to be updated.
 
 As a result, copying a chart, from one Excel file to another, requires a minimum of copying one /drawing file, copying 3 /chart files,
-creating/updating \_rel files in the /worksheet, /drawing, and /charts subdirectories, updating any cell references, and registering any new
-files to the [Content_Types].xml master file. Also, don’t forget to add all of your new cell reference ranges to the worbook.xml definedNames
+creating/updating \_Rel files in the /worksheet, /drawing, and /charts subdirectories, updating any cell references, and registering any new
+files to the [Content_Types].xml master file. Also, don’t forget to add all your new cell reference ranges to the worbook.xml “definedNames”
 section. If one apostrophe is copied out of place or any XML file edits are made in the wrong order the file is probable corrupted and you might
 not be able to open your edited Excel file.
 
 ## The Solution:
 
 This is a bit complicated but breaking the problem down into small steps and testing along the way would get me to where I wanted to go. I got
-to work on writing a parser. I would need a way to extract Excel XML files so I added [adm-zip](https://www.npmjs.com/package/adm-zip), and I would need a way to read the XML files, so
-I included [xml2js](https://www.npmjs.com/package/xml2js). The parser would open/read both the source and target files, copy all of the target file XML’s into a working directory,
+to work on writing a parser. I would need a way to extract Excel XML files so I added [ADM-zip](https://www.npmjs.com/package/adm-zip), and I would need a way to read the XML files, so
+I included [xml2js](https://www.npmjs.com/package/xml2js). The parser would open/read both the source and target files, copy all the target file XML files into a working directory,
 merge in the source XML chart files, update any cell references, and re-zip the working directory into a complete Excel .xlsx file.
 
 While writing the parser I of course ran into several problems. One of the largest is there are different chart schemas, and the exact method of
 copying/merging each schema is slightly different. There is a basic chart schema, simply named ‘chart’, and an extended chart schema, ‘chartEx’.
 I haven’t yet tested what goes on if a chart references pivot table data or ‘table’ data. Testing everything is a further problem because the
-parsers output can only be tested using an excel client, as far as I can tell.{" "}
+parsers output can only be tested using an excel client, as far as I can tell.
 
 ## Lessons Learned:
 
-At the end of the day I have a working, but not thoroughly tested parser. Finnhub.io can copy charts from Excel templates into output Excel
+At the end of the day, I have a working, but not thoroughly tested parser. Finnhub.io can copy charts from Excel templates into output Excel
 files but I don’t think I am going to take the time to validate that the solution is robust enough to be used in production quality code. Excel
 has dozens of chart types, with various configurations, and differing ways to go about defining source data. Testing each variance involves
 creating the chart in excel, creating an Excel file to copy the chart to, and running a test script which is very time consuming. If the Excel
-schema ever changes when a new version is release in all likelihood the entire process would need to refactored and retested. This task would be
+schema ever changes when a new version is the entire process might need to be refactored and retested. This task would be
 a lot of work for one person to accomplish.
 
 One take home from all of this, if you want to do any programmatic manipulation of Excel files, that extends beyond updating cell data, use one
-of Excel’s internal APIs. Microsoft has a ton of documentation and your developer experience will be a lot smoother. Only consider writing your
-own custom solution as a last resort. I will definitly look into running Excel in a virtual environment or docker before attempting a solution
-like this one again.
+of Excel’s internal APIs. Microsoft has a ton of documentation, and your developer experience will be a lot smoother. Only consider writing your
+own custom solution as a last resort. I will investigate the viability of native Excel solutions before attempting a solution like this again.
