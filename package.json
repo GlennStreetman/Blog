@@ -2,13 +2,14 @@
     "private": true,
     "scripts": {
         "dev": "next dev ",
-        "build": "next build",
+        "build": "next build --debug",
         "start": "next start",
         "dUp": "docker-compose -f app.yaml up",
         "buildd": "docker-compose -f app.yaml up --build ",
         "pUp": "docker-compose -f app.prod.yaml up",
         "buildp": "docker-compose -f app.prod.yaml up --build ",
-        "lint": "next lint"
+        "lint": "next lint",
+        "info": "next info"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",
