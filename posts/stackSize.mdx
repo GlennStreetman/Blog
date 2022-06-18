@@ -117,6 +117,8 @@ Once all of the production containers are down I relaunch them using an ssh conf
             "pushBuild": "
                 eval \`ssh-agent -s\` &&                                                          # activate ssh agent 
                 ssh-add ~/.ssh/rsaPrivateKey &&                                                 # add my rsa private key
+                sudo rm -rf .next &&                                                            # remove local build files
+                ssh ec2 sudo rm -rf /projects/Blog/.next                                        # remove remote build files
                 dotenv -e .env.stage next build &&                                              # build my project using my production env file.
                 scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next &&              # scp my files over to my production server
                 docker context use my-remote-context &&                                         # set my docker context to remote production context

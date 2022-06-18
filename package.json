@@ -10,7 +10,8 @@
         "buildp": "docker-compose -f app.prod.yaml up --build ",
         "lint": "next lint",
         "info": "next info",
-        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && dotenv -e .env.stage next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use my-remote-engine && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
+        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e .env.stage next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use my-remote-engine && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
+        "restartProd": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && docker context use my-remote-engine && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",
