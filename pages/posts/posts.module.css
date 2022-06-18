@@ -7,7 +7,7 @@
 }
 
 .article h2 {
-    @apply text-secondary font-bold text-lg tracking-wide;
+    @apply text-secondary font-bold text-lg tracking-wide mt-2;
 }
 
 .article p {
@@ -27,7 +27,7 @@
 }
 
 .article li {
-    @apply ml-5;
+    @apply ml-10 text-primary font-extralight;
 }
 
 .article blockquote {

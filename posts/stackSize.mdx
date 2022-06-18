@@ -1,0 +1,156 @@
+import CodeBlock from "../components/codeBlock2";
+
+export const Meta = {
+    id: "stackSize",
+    title: "Updating my build process and solving problems along the way",
+    date: "2022-06-15",
+    type: "notes",
+    dependancies: "",
+    languages: "language-Bash, language-Next, language-NPM",
+    project: "Blog",
+    oneliner: "Have you turned if off and back on again?",
+};
+
+## Maximum Call Stack Size Exceeded
+
+While trying to run “next build” for my blog, in my deployment environment, I recently ran into an interesting error: [Maximum Call Stack Exceed](https://github.com/vercel/next.js/discussions/30785).
+The trace logs referenced webpack5. I ran the steps shown below to verify that my production environment matched my development environment.
+
+1. Delete the .next build files, node_modules, and package-lock files.
+2. "git pull" to restore my package-lock, matching my dev environment.
+3. Run [npm ci](https://docs.npmjs.com/cli/v8/commands/npm-ci) to reinstall my exact package dependencies from my package-lock file
+4. Run [next info](https://nextjs.org/docs/api-reference/cli#info) to check for relevant system differences between my two environments.
+
+<CodeBlock
+    language="language-Bash"
+    file="Bash>"
+    code={`
+        rm -rf .next node_modules package-lock 
+        git pull
+        npm ci
+        npm run next info
+    `}
+/>
+
+After doing the above, the only difference I could see between my two environments was slightly different versions of Ubuntu.
+AWS might have their own tailored version of Ubuntu for EC2? All my packages were synced up but running next build still caused a Stack size error.
+The immortal question went through my head “Have you turned it off and back on again?”
+I restarted my [AWS EC2 Production](https://aws.amazon.com/pm/ec2/) instance. What could go wrong?
+
+## Pandoras Box
+
+After waiting for a few moments, I realized my EC2 instance wasn’t coming back up.
+I checked my EC2 Instance's system logs and found a kernel panic error. That error sounds concerning! My EC2 instance was crashing on startup
+and [I wasn’t the only one having this issue](https://bugs.launchpad.net/ubuntu/+source/linux-aws-5.13/+bug/1977919).
+Oracle Cloud, Azure, etc. were also affected. It turned out the latest version of Ubuntu had a bug where Docker container
+creation would cause a system crash on startup, creating the kernel panic. This puts you in a bit of a pickle if Docker is loaded during system startup.
+A crash on startup, while the [Grub](https://help.ubuntu.com/community/Grub2) bootloader is boot loading, doesn't leave you with the option to use the
+system consol or SSH to address your issues.
+
+## Go to Jail
+
+I didn’t have a [snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html) of my production environment from the last
+few hours. As a result I wanted to try and fix the problem without restoring from a previous, hopefully good, backup.
+To save the EC2 instance I would unmount the associated storage volume, mount the storage volume to a rescue
+EC2 instance, then use a [chroot jail](https://phoenixnap.com/kb/chroot-jail) to make my fixes. I created a new EC2 Ubuntu instance and
+[mounted my damaged volume](https://devopscube.com/mount-ebs-volume-ec2-instance/).
+I could then run chroot to move my root directory to my damaged instances root directory, bypassing the damaged instances Grub boot loader.
+
+<CodeBlock
+    language="language-Bash"
+    file="Bash>"
+    code={`
+        lsblk 						                # list disks and partitions. Find your broken partition
+        mkdir ~/rescue 					            # make a rescue directory
+        mount /dev/brokenPartitionName ~/rescue 	# mount the broken partition to the rescue directory
+        mount -o /run ~/rescue/run			        # exposes network interface of host system so rescue partition can apt get updates.
+        chroot ~/rescue                             # change root directory to users_home_directory/rescue
+    `}
+/>
+
+At this point, any commands that I run would only affect the damaged instance.
+After creating my chroot jail for the damaged instance I could run the following
+commands to upgrade ubuntu to a patched version and disable docker on startup.
+
+<CodeBlock
+    language="language-Bash"
+    file="Bash>"
+    code={`
+        sudo apt update
+        sudo apt upgrade
+        sudo systemctl disable docker.service
+        sudo systemctl disable docker.socket
+    `}
+/>
+
+## Crisis averted
+
+At this point I could then shutdown my rescue instance and move my repaired volume back to
+its original EC2 instance. After getting my repaired volume mounted I started
+the instance back up and it completed its boot cycle. Yay I could get back to coding... or blogging!
+
+## Back to square one
+
+With my instance recovered I could go back to pondering my original problem.
+Although my dev and production environments where nearly identical Next Build was
+still throwing maximum call stack size errors. I’ve run into build errors in the past with AWS.
+My dev environment has 32 cores and 64 gigabytes of ram. My AWS EC2 instance has 2 cores and 4 gigabytes of ram.
+Bumping my instances ram and cores up has helped me with my Finndash builds in the past so maybe another increase
+would somehow help me with my Blog. I’m only using the extra performance when running a build though, the rest of the
+time I’m mostly serving static content. The builds also take an annoying amount of time on a low tier EC2 instance.
+Instead of building in the EC2 instance why not just push the known good files using SSH?
+
+## SCP IT
+
+If I have a known good build and EC2 is giving me trouble I can just push the build files over
+to my EC2 instance using [SCP](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/).
+After the transfer is complete i can use an [SSH Docker context](https://docs.docker.com/engine/security/protect-access/#use-ssh-to-protect-the-docker-daemon-socket)
+to stop my production docker containers.
+Once all of the production containers are down I relaunch them using an ssh config that includes remote command arguements to restart the docker containers.
+
+<CodeBlock
+    language="language-javascript"
+    file="package.json"
+    code={`
+        scripts: {
+            …
+            "pushBuild": "
+                eval \`ssh-agent -s\` &&                                                          # activate ssh agent 
+                ssh-add ~/.ssh/rsaPrivateKey &&                                                 # add my rsa private key
+                dotenv -e .env.stage next build &&                                              # build my project using my production env file.
+                scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next &&              # scp my files over to my production server
+                docker context use my-remote-context &&                                         # set my docker context to remote production context
+                docker ps -a | grep blog | awk {'print \$1'} | xargs -I {} docker stop {} &&     # stop my production docker containers
+                ssh launchProduction"                                                           # relaunch my blog from hostfile
+            ,
+            …
+        }
+    `}
+/>
+
+<CodeBlock
+    language="language-Bash"
+    file="ssh_config"
+    code={`
+    HOST ec2
+        HostName 1.1.1.1.compute.amazonaws.com
+        User ubuntu
+        IdentityFile ~/.ssh/rsaKey
+        Port 22
+    HOST launchBlog
+        HostName 1.1.1.1.compute.amazonaws.com
+        User ubuntu
+        IdentityFile ~/.ssh/rsaKey
+        Port 22
+        RemoteCommand= cd /projects/Blog; git pull; docker-compose -f app.prod.yaml up
+    `}
+/>
+
+1. Note that ec2 and launchProduction is predefined in my [host file](<https://en.wikipedia.org/wiki/Hosts_(file)>)
+2. Make sure to update the name of your docker server
+
+## Fin
+
+After completing a successful build in my dev environment I can now run a one line script to push the updated files to my build server then restart it.
+Bypassing the build step on my production server from the start could have saved a few hours of head scratching. The new process is also simple. Build in dev
+and run my update from dev. No need to jump between terminals or run a build twice. Live and learn.

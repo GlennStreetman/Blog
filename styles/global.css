@@ -70,3 +70,7 @@ img {
 ::-webkit-scrollbar-corner {
     background: rgba(0, 0, 0, 0);
 }
+
+ol {
+    list-style: auto;
+}
