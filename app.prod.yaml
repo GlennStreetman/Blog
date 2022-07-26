@@ -32,14 +32,14 @@ services:
             - 5436:5432
         volumes:
             - loginDBVolume:/var/lib/postgresql/data1
-    adminer:
-        image: adminer
-        restart: always
-        ports:
-            - 8088:8080
-        links:
-            - blogPosts
-            - blogAuth
+    # adminer:
+    #     image: adminer
+    #     restart: always
+    #     ports:
+    #         - 8088:8080
+    #     links:
+    #         - blogPosts
+    #         - blogAuth
 volumes:
     loginDBVolume:
         external: true

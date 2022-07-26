@@ -22,13 +22,13 @@ services:
         volumes:
             - blogPosts-data:/var/lib/postgresql/data
         command: -p 5433
-    adminer:
-        image: adminer
-        restart: always
-        ports:
-            - 8088:8080
-        links:
-            - blogPosts
+    # adminer:
+    #     image: adminer
+    #     restart: always
+    #     ports:
+    #         - 8088:8080
+    #     links:
+    #         - blogPosts
 volumes:
     blogPosts-data:
         driver: local
