@@ -42,8 +42,8 @@ I restarted my [AWS EC2 Production](https://aws.amazon.com/pm/ec2/) instance. Wh
 After waiting for a few moments, I realized my EC2 instance wasn’t coming back up.
 I checked my EC2 Instance's system logs and found a kernel panic error. That error sounds concerning! My EC2 instance was crashing on startup
 and [I wasn’t the only one having this issue](https://bugs.launchpad.net/ubuntu/+source/linux-aws-5.13/+bug/1977919).
-Oracle Cloud, Azure, etc. were also affected. It turned out the latest version of [Ubuntu had a bug where Docker container
-creation would cause a system crash on startup(https://bugs.launchpad.net/ubuntu/+source/linux-aws-5.13/+bug/1977919)], creating the kernel panic. This puts you in a bit of a pickle if Docker is loaded during system startup.
+Oracle Cloud, Azure, etc. were also affected. It turned out the latest version of Ubuntu had a bug where Docker container
+creation would cause a [system crash on startup](https://bugs.launchpad.net/ubuntu/+source/linux-aws-5.13/+bug/1977919), ending in kernel panic. This puts you in a bit of a pickle if Docker is loaded during system startup.
 A crash on startup, while the [Grub](https://help.ubuntu.com/community/Grub2) bootloader is boot loading, doesn't leave you with the option to use the
 system consol or SSH to address your issues.
 
