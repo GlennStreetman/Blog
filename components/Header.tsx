@@ -51,6 +51,12 @@ export default function Header({ home }) {
                             <h1 className="text-primary">
                                 <b>Status:</b> Looking for Group
                             </h1>
+                            <h1 className="text-primary">
+                                <b>Contact:</b>{" "}
+                                <a className="text-xs sm:text-base text-primary hover:text-accent" href="mailto:glenn@gstreet.dev">
+                                    glenn@gstreet.dev
+                                </a>
+                            </h1>
                         </div>
                     </div>
                 </div>
