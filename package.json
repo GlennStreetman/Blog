@@ -10,8 +10,8 @@
         "buildp": "docker-compose -f app.prod.yaml up --build ",
         "lint": "next lint",
         "info": "next info",
-        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e .env.stage next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use my-remote-engine && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
-        "restartProd": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && docker context use my-remote-engine && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
+        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e .env.stage next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
+        "restartProd": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",
@@ -23,7 +23,7 @@
         "@types/prismjs": "^1.16.6",
         "chokidar": "^3.5.3",
         "date-fns": "^2.28.0",
-        "dotenv": "^16.0.0",
+        "dotenv": "^16.0.1",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-react": "^1.1.7",
         "eslint-plugin-react": "^7.28.0",
