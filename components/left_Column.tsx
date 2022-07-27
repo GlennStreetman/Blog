@@ -18,7 +18,7 @@ function Left_Column(p: props) {
                 <meta name="description" content="Glenn Streetmans Web Blog, Projects, and notes." />
             </Head>
             <div className="space-y-2">
-                <h2 className="text-accent font-heading text-2xl">Projects</h2>
+                <h2 className="text-accent font-heading text-2xl tracking-wider">Projects</h2>
                 <div className="flex flex-col space-y-2">
                     {p.allProjectData.map((el) => (
                         <section key={el.id}>
