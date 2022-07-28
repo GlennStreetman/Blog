@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl"]
 }
 
@@ -45,6 +45,8 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  roll          String    @default("guest")
+  secret        String    @default("default secret")
   account       Account[]
   session       Session[]
 }

@@ -15,14 +15,14 @@ services:
         environment:
             POSTGRES_USER: "${pguser}"
             POSTGRES_PASSWORD: "${pgpassword}"
-        expose:
-            - "5433" # Publishes 5433 to other containers but NOT to host machine
+        # expose:
+        #     - "5434" # Publishes 5433 to other containers but NOT to host machine
         ports:
-            - 5435:5433
+            - 5435:5434
         volumes:
-            - blogPosts-data:/var/lib/postgresql/data
+            - blogposts:/var/lib/postgresql/data
 volumes:
-    blogPosts-data:
+    blogposts:
         driver: local
 networks:
     default:
