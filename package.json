@@ -1,16 +1,15 @@
 {
     "private": true,
     "scripts": {
-        "dev": "next dev ",
-        "build": "next build --debug",
-        "start": "next start",
-        "dUp": "docker-compose -f app.yaml up",
-        "buildd": "docker-compose -f app.yaml up --build ",
-        "pUp": "docker-compose -f app.prod.yaml up",
-        "buildp": "docker-compose -f app.prod.yaml up --build ",
+        "dev": "dotenv -e test.env next dev ",
+        "build": "dotenv -e prod.env next build",
+        "start": "dotenv -e prod.env next start",
+        "dUp": "docker-compose  --env-file test.env -f app.yaml up --build",
+        "pBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && docker-compose --env-file prod.env -f app.build.yaml  up --build",
+        "pUp": "docker-compose --env-file prod.env -f app.prod.yaml up",
         "lint": "next lint",
         "info": "next info",
-        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e .env.stage next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
+        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e prod.env next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
         "restartProd": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
     },
     "dependencies": {
@@ -24,6 +23,7 @@
         "chokidar": "^3.5.3",
         "date-fns": "^2.28.0",
         "dotenv": "^16.0.1",
+        "dotenv-cli": "^6.0.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-react": "^1.1.7",
         "eslint-plugin-react": "^7.28.0",
@@ -42,6 +42,7 @@
         "remark": "^14.0.2",
         "remark-html": "^15.0.1",
         "sass": "^1.48.0",
+        "sharp": "^0.30.7",
         "styled-components": "^5.3.3"
     },
     "devDependencies": {

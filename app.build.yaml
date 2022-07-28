@@ -3,12 +3,12 @@ services:
     blogserver:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile.build
         ports:
             - 3000:3000
         volumes:
-            - ./:/Blog/
-        command: "npm run dev --reload"
+            - ./:/app/
+        command: "npm run start"
     blogPosts:
         image: postgres
         restart: always
@@ -20,10 +20,22 @@ services:
         ports:
             - 5435:5433
         volumes:
-            - blogPosts-data:/var/lib/postgresql/data
+            - postgres-data:/var/lib/postgresql/data2
         command: -p 5433
+    blogAuth:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: "${pguser}"
+            POSTGRES_PASSWORD: "${pgpassword}"
+        ports:
+            - 5436:5432
+        volumes:
+            - loginDBVolume:/var/lib/postgresql/data1
 volumes:
-    blogPosts-data:
+    loginDBVolume:
+        external: true
+    postgres-data:
         driver: local
 networks:
     default:

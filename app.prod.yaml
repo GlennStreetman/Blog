@@ -1,13 +1,9 @@
 version: "3.9"
 services:
     blogserver:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: ghcr.io/glennstreetman/blog
         ports:
             - 3000:3000
-        volumes:
-            - ./:/Blog/
         command: "npm run start"
     blogPosts:
         image: postgres
@@ -32,14 +28,6 @@ services:
             - 5436:5432
         volumes:
             - loginDBVolume:/var/lib/postgresql/data1
-    # adminer:
-    #     image: adminer
-    #     restart: always
-    #     ports:
-    #         - 8088:8080
-    #     links:
-    #         - blogPosts
-    #         - blogAuth
 volumes:
     loginDBVolume:
         external: true

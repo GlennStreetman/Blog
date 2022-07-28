@@ -29,7 +29,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+*.env
 .env
 .env.stage
+stage.env
 
 /backup/*
