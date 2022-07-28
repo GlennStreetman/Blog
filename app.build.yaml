@@ -21,17 +21,6 @@ services:
             - 5435:5433
         volumes:
             - postgres-data:/var/lib/postgresql/data2
-        command: -p 5433
-    blogAuth:
-        image: postgres
-        restart: always
-        environment:
-            POSTGRES_USER: "${pguser}"
-            POSTGRES_PASSWORD: "${pgpassword}"
-        ports:
-            - 5436:5432
-        volumes:
-            - loginDBVolume:/var/lib/postgresql/data1
 volumes:
     loginDBVolume:
         external: true

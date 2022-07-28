@@ -21,7 +21,6 @@ services:
             - 5435:5433
         volumes:
             - blogPosts-data:/var/lib/postgresql/data
-        command: -p 5433
 volumes:
     blogPosts-data:
         driver: local
