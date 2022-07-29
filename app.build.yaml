@@ -6,8 +6,8 @@ services:
             dockerfile: Dockerfile.build
         ports:
             - 3000:3000
-        volumes:
-            - ./:/app/
+        # volumes:
+        #     - ./:/app/
         command: "npm run start"
     blogPosts:
         image: postgres

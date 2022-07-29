@@ -6,6 +6,7 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 COPY . ./
+COPY prod.env ./.env
 RUN npm run build
 RUN npx prisma generate
 EXPOSE 3000
