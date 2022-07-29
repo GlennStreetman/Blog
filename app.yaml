@@ -6,8 +6,8 @@ services:
             dockerfile: Dockerfile
         ports:
             - 3000:3000
-        # volumes:
-        #     - ./:/Blog/
+        volumes:
+            - ./:/Blog/
         command: "npm run dev --reload"
     blogPosts:
         image: postgres
