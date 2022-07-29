@@ -20,11 +20,9 @@ services:
         ports:
             - 5435:5433
         volumes:
-            - postgres-data:/var/lib/postgresql/data2
+            - blogposts:/var/lib/postgresql/data2
 volumes:
-    loginDBVolume:
-        external: true
-    postgres-data:
+    blogposts:
         driver: local
 networks:
     default:
