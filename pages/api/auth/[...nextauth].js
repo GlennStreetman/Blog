@@ -30,5 +30,13 @@ export default NextAuth({
             },
         },
     },
+    callbacks: {
+        async session({ session, token, user }) {
+            console.log("--Session CALLED--", session, "--user--", user, "--token--", token);
+            console.log("  setup:  ", process.env.souceFile, process.env.DATABASE_URL);
+            session.user.roll = user.roll;
+            return session;
+        },
+    },
     debug: process.env.DEBUG,
 });

@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import Topper from "../components/topper";
 import Bottom from "../components/bottom";
 
-import UserPrefs from "../components/userPrefs";
+import UserPrefs from "../components/userPrefs"; 
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
     useEffect(() => {

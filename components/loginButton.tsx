@@ -5,7 +5,7 @@ import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 
 export default function LoginButton() {
     const { data: session, status } = useSession();
-
+    console.log(session, status);
     if (session) {
         return (
             <Tippy content={`Logout ${session.user.email}`} interactive={true} interactiveBorder={20} delay={100} arrow={true}>
