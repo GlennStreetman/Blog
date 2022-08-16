@@ -15,11 +15,11 @@
 }
 
 .article a {
-    @apply text-secondary font-bold text-lg italic;
+    @apply text-secondary font-bold tracking-wide text-lg italic;
 }
 
 .article a:hover {
-    @apply text-accent font-bold text-lg italic;
+    @apply text-accent font-bold tracking-wide text-lg italic;
 }
 
 .title {
@@ -39,7 +39,7 @@
 }
 
 .article thead tr td {
-    @apply text-accent font-bold text-lg italic;
+    @apply text-accent font-bold tracking-wide text-lg italic;
 }
 
 .article td {

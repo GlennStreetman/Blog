@@ -160,29 +160,80 @@ If the first command shows that the host you want to review starts on line 10, y
 `}
 />
 
-## Taking your .bashrc file with you
+## Taking your bash scripts with you
 
 If you are spending time customizing your .bashrc file with new commands, themes, filter history, etc. its disappointing to shell into a box
-and not have your custom crafted profile with you. A couple of quick lines though and you can copy your .bashrc file from your local machine each time you jump
-into a host. Go back to your ~/.ssh/config file from earlier and add the two new lines shown below. The LocalCommand line will run before the interactive SSH terminal is opened.
-Each time an interactive terminal is opened **_source ~/.bashrc_** is automatically executed so all your configurations should be available on the remote machine.
+and not have your custom crafted profile with you. A couple of quick lines though and you can copy your macros from your local machine each time you jump
+into a host. You don't want to completely overwrite the target machines .bashrc profile, you might break functionality on the target machine if scripts, CLI's, etc. have
+setup and rely on scripts. Lets add a quick command line function that appends the contents of .travelrc to target hosts .bashrc.
 
 <CodeBlock
     language="language-Bash"
-    file="~/.ssh/config"
-    code={`    PermitLocalCommand yes                                 #add this line
-
-    HOST jump
-        HostName 192.168.0.102
-        user bob
-        Port 22
-        IdentityFile ~/.ssh/new_key
-        LocalCommand scp ~/.bashrc jump:/home/bob/.bashrc  #add this line
-
+    file=".bashrc"
+    code={`function tssh {
+    local OPTIND verbose=0
+    while getopts 'cx:' OPTION; do
+        case "\$OPTION" in
+            c)
+                echo \$1 \$2
+            	\$(scp ~/.travelrc \$2:/home/glenn/.travelrc)
+                \$(scp ~/.trclogout \$2:/home/glenn/.trclogout)
+                \$(ssh \$2 "echo '#startTravelrc' >> .bashrc && cat .travelrc >> .bashrc && echo '#endTravelrc' >> .bashrc")
+                \$(ssh \$2 "cat .trclogout >> .bash_logout")
+                ssh \$2
+                ;;
+            x)
+                \$(ssh \$2 'sed -i '/#startTravelrc/,/#endTravelrc/d' .bashrc')
+                \$(ssh \$2 'sed -i '/#startCleanup/,/#endCleanup/d' .bash_logout')
+                ;;
+            ?)
+                echo "script usage: \$(basename \\$0) [-c hostname] [-x hostname]" >&2
+                echo "-c hostname: appends contents of local .travelrc to remote .bashrc" >&2
+                echo "-x hostname: removes contents of local .travelrc from remote .bashrc" >&2
+                echo "config hosts:"
+                cat ~/.ssh/config | grep -n HOST | awk '{print \$2}' | nl
+                ;;                
+        esac
+    done
+    if [ \$OPTIND -eq 1 ]; then 
+        echo "script usage: \$(basename \\$0) [-c hostname] [-x hostname]" >&2
+        echo "-c hostname: appends contents of local .travelrc to remote .bashrc" >&2
+        echo "-x hostname: removes contents of local .travelrc from remote .bashrc" >&2
+        echo "config hosts:"
+        cat ~/.ssh/config | grep -n HOST | awk '{print \$2}' | nl
+    fi
+    shift "\$(($OPTIND -1))"
+    
+}
 `}
 />
+
+Now you can run "tssh -c hostname" to copy append your .travelrc file to target hosts .bashrc. You may notice that a second file is copied over, .trclogout.
+Create the file shown below, it will cleanup the source files and changes to dot files when you logout.
+
+<CodeBlock
+    language="language-Bash"
+    file=".trclogout"
+    code={`
+        #startCleanup
+        startKey=\$(grep -n -m 1 '#startCleanup' .bash_logout |sed  's/\\([0-9]*\\).*/\\1/')
+        endKey=\$(grep -n '#endCleanup' .bash_logout | tail -n1 | cut -d: -f1)
+        delKey="\${startKey},\${endKey}d"
+        sed -i '/#startTravelrc/,/#endTravelrc/d' .bashrc
+        sed -i $delKey .bash_logout
+        if [ -f ".travelrc" ]; then
+            rm .travelrc
+        fi
+        if [ -f ".trclogout" ]; then
+            rm .trclogout
+        fi
+        #endCleanup
+    `}
+/>
+
+For a more robust setup that can deal with multiple different command lines (.bashrc, .zshrc, etc), and has additional features see [sshrc](https://github.com/cdown/sshrc)
 
 ## Conclusion
 
 Hopefully some of the configurations have made your SSH standard of living a bit better. SSH is a bit of a rabbit hole. SSH Security, jump boxes, tunneling
-are all fun subjects to read up on? If you have any favorite SSH config tricks leave them as a comment below.
+are all fun subjects to read up on. If you have any favorite SSH config tricks leave them as a comment below.

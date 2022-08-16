@@ -5,12 +5,13 @@
         "build": "next build",
         "start": "next start",
         "dUp": "cp test.env .env && docker-compose -f app.yaml up --build",
-        "pBuild": "cp prod.env .env && eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && docker-compose  -f app.build.yaml  up --build",
+        "pBuild": "cp prod.env .env && sudo rm -rf .next && docker-compose  -f app.build.yaml  up --build",
         "pUp": "cp prod.env .env &&  docker-compose -f app.prod.yaml up",
         "lint": "next lint",
         "info": "next info",
-        "pushBuild": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e prod.env next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
-        "restartProd": "eval `ssh-agent -s` && ssh-add ~/.ssh/localDev && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
+        "pushBuild": "docker ps | grep blog_blogserver | awk {'print $1'} | xargs -i docker commit {} blog &&  docker tag blog ghcr.io/glennstreetman/blog:latest && docker push ghcr.io/glennstreetman/blog:latest",
+        "pushBuildOld": "sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e prod.env next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
+        "restartProd": "docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",

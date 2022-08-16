@@ -155,4 +155,5 @@ Once all of the production containers are down I relaunch them using an ssh conf
 
 After completing a successful build in my dev environment I can now run a one line script to push the updated files to my build server then restart it.
 Bypassing the build step on my production server from the start could have saved a few hours of head scratching. The new process is also simple. Build in dev
-and run my update from dev. No need to jump between terminals or run a build twice. Live and learn.
+and run my update from dev. No need to jump between terminals or run a build twice. Live and learn. Down the road i will probable contanerize everything and push my changes to docker image hub.
+That way my production environment will be able to pull down my working images that contain all of my build files.
