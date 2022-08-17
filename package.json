@@ -11,7 +11,8 @@
         "info": "next info",
         "pushBuild": "docker ps | grep blog_blogserver | awk {'print $1'} | xargs -i docker commit {} blog &&  docker tag blog ghcr.io/glennstreetman/blog:latest && docker push ghcr.io/glennstreetman/blog:latest",
         "pushBuildOld": "sudo rm -rf .next && ssh ec2 sudo rm -rf /projects/Blog/.next && dotenv -e prod.env next build && scp -r /home/glenn/projects/Blog/.next ec2:/projects/Blog/.next && docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
-        "restartProd": "docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog"
+        "restartProd": "docker context use prod-context && docker ps -a | grep blog | awk {'print $1'} | xargs -I {} docker stop {} && ssh launchBlog",
+        "pullBuild": "docker pull ghcr.io/glennstreetman/blog:latest"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",
