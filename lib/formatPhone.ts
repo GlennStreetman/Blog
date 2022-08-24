@@ -13,7 +13,7 @@ export function formatPhone(phone) {
 
 export function stripPhone(phone) {
     if (phone && typeof phone === "string") {
-        let strippedPhone = phone.replace(/\D/g, ""); //replace any non number
+        let strippedPhone = phone.replace(/(\D|^1)/g, ""); //replace any non number OR leading 1
         strippedPhone = strippedPhone.slice(0, 10);
         return strippedPhone;
     } else {
