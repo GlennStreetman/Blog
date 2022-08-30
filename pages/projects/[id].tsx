@@ -3,6 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
+import Youtube from '../../components/youtubeWIndow'
+
 import styles from "./projects.module.css";
 
 import { getAllProjectIds } from "../../lib/projects";
@@ -80,15 +82,22 @@ function projects(projectData) {
                                         className="text-secondary font-bold text-lg italic hover:text-accent  hover:font-bold  hover:text-lg  hover:italic"
                                         href={projectData.live}
                                     >
-                                        {projectData.live}
+                                        View Deployed Example
                                     </a>
                                 </h3>
                             ) : (
                                 <></>
                             )}
+
                         </div>
                     </div>
                     <div>
+                    {projectData.youtube ? (
+                        // <div>{projectData.youtube}</div>
+                        <Youtube link={projectData.youtube} />
+                    ) : (
+                        <></>
+                    )}
                         <article className={styles.article}>
                             <DynamicBody />
                             {projectData?.filteredPosts?.length > 0 ? <h2>Related Posts: </h2> : <></>}

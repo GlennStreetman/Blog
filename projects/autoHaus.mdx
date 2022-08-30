@@ -7,12 +7,14 @@ export const Meta = {
     repo: "https://github.com/GlennStreetman/autohaus",
     languages: "language-typescript, language-Next, language-Tailwind, language-docker, language-Postgres",
     live: "https://autohaus.gstreet.dev",
+    youtube: false,
+    priority: 2,
 };
 
 ## A Small business automotive website.
 
 A contact of mine recently reached out to let me know they were starting a small business, a Porsche and Exotic specialty repair shop. While the business partners know
-the ins and outs of running a small automotive repair shop they had no plans for creating a business website, setting up email services, or building their small office network.
+the ins and outs of running a small automotive repair shop, they had no plans for creating a business website, setting up email services, or building their small office network.
 A quick pitch later and I was building their site, getting them a domain, and taking care of all their IT odds and ends.
 
 ## What did they need their site to do?
@@ -24,7 +26,7 @@ of showing up in regional search results. Everything needed to be easy to use as
 ## What stack to use
 
 Potential clients might be accessing the site with a cell phone that has limited internet access. Long rendering times can reduce SEO placement. The site needed to be SEO friendly and fast. As a result, I decided to reach
-for [Next.js(https://nextjs.org/)]. Next.js offers [static site generation] (https://nextjs.org/docs/basic-features/data-fetching/overview) using [react](https://reactjs.org/),
+for [Next.js](https://nextjs.org/). Next.js offers [static site generation] (https://nextjs.org/docs/basic-features/data-fetching/overview) using [react](https://reactjs.org/),
 [Image optimization] (https://nextjs.org/docs/basic-features/image-optimization), and [file system routing] (https://nextjs.org/docs/routing/introduction) out of the box with zero configuration.
 Next.js looked like a quick way to put together a small website that check all the boxes for my client’s needs.
 For styling and data needs I decided to reach for what I already knew, [Tailwinds](https://tailwindcss.com/) & [Postgres](https://www.postgresql.org/). Both choices would easily get the job done and have widespread adoption, so
