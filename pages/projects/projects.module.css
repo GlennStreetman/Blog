@@ -33,3 +33,8 @@
 .article blockquote {
     @apply bg-secondary text-xs text-accent p-3 rounded-md;
 }
+
+.centerBox {
+    height: 50%;
+    width: 50%;
+}
