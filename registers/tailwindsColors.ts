@@ -36,7 +36,7 @@ const tailColors = {
         900: "#18181B",
     },
     Neutral: {
-        50: "#FAFAFA",
+        50: "#FDFDFD",
         100: "#F5F5F5",
         200: "#E5E5E5",
         300: "#D4D4D4",
