@@ -33,3 +33,7 @@
 .article blockquote {
     @apply bg-secondary text-xs text-accent p-3 rounded-md;
 }
+
+.article b {
+    @apply tracking-wide font-semibold;
+}

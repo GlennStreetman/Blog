@@ -6,7 +6,6 @@ import SourceTrail from "../components/sourceTrail";
 import HoverSurface from "../components/hoverSurface";
 import dynamic from "next/dynamic";
 import styles from "./left_Column.module.css";
-import iconButton from '../components/iconButton'
 import {IoLogoYoutube} from 'react-icons/io'
 
 interface props {
@@ -17,7 +16,9 @@ interface props {
 function Left_Column(p: props) {
     const sortedProjects = p.allProjectData.sort((a,b)=> a.priority - b.priority)
     const projects = sortedProjects.map((el) => {
-        const youtube = el.youtube ? <div className='absolute top-3 right-3 z-50'><a className='' href={el.youtube}><IoLogoYoutube className='text-2xl hover:text-3xl text-[#e43534]' /></a></div> : <></>
+        const youtube = el.youtube ? <div className='absolute top-3 right-3 z-50'><a target='_blank' rel="noopener noreferrer" href={el.youtube}>
+                <IoLogoYoutube className='text-1xl md:text-2xl hover:text-2xl md:hover:text-3xl text-[#e43534]' />
+            </a></div> : <></>
         const DynamicBody = dynamic(() => import(`../projectStingers/${el.id}.mdx`));
         return (
 
@@ -37,8 +38,8 @@ function Left_Column(p: props) {
                                 tech={
                                     el?.languages
                                         ? el.languages.split(",").map(function (item) {
-                                              return item.trim();
-                                          })
+                                            return item.trim();
+                                        })
                                         : []
                                 }
                                 post={`post-${el.id}`}
