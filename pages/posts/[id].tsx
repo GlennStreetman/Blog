@@ -10,7 +10,7 @@ import { getSortedProjectData } from "../../lib/projects";
 
 import HomeButton from "../../components/HomeButton";
 import Comments from "../../components/comment";
-import ActiveLogo from "../../components/activeLogo";
+import LogoPicker from "../../components/LogoPicker";
 import Date from "../../components/date";
 import SourceTrail from "../../components/sourceTrail";
 import HoverSurface from "../../components/hoverSurface";
@@ -52,7 +52,7 @@ export default function PostBody(postData) {
                 <div className={`flex flex-col w-screen sm:w-auto col-span-12 md:col-span-8 p-2 gap-2`}>
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-5 sm:col-span-4 md:col-span-3 lg:col-span-3">
-                            <ActiveLogo />
+                            <LogoPicker />
                         </div>
                         <div className="col-span-7 sm:col-span-8 md:col-span-9 lg:col-span-9 my-auto">
                             <h1 className="text-accent text-2xl">{postData.title}</h1>

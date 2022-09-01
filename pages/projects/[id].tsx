@@ -14,7 +14,7 @@ import buildProjects from "../../lib/buildProjects";
 import HomeButton from "../../components/HomeButton";
 import SourceTrail from "../../components/sourceTrail";
 import Date from "../../components/date";
-import ActiveLogo from "../../components/activeLogo";
+import LogoPicker from "../../components/LogoPicker";
 import Comments from "../../components/comment";
 import HoverSurface from "../../components/hoverSurface";
 
@@ -56,7 +56,7 @@ function projects(projectData) {
                 <div className={`flex flex-col w-screen sm:w-auto col-span-12 md:col-span-8 p-2 gap-2`}>
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-5 sm:col-span-4 md:col-span-3 lg:col-span-3">
-                            <ActiveLogo />
+                            <LogoPicker />
                         </div>
 
                         <div className="col-span-7 sm:col-span-8 md:col-span-9 lg:col-span-9 my-auto">
