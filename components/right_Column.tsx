@@ -13,6 +13,7 @@ interface props {
 }
 
 function countFilterMatches(list, filter) {
+    if (filter !== "") {
     const totalCount = list.reduce((prev, curr) => {
         const match = curr.languages.split(",").some((currEl) => {
             return currEl.trim() === filter.trim();
@@ -21,6 +22,9 @@ function countFilterMatches(list, filter) {
         return prev;
     }, 0);
     return totalCount;
+} else {
+    return list.length
+}
 }
 
 export default function Right_Column(p: props) {
@@ -29,7 +33,7 @@ export default function Right_Column(p: props) {
     const [posts, setPosts] = useState([]);
     const [filters, setFilters] = useState(new Set());
     const [openFilters, setOpenFilters] = useState(false);
-    const postPerPage = 8;
+    const postPerPage = 10;
 
     useEffect(() => {
         if (p?.allPostsData?.length && p.allPostsData.length > 0) {
@@ -72,6 +76,19 @@ export default function Right_Column(p: props) {
     };
 
     const filterIcon = !openFilters ? currentFilter : "";
+
+    const showTrack = ()=>{
+        if (p?.allPostsData?.length && p.allPostsData.length > 0 && countFilterMatches(p.allPostsData, currentFilter) > postPerPage) {
+            return (<Track
+                index={index}
+                totalLength={currentFilter === "" ? p.allPostsData.length : countFilterMatches(p.allPostsData, currentFilter)}
+                divisor={postPerPage}
+                callback={setIndex}
+            />)
+        } else {
+            return <></>
+        }
+    }
 
     return (
         <div className="space-y-2">
@@ -128,16 +145,7 @@ export default function Right_Column(p: props) {
                         </HoverSurface>
                     </section>
                 ))}
-                {p?.allPostsData?.length && p.allPostsData.length > 0 ? (
-                    <Track
-                        index={index}
-                        totalLength={currentFilter === "" ? p.allPostsData.length : countFilterMatches(p.allPostsData, currentFilter)}
-                        divisor={postPerPage}
-                        callback={setIndex}
-                    />
-                ) : (
-                    <></>
-                )}
+                {showTrack()}
             </div>
         </div>
     );

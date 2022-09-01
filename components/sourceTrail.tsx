@@ -32,7 +32,16 @@ interface props {
 
 function SourceTrail(p: props) {
     const iconTrail = p.tech.map((el, indx) => {
-        return <div key={p.post + indx}>{findIcon[el]}</div>;
+        let trimmed = el.replace(/language-/g, "")
+        trimmed = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+        const icon = findIcon[el]
+        return (
+            <Tippy content={trimmed} interactive={true} interactiveBorder={1} delay={1} arrow={true}>
+                <div key={p.post + indx}>   
+                    {icon}
+                </div>
+            </Tippy>
+        )
     });
 
     let techData = p.tech.reduce((reducer, el) => {
@@ -44,10 +53,8 @@ function SourceTrail(p: props) {
 
     techData = techData.slice(0, techData.length - 2);
 
-    return (
-        <Tippy content={techData} interactive={true} interactiveBorder={20} delay={100} arrow={true}>
+    return (       
             <div className="inline-flex bg-inherit gap-1">{iconTrail}</div>
-        </Tippy>
     );
 }
 

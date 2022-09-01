@@ -14,7 +14,7 @@ export default function LoginButton() {
                         className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1"
                         onClick={() => signOut({ redirect: false })}
                     >
-                        <BiLogOutCircle className="h-7 w-7 text-primary hover:text-accent" />
+                        <BiLogOutCircle className="h-7 w-7 text-primary hover:text-accent bg-primary" />
                     </button>
                 </Tippy>
             </div>
@@ -24,7 +24,7 @@ export default function LoginButton() {
         <div>
             <Tippy content="Login" interactive={true} interactiveBorder={20} delay={100} arrow={true}>
                 <a href={process.env.NEXTAUTH_REDIRECT} className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1">
-                    <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" />
+                    <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent bg-primary" />
                 </a>
             </Tippy>
         </div>

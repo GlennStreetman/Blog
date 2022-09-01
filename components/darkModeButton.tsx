@@ -40,11 +40,11 @@ function DarkModeButton(p: props) {
             >
                 {darkMode ? (
                     // <div className="m-auto">
-                    <BiSun className="h-7 w-7 text-primary hover:text-accent" />
+                    <BiSun className="h-7 w-7 text-primary hover:text-accent bg-primary" />
                 ) : (
                     // </div>
                     // <div className="m-auto">
-                    <BiMoon className="h-7 w-7 text-primary hover:text-accent" />
+                    <BiMoon className="h-7 w-7 text-primary hover:text-accent bg-primary" />
                     // </div>
                 )}
             </button>

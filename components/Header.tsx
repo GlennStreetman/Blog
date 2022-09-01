@@ -22,10 +22,10 @@ export default function Header({ home }) {
             </Head>
             <header>
                 <div className="grid grid-cols-12 gap-4">
-                    <div className="col-span-3 sm:col-span-2 md:col-span-5">
+                    <div className="col-span-6 sm:col-span-5 md:col-span-4 lg:col-span-4 xl:col-span-5">
                         <ActiveLogo />
                     </div>
-                    <div className="col-span-9 sm:col-span-10 md:col-span-7 my-auto">
+                    <div className="col-span-6 sm:col-span-7 md:col-span-8 lg:col-span-8 xl:col-span-7 my-auto">
                         <div className="flex flex-col align-middle  tracking-wide gap-1">
                             <h1 className="text-primary">
                                 <b>{name}:</b> Full Stack Web Developer with a background in Financial Systems Implementations

@@ -16,7 +16,7 @@ interface props {
 function Left_Column(p: props) {
     const sortedProjects = p.allProjectData.sort((a,b)=> a.priority - b.priority)
     const projects = sortedProjects.map((el) => {
-        const youtube = el.youtube ? <div className='absolute top-3 right-3 z-50'><a target='_blank' rel="noopener noreferrer" href={el.youtube}>
+        const youtube = el.youtube ? <div className='absolute top-3 right-3 z-40'><a target='_blank' rel="noopener noreferrer" href={el.youtube}>
                 <IoLogoYoutube className='text-1xl md:text-2xl hover:text-2xl md:hover:text-3xl text-[#e43534]' />
             </a></div> : <></>
         const DynamicBody = dynamic(() => import(`../projectStingers/${el.id}.mdx`));
@@ -32,7 +32,6 @@ function Left_Column(p: props) {
                         <article className={styles.article}>
                         <DynamicBody />
                         </article>
-                        {/* <div className="text-primary">{el.description}</div> */}
                         <div className="flex gap-2 my-auto">
                             <SourceTrail
                                 tech={
