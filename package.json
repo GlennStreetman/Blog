@@ -7,7 +7,7 @@
         "dBuild": "cp test.env .env && docker-compose -f app.yaml up --build",
         "dUp": "cp test.env .env && docker-compose -f app.yaml up",
         "pBuild": "cp prod.env .env && sudo rm -rf .next && docker-compose  -f app.build.yaml  up --build",
-        "pUp": "cp prod.env .env &&  docker-compose -f app.prod.yaml up",
+        "pUp": "docker-compose -f app.prod.yaml up",
         "lint": "next lint",
         "info": "next info",
         "pushBuild": "docker ps | grep blog_blogserver | awk {'print $1'} | xargs -i docker commit {} blog &&  docker tag blog ghcr.io/glennstreetman/blog:latest && docker push ghcr.io/glennstreetman/blog:latest",
