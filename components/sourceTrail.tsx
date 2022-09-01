@@ -36,11 +36,13 @@ function SourceTrail(p: props) {
         trimmed = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
         const icon = findIcon[el]
         return (
+            <div key={p.post + indx}> 
             <Tippy content={trimmed} interactive={true} interactiveBorder={1} delay={1} arrow={true}>
-                <div key={p.post + indx}>   
+                <div>   
                     {icon}
                 </div>
             </Tippy>
+            </div>
         )
     });
 
