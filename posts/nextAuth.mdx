@@ -25,13 +25,13 @@ I'm not sure this can be done using a serverless approach. I recommend Prisma wi
 
 gstreet.dev: NextAuth Login Service  
 blog.gstreet.dev: Next.js Blog
-finndash.gstreet.dev: Express.js Financial App
+Finndash.gstreet.dev: Express.js Financial App
 
 ## Nextauth session cookie
 
 NextAuth expects there to be a cookie in the client’s browser to check the client’s authentication status. If your web applications are
 divided up using subdomains this will violate the client side CORS:[Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy),
-gstreet.dev, blog.street.dev and finndash.gstreet.dev are all
+gstreet.dev, blog.street.dev and Finndash.gstreet.dev are all
 different origins, so the cookie created will by the login server will be unavailable to blog and Finndash. When the user is authenticated,
 NextAuth needs to create a cookie that is available domain wide. My Auth server is served under the root domain, gstreet.dev, so the cookies the
 auth server create have a domain of gstreet.dev by default. If, however, the cookies domain has a "." appended to the beginning of the domain it
