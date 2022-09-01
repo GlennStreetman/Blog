@@ -15,11 +15,11 @@
 }
 
 .article a {
-    @apply text-secondary font-bold tracking-wide text-lg italic;
+    @apply text-secondary italic;
 }
 
 .article a:hover {
-    @apply text-accent font-bold tracking-wide text-lg italic;
+    @apply text-accent italic;
 }
 
 .title {
