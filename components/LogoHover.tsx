@@ -1,8 +1,8 @@
-import styles from "./activeLogo.module.css";
+import styles from "./LogoHover.module.css";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-function ActiveLogo() {
+function LogoHover() {
     const [darkStyle, setDarkStyle] = useState(styles.hidden);
     const [darkStyleOn, setDarkStyleOn] = useState(styles.hidden);
     const [lightStyle, setLightStyle] = useState(styles.hidden);
@@ -10,7 +10,6 @@ function ActiveLogo() {
 
     useEffect(() => {
         function changeDarkMode() {
-            console.log("running change dark mode");
             const lightSwitches = {
                 darkOff: setDarkStyle,
                 darkOn: setDarkStyleOn,
@@ -29,7 +28,6 @@ function ActiveLogo() {
         }
 
         window.addEventListener("darkEvent", () => {
-            console.log("storage event logged");
             changeDarkMode();
         });
 
@@ -109,4 +107,4 @@ function ActiveLogo() {
     );
 }
 
-export default ActiveLogo;
+export default LogoHover;
