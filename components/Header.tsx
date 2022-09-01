@@ -6,7 +6,7 @@ export const siteTitle = "Glenn Streetmans Dev Blog";
 
 export default function Header({ home }) {
 
-    const h1Styling = 'text-primary text-sm lg:text-lg'
+    const h1Styling = 'text-primary text-sm lg:text-base'
     const h1Bold = 'font-semibold tracking-wider'
 
     return (
@@ -25,12 +25,12 @@ export default function Header({ home }) {
             </Head>
             <header>
                 <div className="grid grid-cols-12 gap-4">
-                    <div className="flex place-content-center col-span-12 sm:col-span-5 md:col-span-4 lg:col-span-12 xl:col-span-5">
-                        <div className='place-content-center h-[150px] sm:h-[200px] md:h-full lg:h-[200px] xl:h-full w-[150px] sm:w-[200px] md:w-full lg:w-[200px] xl:w-full' >
+                    <div className="flex place-content-center col-span-12 sm:col-span-5 md:col-span-4 lg:col-span-12 xl:col-span-12 2xl:col-span-5">
+                        <div className='place-content-center h-[150px] sm:h-[200px] md:h-full lg:h-[200px] xl:h-250 2xl:w-full w-[150px] sm:w-[200px] md:w-full lg:w-[200px] xl:w-250 2xl:h-full' >
                             <LogoPicker />
                         </div>  
                     </div>
-                    <div className="col-span-12 sm:col-span-7 md:col-span-8 lg:col-span-12 xl:col-span-7 my-auto">
+                    <div className="col-span-12 sm:col-span-7 md:col-span-8 lg:col-span-12 xl:col-span-12 2xl:col-span-7 my-auto">
                         <div className="flex flex-col align-middle  tracking-wide gap-1">
                             <h1 className={h1Styling}>
                                 <b className={h1Bold}>{name}:</b> Full Stack Web Developer with a background in Financial Systems Implementations
