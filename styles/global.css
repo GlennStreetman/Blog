@@ -25,7 +25,8 @@
 }
 
 html {
-    @apply bg-primary min-h-screen;
+    font-size: 20px;
+    @apply bg-primary min-h-screen subpixel-antialiased;
 }
 
 #__next {
@@ -37,8 +38,7 @@ body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     line-height: 1.6;
-    font-size: 20px;
-    @apply min-h-screen;
+    @apply min-h-screen ;
 }
 
 * {
