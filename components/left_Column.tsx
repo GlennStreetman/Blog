@@ -28,7 +28,7 @@ function Left_Column(p: props) {
                 <>
                 <Link href={`/projects/${el.id}`} passHref>
                     <a>
-                        <div className="text-secondary tracking-wide font-heading">{el.project}</div>
+                        <div className="text-secondary tracking-wider font-heading">{el.project}</div>
                         <article className={styles.article}>
                         <DynamicBody />
                         </article>

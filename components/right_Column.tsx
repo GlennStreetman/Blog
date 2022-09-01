@@ -123,7 +123,7 @@ export default function Right_Column(p: props) {
                         <HoverSurface>
                             <Link href={`/posts/${el.id}`} passHref>
                                 <a>
-                                    <div className="text-secondary tracking-wide font-heading">{el.title}</div>
+                                    <div className="text-secondary tracking-wider font-heading">{el.title}</div>
                                     {el.oneliner ? <div className="text-primary font-extralight text-sm tracking-wide ">{el.oneliner}</div> : <></>}
                                     <div className="flex gap-2 my-auto">
                                         <small className="text-primary">

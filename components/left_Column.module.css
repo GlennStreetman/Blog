@@ -3,11 +3,11 @@
 }
 
 .article h1 {
-    @apply text-accent font-bold text-xl py-5 tracking-wide;
+    @apply text-accent font-bold text-xl py-5 tracking-wider;
 }
 
 .article h2 {
-    @apply text-secondary font-bold text-lg tracking-wide;
+    @apply text-secondary font-bold text-lg tracking-wider;
 }
 
 .article p {
@@ -35,5 +35,5 @@
 }
 
 .article b {
-    @apply tracking-wide font-semibold;
+    @apply tracking-wider font-semibold;
 }
