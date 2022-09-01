@@ -1,11 +1,14 @@
 import Head from "next/head";
-import ActiveLogo from "./activeLogo";
-import Link from "next/link";
+import LogoPicker from "./LogoPicker";
 
 const name = "Glenn Streetman";
 export const siteTitle = "Glenn Streetmans Dev Blog";
 
 export default function Header({ home }) {
+
+    const h1Styling = 'text-primary text-sm lg:text-lg'
+    const h1Bold = 'font-semibold tracking-wider'
+
     return (
         <div className="max-w-full p-2">
             <Head>
@@ -22,19 +25,21 @@ export default function Header({ home }) {
             </Head>
             <header>
                 <div className="grid grid-cols-12 gap-4">
-                    <div className="col-span-6 sm:col-span-5 md:col-span-4 lg:col-span-4 xl:col-span-5">
-                        <ActiveLogo />
+                    <div className="flex place-content-center col-span-12 sm:col-span-5 md:col-span-4 lg:col-span-12 xl:col-span-5">
+                        <div className='place-content-center h-[150px] sm:h-[200px] md:h-full lg:h-[200px] xl:h-full w-[150px] sm:w-[200px] md:w-full lg:w-[200px] xl:w-full' >
+                            <LogoPicker />
+                        </div>  
                     </div>
-                    <div className="col-span-6 sm:col-span-7 md:col-span-8 lg:col-span-8 xl:col-span-7 my-auto">
+                    <div className="col-span-12 sm:col-span-7 md:col-span-8 lg:col-span-12 xl:col-span-7 my-auto">
                         <div className="flex flex-col align-middle  tracking-wide gap-1">
-                            <h1 className="text-primary">
-                                <b>{name}:</b> Full Stack Web Developer with a background in Financial Systems Implementations
+                            <h1 className={h1Styling}>
+                                <b className={h1Bold}>{name}:</b> Full Stack Web Developer with a background in Financial Systems Implementations
                             </h1>
-                            <h1 className="text-primary">
-                                <b>Location:</b> San Diego, California
+                            <h1 className={h1Styling }>
+                                <b className={h1Bold}>Location:</b> San Diego, California
                             </h1>
-                            <h1 className="text-primary">
-                                <b>Reading: </b>
+                            <h1 className={h1Styling}>
+                                <b className={h1Bold}>Reading: </b>
                                 <a
                                     className="text-xs sm:text-base text-primary hover:text-accent"
                                     href="https://github.com/opsdisk/the_cyber_plumbers_handbook"
@@ -42,17 +47,17 @@ export default function Header({ home }) {
                                     Cyber Plumbers Handbook
                                 </a>
                             </h1>
-                            <h1 className="text-primary">
-                                <b>Building: </b>
-                                <a className="text-xs sm:text-base text-primary hover:text-accent" href="autohaus.gstreet.dev">
+                            <h1 className={h1Styling}>
+                                <b className={h1Bold}>Building: </b>
+                                <a className="text-xs sm:text-base text-primary hover:text-accent" href="https://autohaus.gstreet.dev">
                                     AutoHaus
                                 </a>
                             </h1>
-                            <h1 className="text-primary">
-                                <b>Status:</b> Looking for Group
+                            <h1 className={h1Styling}>
+                                <b className={h1Bold}>Status:</b> Looking for Group
                             </h1>
-                            <h1 className="text-primary">
-                                <b>Contact:</b>{" "}
+                            <h1 className={h1Styling}>
+                                <b className={h1Bold}> Contact:</b>{" "}
                                 <a className="text-xs sm:text-base text-primary hover:text-accent" href="mailto:glenn@gstreet.dev">
                                     glenn@gstreet.dev
                                 </a>
