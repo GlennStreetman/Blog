@@ -2,7 +2,7 @@ import CodeBlock from "../components/codeBlock2";
 
 export const Meta = {
     id: "loginRoles",
-    title: "Open Source PR: Role Based Login w/NextAuth",
+    title: "Open Source PR: Role-Based Login w/NextAuth",
     date: "2022-05-21",
     type: "notes",
     dependancies: "",
@@ -13,15 +13,15 @@ export const Meta = {
 
 ## NextAuth Login Roles:
 
-When I first started using [NextAuth](https://next-auth.js.org/getting-started/introduction) I was surprised to find that they had no instructions on implementing role based
+When I first started using [NextAuth](https://next-auth.js.org/getting-started/introduction) I was surprised to find no instructions on implementing role-based
 authentication. I felt that this was a basic authentication feature that would have been "batteries included" in many auth frameworks. This was a bit puzzling, but I knew there had to be
 a way to do it.
 
 ## Database Adapter:
 
-By default, NextAuth does not uses a Jason Web Token based authentication method. There is no database, 3rd party 0-auth providers provide a token that is stored in the user’s local storage.
-The option is available to use a database adapter that lets the developer keep track of session information in a database. With a database keeping track of sessions, all I needed to do was
-extend the database user table to include a role. In this case I used [Prisma ORM](https://www.prisma.io/) to manage my database.
+By default, NextAuth uses a JSON Web Token authentication method, there is no database. 3rd party 0auth providers send a token that is stored in the user’s local storage. That token is then passed 
+to the App's backend on each request as a cookie to establish identity. NextAuth has the option available to setup a database adapter, which lets the developer keep track of session information in a database. 
+With a database keeping track of sessions, all I needed to do was extend the database user table to include a role. In this case I used [Prisma ORM](https://www.prisma.io/) to manage my database.
 
 <CodeBlock
     language="language-javascript"
@@ -43,7 +43,7 @@ extend the database user table to include a role. In this case I used [Prisma OR
 
 ## Returning user role
 
-NextAuth offers several custom callbacks that override default behavior if provided. The session callback is where I found I could include my user roles.
+NextAuth supports several custom callbacks that override default behavior if provided. The session callback is where I found I could include my user roles.
 
 <CodeBlock
     language="language-javascript"
@@ -62,7 +62,7 @@ NextAuth offers several custom callbacks that override default behavior if provi
 
 ## Check for role using session hooks
 
-Now that the user role is being returned by NextAuth we can test the users role when calling a session hook.
+Now that the user role is being returned by NextAuth we can test the user's role when calling a session hook.
 
 <CodeBlock
     language="language-javascript"
@@ -86,7 +86,7 @@ Now that the user role is being returned by NextAuth we can test the users role 
 
 ## My first PR
 
-Roles being omitted from the official documentation seemed like a major omission. Many, if not most, authentication systems need a way to keep track of roles.
+Documentation on roles based login strategies not being included in the offical documenteation seemed like a major omission. Many, if not most, authentication systems need a way to keep track of roles. 
 I stumbled through [creating a pull request](https://github.com/nextauthjs/next-auth/pull/4449) and it was merged, \\0/ , on May 6th, 2022.
 
 [Role-based-login-strategy](https://next-auth.js.org/tutorials/role-based-login-strategy) is now an official guide for NextAuth.

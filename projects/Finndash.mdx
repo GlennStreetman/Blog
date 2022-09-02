@@ -20,26 +20,26 @@ export const Meta = {
 ## React:
 
     Finndash was my first major full stack web application project. Having some experience working with Python's [Flask](https://flask.palletsprojects.com/en/2.2.x/) and 
-    [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/) I knew that server-side templating mixed with client side query selectors could quickly become difficult to organize 
+    [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/), I knew that server-side templating mixed with client side query selectors could quickly become difficult to organize 
     on more complicated pages. I wanted to build a web app that could render user-defined dynamic dashboards that didn't have many page transitions or reloads. Finndash's data logic would 
-    make use of asynchronous API calls. After API data was retrieved a series of state updated would need to fire off to render and cache the data. A library to help manage this process would simplify 
+    make use of asynchronous API calls. After API data was retrieved a series of state updates would need to fire off to render and cache the data. A library to help manage this process would simplify 
     the implementation immensely. After researching available libraries, I landed on [React](https://reactjs.org/). 
     The React team's supported deployment method, [Create-React-App](https://create-react-app.dev/), would allow me to easily create a single page web application reducing page transitions. React itself would 
     help with state management and gives me a library to break my code into reusable components. Create-React-App also bundles [ExpressJS](https://expressjs.com/) which felt very familiar coming from Flask.
 
 ## Redux and Redux Tool Kit:
 
-    Users of Finndash can rapidly specify thousands of API calls from [Finnhub.io](Finnhub.io), associated with any number of dashboards, that can return large chunks of JSON
-    data. Once the data is sourced from [Finnhub.io](Finnhub.io) the data needed for display purposes on the dashboard needs to be cached on the client side. To save on future Finnhub.io 
-    API calls, additional data can be cached to MongoDB. The data stored on the client-side then needs to be converted into a standard format using derived state. 
-    As the user updates API data filters and reconfigures how widgets display data Finndash needs to fire of actions that freshen data based on updated filters and derives new state based 
+    Users of Finndash can rapidly specify thousands of API calls from [Finnhub.io](Finnhub.io), associated with any number of dashboards, which can return large chunks of JSON
+    data. Once the data is sourced from [Finnhub.io](Finnhub.io), data needed for display purposes on the dashboard needs to be cached on the client side. To save on future Finnhub.io 
+    API calls, additional data can be cached to MongoDB. Data stored on the client-side then needs to be converted into a standard format using derived state. 
+    As the user updates API data filters and reconfigures how widgets display data Finndash needs to fire off actions that refresh data based on updated filters and derives new state based 
     on updated user configurations. Redux is a heavy-duty solution to global state management and is easily up to this task. Using Redux, I was able to lift
     dashboard configurations and API data up into a global Redux state container. Derived state could consistently be updated using Redux’s
     action reducer model and composable asynchronous updates to global state could be created using Redux Thunks. After dashboard and API state was
-    lifted out of Reacts component tree, the need for prop drilling was greatly reduced and individual react component state could focus much more
-    heavily on the view portion of the application, leaving the data model in Redux. One benefit of Redux, that should not be overlooked, is that
+    lifted out of Reacts component tree, the need for prop drilling was greatly reduced and individual React component state could focus much more
+    heavily on the view portion of the application, leaving the data model in Redux. One benefit of Redux that should not be overlooked, is that
     all data store updates are handled using [Immer’s](https://immerjs.github.io/immer/) immutable state updates. Using immutable state updates avoids object reference update 
-    errors and avoids desynchronization between store state and what react renders. Updating deeply nested object state, and consistently creating
+    errors and avoids desynchronization between store state and what React renders. Updating deeply nested object state, and consistently creating
     new object references, is prone to error. Immer almost eliminates these hard to troubleshoot errors.
 
 ## Typescript:
@@ -60,7 +60,7 @@ export const Meta = {
 
     User account and dashboard data is saved in Postgres. When Finndash’s Express backend first starts it compares the schema version, saved as an
     environmental variable, to the schema version saved in the database. If Express detects a difference in version, it sequentially runs the
-    associated upgrade/downgrade scripts to build the correct schema. One big advantage of this is that when Finndash’s git repo is cloned to a new
+    associated upgrade/downgrade scripts to build the correct schema. A big advantage is that when Finndash’s git repo is cloned to a new
     environment Express will build out the correct schema in Postgres the first time the application is started up.
 
 ## MongoDB:
@@ -71,7 +71,7 @@ export const Meta = {
 
 ## GraphQL:
 
-    Empowering users, from a non-technical background, to share data specifications and API data, with both technical and non-technical team members,
+    Empowering users from a non-technical background, to share data specifications and API data, with both technical and non-technical team members,
     is one of the driving goals of Finndash. GraphQL makes it easy to create links to datasets and communicate data specifications
     between team members. After a dashboard is created, the data stored in MongoDB, becomes accessible through GraphQL to team members. Team members
     can share links to their data sets and pivot the view, specifying which widgets and which securities they want to share. Sharing GraphQL
@@ -93,7 +93,7 @@ export const Meta = {
     A separate docker volume is specified to avoid contaminating the production database. 
     
 ## Frontend Tests
-    Frontend tests are isolated from any HTTP requests using a mock HTTP server. By mocking HTTP responses, tests can be performed against consistent HTTP return data 
+    Frontend tests are isolated from any HTTP requests using a mock HTTP server. By mocking up HTTP responses, tests can be performed against consistent HTTP return data 
     and API rate limits aren't a concern. Each front-tend test loads the component being tested into a fresh version of the app so that integration tests can be performed.
     Mock HTTP responses test the components various functionalities so of the component’s views and resulting side effects can be tested.  
 

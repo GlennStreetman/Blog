@@ -37,7 +37,7 @@ AWS might have their own tailored version of Ubuntu for EC2? All my packages wer
 The immortal question went through my head “Have you turned it off and back on again?”
 I restarted my [AWS EC2 Production](https://aws.amazon.com/pm/ec2/) instance. What could go wrong?
 
-## Pandoras Box
+## Pandora's Box
 
 After waiting for a few moments, I realized my EC2 instance wasn’t coming back up.
 I checked my EC2 Instance's system logs and found a kernel panic error. That error sounds concerning! My EC2 instance was crashing on startup
@@ -70,7 +70,7 @@ I could then run chroot to move my root directory to my damaged instances root d
 
 At this point, any commands that I run would only affect the damaged instance.
 After creating my chroot jail for the damaged instance I could run the following
-commands to upgrade ubuntu to a patched version and disable docker on startup.
+commands to upgrade ubuntu to a patched version and disable Docker on startup.
 
 <CodeBlock
     language="language-Bash"
@@ -87,26 +87,26 @@ commands to upgrade ubuntu to a patched version and disable docker on startup.
 
 At this point I could then shutdown my rescue instance and move my repaired volume back to
 its original EC2 instance. After getting my repaired volume mounted I started
-the instance back up and it completed its boot cycle. Yay I could get back to coding... or blogging!
+the instance back up and it completed its boot cycle. Yay! I could get back to coding... or updating my journal!
 
 ## Back to square one
 
 With my instance recovered I could go back to pondering my original problem.
 Although my dev and production environments where nearly identical Next Build was
 still throwing maximum call stack size errors. I’ve run into build errors in the past with AWS.
-My dev environment has 32 cores and 64 gigabytes of ram. My AWS EC2 instance has 2 cores and 4 gigabytes of ram.
-Bumping my instances ram and cores up has helped me with my Finndash builds in the past so maybe another increase
+My dev environment has 32 cores and 64 gigabytes of RAM. My AWS EC2 instance has 2 cores and 4 gigabytes of RAM.
+Bumping my instances RAM and cores up has helped me with my Finndash builds in the past so maybe another increase
 would somehow help me with my Blog. I’m only using the extra performance when running a build though, the rest of the
-time I’m mostly serving static content. The builds also take an annoying amount of time on a low tier EC2 instance.
+time I’m mostly serving static content. The builds also take an annoying amount of time on a low-tier EC2 instance.
 Instead of building in the EC2 instance why not just push the known good files using SSH?
 
 ## SCP IT
 
 If I have a known good build and EC2 is giving me trouble I can just push the build files over
 to my EC2 instance using [SCP](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/).
-After the transfer is complete i can use an [SSH Docker context](https://docs.docker.com/engine/security/protect-access/#use-ssh-to-protect-the-docker-daemon-socket)
-to stop my production docker containers.
-Once all of the production containers are down I relaunch them using an ssh config that includes remote command arguements to restart the docker containers.
+After the transfer is complete I can use an [SSH Docker context](https://docs.docker.com/engine/security/protect-access/#use-ssh-to-protect-the-docker-daemon-socket)
+to stop my production Docker containers.
+Once all of the production containers are down I relaunch them using an SSH config that includes remote command arguments to restart the Docker containers.
 
 <CodeBlock
     language="language-javascript"
@@ -149,11 +149,12 @@ Once all of the production containers are down I relaunch them using an ssh conf
 />
 
 1. Note that ec2 and launchProduction is predefined in my [host file](<https://en.wikipedia.org/wiki/Hosts_(file)>)
-2. Make sure to update the name of your docker server
+2. Make sure to update the name of your Docker server
 
 ## Fin
 
-After completing a successful build in my dev environment I can now run a one line script to push the updated files to my build server then restart it.
-Bypassing the build step on my production server from the start could have saved a few hours of head scratching. The new process is also simple. Build in dev
-and run my update from dev. No need to jump between terminals or run a build twice. Live and learn. Down the road i will probable contanerize everything and push my changes to docker image hub.
-That way my production environment will be able to pull down my working images that contain all of my build files.
+After completing a successful build in my dev environment I can now run a one-line script to push the updated files to my build server and then restart it.
+Bypassing the build step on my production server from the start could have saved a few hours of head scratching. The new process is also simple: build in dev
+and run my update from dev. No need to jump between terminals or run a build twice. Live and learn. Down the road I will probably containerize everything and 
+push my changes to Docker image hub. That way my production environment will be-able to pull down my working images that contain all of my build files and avoid any 
+"npm install" steps in production.

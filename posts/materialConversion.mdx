@@ -7,14 +7,14 @@ export const Meta = {
     type: "notes",
     languages: "language-MaterialUI",
     project: "Finndash",
-    oneliner: "How many components could one button be made out of",
+    oneliner: "How many components could one button be made out of?",
 };
 
 ## Quick notes on migrating my project, Finndash, to Material UI
 
 A few months back I wanted to try out using a component library. Up until this point, I had always created my own bespoke components. Having a
 library of premade components could potentially save time, so it had its allure. I looked around at what was available and decided on{" "}
-[Materia UI](https://mui.com/). Material UI offers a wide range of components that promises customization and accessibility out of the box. Material UI is
+[Material UI](https://mui.com/). Material UI offers a wide range of components that promises customization and accessibility out of the box. Material UI is
 preconfigured to use [Emotion](https://emotion.sh/docs/introduction) to style components or you can choose to switch over to [Styled](https://styled-components.com/) components if that is your preference.
 
 ## The first speed bump
@@ -23,9 +23,9 @@ The first problem I ran into was that I was still using React 16. The most recen
 could use Material UI v4. I installed Material v4 and was quickly able to begin updating my project with beautiful premade components that really
 did make certain parts of my project look a bit more professional. Trying to make small tweaks to the components quickly became a problem
 though. Each Material UI component is normally a grouping of nested React components. If you change styling on an outer component, you might also
-need to pass styling updates down to the child components to get everything to look right. Material UI's [https://mui.com/system/basics/](MUI System) isn’t available in v4 so I was
+need to pass styling updates down to the child components to get everything to look right. Material UI's [MUI System](https://mui.com/system/basics/) isn’t available in v4 so I was
 stuck using the [legacy styles](https://mui.com/styles/basics/) system. I quickly found this process to be arduous task. See the example below where I'm creating a theme
-for a text field. Maybe life would be easier if I upgraded to Material v5.
+for a text field. (Maybe life would be easier if I upgraded to Material v5.)
 
 <CodeBlock language="language-javascript" file="./buildRegister.mjs" code={`const newTheme = createTheme({
     components: {
@@ -67,38 +67,37 @@ for a text field. Maybe life would be easier if I upgraded to Material v5.
 
 ## Migrating to Material v5
 
-Material UI components were proving to be a lot of work to customize. Upgrading to version 5, and gaining access to the new [https://mui.com/system/basics/](MUI System)
-looked like
-it might have some advantages. All I would need to do was upgrade from React 16 to 17 and then upgrade to Material UI v5! Of course, this is
-easier said than done. My projects dependency list is getting large at this point and simply trying to 'npm install react@v17' was a no
+Material UI components were time-consuming to customize. Upgrading to version 5, and gaining access to the new [MUI System](https://mui.com/system/basics/)
+looked like it might have some advantages. All I would need to do was upgrade from React 16 to 17 and then upgrade to Material UI v5! Of course, this is
+easier said than done. My projects dependency list was getting large at this point and simply trying to 'npm install react@v17' was a no
 go. The dependency tree wouldn't allow it. I created a backup of my package.json, deleted my package-lock.json and build folder, and installed
-react 17. I then got to go through the joys of having to figure out which of my old projects could easily be upgraded to be compatible with
-React 17 and which I might have to deprecate. With much effort I was able to move just about everything over. To finish up I made sure my
-project run scripts still worked, everything fired up, and ALL my tests were broken.
+react 17. I then got to go through the joys of having to figure out which of my old project dependancies could easily be upgraded to be compatible with
+React 17 and those which I might have to deprecate. With much effort I was able to move just about everything over. To finish up I made sure my
+"project run" scripts still worked. Testing showed that my fired up and was functional BUT ALL of my tests were broken.
 
 ## React 17 comes with a new version of Jest, Jest 27!
 
 And your old tests that ran with Jest 26 might not work! After some cajoling, I found that the way I was using the done() keyword was no longer
 correct, which I used in all my tests. I also found that my afterEach() tests were no longer necessary. Oh, and remember how all of those
 Material UI nested components. Yes, I would need to find a new way to test each of those components as well, which is not always easy. How do
-you select the popup created by a Material UI [https://mui.com/components/autocomplete/](Autocomplete)? [No one is sure](https://stackoverflow.com/questions/60882089/how-to-test-material-ui-autocomplete-with-react-testing-library)
-and the correct answer will be specific to your exact implementation. So,
-after meticulously fixing over 60 individual integration tests and tweaking all my backend route tests, I was back up and running. All I had
-to do was rebuild my dependency tree, troubleshoot all the resulting dependency problems, figure out how to redo a bunch of frontend
-integrations as well as backend route tests, and now I’m ready to find out if the new Material style system is any good.
+you select the pop-up created by a Material UI [Autocomplete](https://mui.com/components/autocomplete/)? 
+[No one is sure](https://stackoverflow.com/questions/60882089/how-to-test-material-ui-autocomplete-with-react-testing-library) 
+ and the correct answer will be specific to your exact implementation. So, after meticulously fixing over 60 individual integration tests 
+and tweaking all my backend route tests, I was back up and running. All I had to do was rebuild my dependency tree, troubleshoot all the resulting dependency problems, 
+figure out how to redo a bunch of frontend integrations as well as backend route tests, and now I’m ready to find out if the new Material style system is any good.
 
 ## Saving time using a component library!
 
-So, has Material UI made my life better? It has certainly built some character and the intention if this project is to learn some skills and gain
-experience, mission accomplished. Using Material UI as part of a brand-new project would have been a much easier process, that is for sure.
+So, has Material UI made my life better? It has certainly built some character and if the intention of this project was to learn some skills and gain
+experience, mission accomplished! Using Material UI as part of a brand-new project would have been a much easier process, that's for sure.
 However, I'm glad I learned some lessons about migrating an existing project over to a component library on my own time. While some components
 certainly, look very nice right out of the box the exact implementation of those components is no longer in your hands. Custom styling, testing,
 and compatibility with your project dependencies become a bigger question mark and the solutions to those problems might not come with great
-documentation. For example, look at Material's [https://mui.com/guides/testing/](test documentation). To me the documentation feels a bit sparse.
+documentation. For example, look at Material's [test dcoumentation](https://mui.com/guides/testing/). To me the documentation feels a bit sparse.
 
 ## Conclusion
 
 If you are going to use Material UI, or any other component library, for a project that is expected be deliverable, first build out a few
-components in a separate test sandbox. Customize the components, write some tests, and make sure they play nice with the rest of your project.
+components in a separate test sandbox. Customize the components, write some tests, and make sure they "play nice" with the rest of your project.
 Understand what you are getting into and how the components fit into what you have already built. Down the road if you decide to ditch the
 component library you might find yourself with a bit of a mess.
