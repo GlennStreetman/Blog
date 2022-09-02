@@ -2,7 +2,7 @@ import CodeBlock from "../components/codeBlock2";
 
 export const Meta = {
     id: "nextAuth",
-    title: "Domain wide login using NextAuth",
+    title: "Domain-wide login using NextAuth",
     date: "2022-03-17",
     type: "notes",
     dependancies: "Nextjsv12.0.9, NextAuthv4.2.1",
@@ -11,15 +11,15 @@ export const Meta = {
     oneliner: "CORS, cookies, and pain",
 };
 
-## [https://next-auth.js.org/](NextAuth.js)
+## [NextAuth.js](https://next-auth.js.org/])
 
-[https://next-auth.js.org/](NextAuth.js) is an open source [0Auth](https://oauth.net/) solution for [Next.js](https://nextjs.org/) applications.
+[NexAuth.js](https://next-auth.js.org/) is an open source [0Auth](https://oauth.net/) solution for [Next.js](https://nextjs.org/) applications.
 Authentication can be performed with either stateless JSON webtokens or
 a database session. Using NextAuth you can quickly setup a login system for a single Next.js application. Things get tricky though if you want
 to use NextAuth as a login provider for multiple web applications. gstreet.dev has multiple web apps hosted under the same root domain but using
 separate subdomains. This article outlines some of the hurdles I encountered using NextAuth as a shared login service for a Nextjs app & an
 Express app. If you are not familiar with NextAuth you should go through the [Next Auth Tutorial](https://next-auth.js.org/tutorials) first. Make sure to setup a database [nextAdapter](https://next-auth.js.org/adapters/overview) as
-I'm not sure this can be done using a serverless approach. I recommend Prisma with Postgres.
+I'm not sure this can be done using a server-less approach. I recommend Prisma with Postgres.
 
 ## gstreet.dev sub domain setup
 
@@ -30,7 +30,7 @@ Finndash.gstreet.dev: Express.js Financial App
 ## Nextauth session cookie
 
 NextAuth expects there to be a cookie in the client’s browser to check the client’s authentication status. If your web applications are
-divided up using subdomains this will violate the client side CORS:[Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy),
+divided up using subdomains, then this will violate the client side CORS:[Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy),
 gstreet.dev, blog.street.dev and Finndash.gstreet.dev are all
 different origins, so the cookie created will by the login server will be unavailable to blog and Finndash. When the user is authenticated,
 NextAuth needs to create a cookie that is available domain wide. My Auth server is served under the root domain, gstreet.dev, so the cookies the
@@ -67,7 +67,7 @@ export default NextAuth({
 
 ## Checking shared login status with Nextjs app
 
-    Once your session cookie is available across all subdomains checking the session status with a Nextjs application is easy assuming your login
+    Once your session cookie is available across all subdomains, then checking the session status with a Nextjs application is easy assuming your login
     server is persisting sessions using a database [nextAdapter](https://next-auth.js.org/adapters/overview). All you need to do is install NextAuth as a dependency of each Next application
     and point its adapter at the same database as the login server. Because the auth token is available domain wide your session status will be
     maintained.
@@ -75,10 +75,10 @@ export default NextAuth({
 ## Checking shared login status with non-Nextjs application
 
     Nextjs provides several Nextjs hooks for dealing with sessions. Nextjs does not provide a way to check session status for react apps,
-    pythons’ apps, PHP, etc. You will need to add a custom API to your NextAuth login application to handle login status and logout requests from non
+    Python apps, PHP, etc. You will need to add a custom API to your NextAuth login application to handle login status and logout requests from non
     NextJS applications. Login requests should be handled directly by your NextAuth application.
 
-##
+## API Route
 
     Create an API route that non-Nextjs applications can use to check login status. Because the session cookie is available domain wide the custom
     API route defined below will be able to check the session status and return the users email address. The example below assumes you are using
@@ -152,7 +152,7 @@ export default async function handler(req , res) {
 
 `} />
 
-## Create a logout route so non-Nextjs applications can logout without redirecting the client to the NextAuth application.
+## Create a logout route for non-Nextjs applications to logout without redirecting the client to the NextAuth application.
 
 <CodeBlock language="language-javascript" file="/pages/api/remoteLogin.js" code={`
       import { PrismaClient } from '@prisma/client'

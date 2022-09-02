@@ -75,11 +75,11 @@ The code below sets two new classes that contain a series of yet to be defined c
 
 ## Review:
 
-At this point we have created two classes in our global.css file, light & dark. Each class applies a series of tailwind styles that we created
+At this point we have created two classes in our global.css file, light & dark. Each class applies a series of Tailwind styles that we created
 when we extended THEME in tailwind.config.js. This doesn't do anything yet. We still need a way to apply the light & dark classes as needed and
 create a way to toggle dark mode state.{" "}
 
-## Create a hook that uses [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) to determine dark mode state.
+## Create a hook that uses [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) to determine dark mode state
 
 Add the hook shown below to your \_app.ts file. This new hook will run on each new page load and apply your light or dark mode theme. If no dark
 mode state is saved in local storage then the hook will also set a default dark mode state that will be remembered the next time the user
@@ -102,7 +102,7 @@ is applied to the root element, the root elements styles will [cascade](https://
             
 Add the below button anywhere on your page to toggle dark mode. The button will add and remove the dark & light classes from the root element
 which will cause light and dark mode to toggle on the page. At this point you will not need to add **dark:** prefixes the background, text,
-and highlight colors that you defined in tailwinds.config theme. Note that the example below uses [Font Awesome](https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/react) icons. Sub in your own icons if
+and highlight colors that you defined in tailwinds.config theme. Note that the example below uses [Font Awesome](https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/react) icons. Substitute in your own icons if
 you don't want to use Font Awesome.
             
 <CodeBlock language="language-javascript" file="./components/DarkModeButton.jsx" code={`import React from "react";
@@ -144,7 +144,7 @@ export default DarkModeButton;`} />
 
 ## Now let’s let users perilously define their own colors!
 
-# Warning: from this point forward, you should follow along after cloning the{" "} [Code Example](https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example). Creating the color picker component is outside of the scope of this guide.
+# Warning: from this point forward, you should follow along after cloning the{" "} [Code Example](https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example). Creating the color picker component is outside the scope of this guide.
 
 You may have noticed that this site has an icon in the upper right that allows users to set their own colors. If you want to add the same
 functionality to your project you will need to modify your tailwind.config file, add a function that injects user override colors into the root
