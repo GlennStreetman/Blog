@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiMoon, BiSun } from "react-icons/bi";
+import Tippy from "@tippyjs/react";
 
 interface props {
     secondary?: Function;
@@ -15,6 +15,7 @@ function DarkModeButton(p: props) {
 
     return (
         <div className="my-auto">
+            <Tippy content="Toggle Darkmode" interactive={true} interactiveBorder={1} delay={1} arrow={true}>
             <button
                 className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1"
                 onClick={() => {
@@ -39,15 +40,16 @@ function DarkModeButton(p: props) {
                 }}
             >
                 {darkMode ? (
-                    // <div className="m-auto">
-                    <BiSun className="h-7 w-7 text-primary hover:text-accent bg-primary" />
+                    
+                        <BiSun className="h-7 w-7 text-primary hover:text-accent bg-primary" />
+                
                 ) : (
-                    // </div>
-                    // <div className="m-auto">
-                    <BiMoon className="h-7 w-7 text-primary hover:text-accent bg-primary" />
-                    // </div>
+
+                        <BiMoon className="h-7 w-7 text-primary hover:text-accent bg-primary" />
+                    
                 )}
             </button>
+            </Tippy>
         </div>
     );
 }
