@@ -10,7 +10,7 @@ export const Meta = {
     languages: "language-Bash",
 };
 
-## Prerequisites:
+## Prerequisites
 
 This article assumes you are using Bash and that you have a remote machine with some sort of SSH server installed running on the default port 22.
 The default SSH server will be referred to as jump in this article.
@@ -18,7 +18,7 @@ If you are on Linux, you are likely good to go for this tutorial.
 If you are on windows install [Gitbash](https://git-scm.com/download/win) and use it to run all commands.
 Note that tilde(~), in reference to file paths, is the home directory for a user.
 
-## SSH:
+## SSH
 
 I use virtual machines & containers for all my developer workflows. My deployments are hosted in Amazon [EC2](https://aws.amazon.com/pm/ec2/) virtual machines and the individual services
 are containerized in [docker](https://www.docker.com/). As much as possible I try and build local development environments that are as similar as possible to my production environments.
@@ -27,7 +27,7 @@ with my EC2 deployment I connect to them using [SSH](https://en.wikipedia.org/wi
 whenever I move between my desktop and laptop, I simply open my shell from my new location and pick up directly where I left off. I'm never having to juggle git commits/pulls and having to worry about resolving
 git conflicts if I do something out of order. Jumping through SSH boxes can get to be a bit arduous so here are some tricks to make the experience a bit better.
 
-## SSH Key Pairs:
+## SSH Key Pairs
 
 Connecting to a host using SSH can be done with either password authentication or a Private/Public key pair. They public key can be freely shared, the private key you never share. Many hosts have
 password authentication disabled for security reasons. As a result, I strongly recommend you always using public/private key authentication when using SSH. If you don't already have a public/private key pair
@@ -47,7 +47,7 @@ You can now login to 192.168.0.102 using your private key, shown below. Note tha
 
 <CodeBlock language="language-Bash" file="BASH>" code={`> ssh-i ~/.ssh/new_key bob@192.168.102`} />
 
-## SSH config file:
+## SSH config file
 
 Having to specify keys and destinations can get tiring. You can create a shortcut by updating your ssh config file.
 
@@ -81,7 +81,7 @@ Then you can add your keys
 <CodeBlock language="language-Bash" file="BASH>" code={`> ssh-add ~/.ssh/new_key`} />
 After running the above command, you will be prompted for your password. Once you have entered it you won’t need to enter it again if the terminal window stays open.
 
-## Streamlining SSH Agent by updating your .bashrc file:
+## Streamlining SSH Agent by updating your .bashrc file
 
 Once you start to deal with more than a couple of SSH RSA keys adding your keys to SSH agent can become a bit clumsy.
 I added a user defined function, that I can run from my bash terminal, by adding the function definition to my ~/.bashrc file.

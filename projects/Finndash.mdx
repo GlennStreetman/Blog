@@ -27,7 +27,7 @@ export const Meta = {
     The React team's supported deployment method, [Create-React-App](https://create-react-app.dev/), would allow me to easily create a single page web application reducing page transitions. React itself would 
     help with state management and gives me a library to break my code into reusable components. Create-React-App also bundles [ExpressJS](https://expressjs.com/) which felt very familiar coming from Flask.
 
-## Redux and Redux Tool Kit:
+## Redux and Redux Tool Kit
 
     Users of Finndash can rapidly specify thousands of API calls from [Finnhub.io](Finnhub.io), associated with any number of dashboards, which can return large chunks of JSON
     data. Once the data is sourced from [Finnhub.io](Finnhub.io), data needed for display purposes on the dashboard needs to be cached on the client side. To save on future Finnhub.io 
@@ -42,34 +42,34 @@ export const Meta = {
     errors and avoids desynchronization between store state and what React renders. Updating deeply nested object state, and consistently creating
     new object references, is prone to error. Immer almost eliminates these hard to troubleshoot errors.
 
-## Typescript:
+## Typescript
 
     As Finndash grew in complexity, debugging simple errors started eating up more and more time. Tracking down undefined reference errors and 
     correctly referencing how object keys were called was creating more and more mental overhead. Typescript greatly reduced time spent debugging reference errors, 
     made it easier to reuse functions and has often created a more enjoyable developer experience. Using typescript to define function interfaces and return 
     values have been a huge time saver and regularly catches errors during coding.
 
-## Express:
+## Express
 
     Finnhub’s route handling, database interactions, session/cookie management, file upload/download and parsing are handled by Express. I found
     Express to be a bit frustrating at times. It has very little included out-of-the-box, and doesn’t support some things, like es6 imports. 
     Session management, cookies, environmental variables, all require packages to be added to Express. If you come from a python
     background, and have used Flask or Bottle, Express should feel familiar. Just be ready to add each feature as needed.
 
-## Postgres:
+## Postgres
 
     User account and dashboard data is saved in Postgres. When Finndash’s Express backend first starts it compares the schema version, saved as an
     environmental variable, to the schema version saved in the database. If Express detects a difference in version, it sequentially runs the
     associated upgrade/downgrade scripts to build the correct schema. A big advantage is that when Finndash’s git repo is cloned to a new
     environment Express will build out the correct schema in Postgres the first time the application is started up.
 
-## MongoDB:
+## MongoDB
 
     MongoDB is used to cache API JSON data returned by Finnhub.io. MongoDB promises to deal with large collections of JSON 
     data that are frequently updated, which is exactly what I’m doing with Finnhub.io’s API data. Avoiding any bottlenecking, by separating user
     login database requests from API data caching also might have some advantages if this project ever became more than a hobby Application.
 
-## GraphQL:
+## GraphQL
 
     Empowering users from a non-technical background, to share data specifications and API data, with both technical and non-technical team members,
     is one of the driving goals of Finndash. GraphQL makes it easy to create links to datasets and communicate data specifications
@@ -78,13 +78,13 @@ export const Meta = {
     datasets is easier than managing, updating, and sharing groups of API endpoint query strings. Finnhub.io's API is also rate limited so caching Finnhub.io's 
     API data to graphQL eliminates tying up Finnhub.io's API with duplicate requests.
 
-## Material UI:
+## Material UI
 
     [Material UI](https://mui.com/) is used to generate and style most of Finndash's comoponents. [MaterialUI 5.0's new sx prop](https://mui.com/system/getting-started/the-sx-prop/) 
     has really improved the experience of trying to customize the styling of MaterialUI's pre-build components.
 
 
-## Jest and Testing Library:
+## Jest and Testing Library
 
     Tests are written using testing library and run with Jest.   
 

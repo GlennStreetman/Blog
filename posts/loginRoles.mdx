@@ -11,13 +11,13 @@ export const Meta = {
     oneliner: "They accepted my first open source PR \\0/",
 };
 
-## NextAuth Login Roles:
+## NextAuth Login Roles
 
 When I first started using [NextAuth](https://next-auth.js.org/getting-started/introduction) I was surprised to find no instructions on implementing role-based
 authentication. I felt that this was a basic authentication feature that would have been "batteries included" in many auth frameworks. This was a bit puzzling, but I knew there had to be
 a way to do it.
 
-## Database Adapter:
+## Database Adapter
 
 By default, NextAuth uses a JSON Web Token authentication method, there is no database. 3rd party 0auth providers send a token that is stored in the user’s local storage. That token is then passed 
 to the App's backend on each request as a cookie to establish identity. NextAuth has the option available to setup a database adapter, which lets the developer keep track of session information in a database. 

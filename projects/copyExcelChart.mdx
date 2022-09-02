@@ -28,7 +28,7 @@ I decided to attempt my own solution. I knew that Excel files were just collecti
 document, copy the chart XML documents, and move them into the target Excel file. I would soon learn this was easier said than done, the fact
 that no one else had already done this was my first tip off.
 
-## Research:
+## Research
 
 Excel’s XML schema is complicated. The introductory document to Excel’s XML [schema](https://interoperability.blob.core.windows.net/files/MS-XLSX/%5bMS-XLSX%5d.pdf) is 384 pages long and doesn’t have a lot of fluff, it’s
 dense. To make matters worse I don’t have a background working with XML data. No problem, I’ll just reverse engineer Excel’s chart schema. Armed
@@ -51,7 +51,7 @@ files to the [Content_Types].xml master file. Also, don’t forget to add all yo
 section. If one apostrophe is copied out of place or any XML file edits are made in the wrong order the file is probable corrupted and you might
 not be able to open your edited Excel file.
 
-## The Solution:
+## The Solution
 
 This is a bit complicated but breaking the problem down into small steps and testing along the way would get me to where I wanted to go. I got
 to work on writing a parser. I would need a way to extract Excel XML files so I added [ADM-zip](https://www.npmjs.com/package/adm-zip), and I would need a way to read the XML files, so
@@ -63,7 +63,7 @@ copying/merging each schema is slightly different. There is a basic chart schema
 I haven’t yet tested what goes on if a chart references pivot table data or ‘table’ data. Testing everything is a further problem because the
 parsers output can only be tested using an excel client, as far as I can tell.
 
-## Lessons Learned:
+## Lessons Learned
 
 At the end of the day, I have a working, but not thoroughly tested parser. Finnhub.io can copy charts from Excel templates into output Excel
 files but I don’t think I am going to take the time to validate that the solution is robust enough to be used in production quality code. Excel

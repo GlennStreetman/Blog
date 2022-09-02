@@ -12,7 +12,7 @@ export const Meta = {
     oneliner: "Choose your own color adventure",
 };
 
-## [Tailwind's Dark Mode](https://tailwindcss.com/docs/dark-mode) feels like its incomplete out of the box.
+## [Tailwind's Dark Mode](https://tailwindcss.com/docs/dark-mode) feels like its incomplete out of the box
 
 Using Tailwinds, by default, you need to add **dark:** utility class prefixes to [Tailwinds Utility Classes](https://tailwindcss.com/docs/utility-first) to specify html element
 attributes like background and text color. You end up specifying many common html attributes twice for each element. The need to specify{" "}
@@ -22,7 +22,7 @@ new utility classes like bg-primary to set background colors for both light and 
 
 <CodeBlock language="language-HTML" code={`<div className="bg-white dark:bg-slate-900" /> BECOMES--> <div className="bg-primary" />`} />
             
-## In your global.css file add the following:
+## In your global.css file add the following
 The code below sets two new classes that contain a series of yet to be defined custom tailwinds utility classes. 
 <CodeBlock language="language-CSS" file="./styles/global.css" code={`@tailwind base;
 @tailwind components;
@@ -73,7 +73,7 @@ The code below sets two new classes that contain a series of yet to be defined c
     }`}
 />
 
-## Review:
+## Review
 
 At this point we have created two classes in our global.css file, light & dark. Each class applies a series of Tailwind styles that we created
 when we extended THEME in tailwind.config.js. This doesn't do anything yet. We still need a way to apply the light & dark classes as needed and
@@ -144,7 +144,7 @@ export default DarkModeButton;`} />
 
 ## Now let’s let users perilously define their own colors!
 
-# Warning: from this point forward, you should follow along after cloning the{" "} [Code Example](https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example). Creating the color picker component is outside the scope of this guide.
+# Warning: from this point forward, you should follow along after cloning the{" "} [Code Example](https://github.com/GlennStreetman/nextJS-Tailwinds-CSSVariable-Darkmode-Example). Creating the color picker component is outside the scope of this guide
 
 You may have noticed that this site has an icon in the upper right that allows users to set their own colors. If you want to add the same
 functionality to your project you will need to modify your tailwind.config file, add a function that injects user override colors into the root
