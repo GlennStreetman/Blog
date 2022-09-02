@@ -38,17 +38,19 @@ function LogoFade() {
     }, []);
 
     useEffect(() => {
+        let fadeTimer
         if (typeof window !== "undefined" && localStorage) {
             if (localStorage.siteDarkMode == "true") {
                 setDarkStyle(styles.visable);
                 setDarkStyleFadeIn(styles.hidden)
-                setTimeout(()=>{ setDarkStyleFadeIn(styles.fadeIn)}, 100)
+                fadeTimer = setTimeout(()=>{ setDarkStyleFadeIn(styles.fadeIn)}, 100)
             } else {
                 setLightStyle(styles.visable);
                 setLightStylefadeIn(styles.hidden)
-                setTimeout(()=>{ setLightStylefadeIn(styles.fadeIn)}, 100)
+                fadeTimer = setTimeout(()=>{ setLightStylefadeIn(styles.fadeIn)}, 100)
             }
         }
+        return ()=>{clearTimeout(fadeTimer)}
     }, []);
 
 
