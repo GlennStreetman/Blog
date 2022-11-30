@@ -24,7 +24,7 @@ export default function LoginButton() {
         <a href={process.env.NEXT_PUBLIC_NEXTAUTH_REDIRECT} >
             <Tippy content="Login" interactive={true} interactiveBorder={1} delay={1} arrow={true}>
                 <div className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1">
-                        <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent bg-primary" />
+                    <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent bg-primary" />
                 </div>
             </Tippy>
         </a>
