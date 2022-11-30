@@ -1,11 +1,15 @@
 version: "3.9"
 services:
     blogserver:
+        env_file:
+            - prod.env
         image: ghcr.io/glennstreetman/blog
         ports:
             - 3000:3000
         command: "npm run start"
     blogPosts:
+        env_file:
+            - prod.env
         image: postgres
         restart: always
         environment:
