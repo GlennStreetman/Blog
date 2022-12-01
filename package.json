@@ -5,7 +5,7 @@
         "build": "next build",
         "start": "next start",
         "dBuild": "docker-compose -f compose.dev.yaml up --build",
-        "dUp": "docker-compose -f compose.dev.yaml up",
+        "dUp": "cp dev.env .env && docker-compose -f compose.dev.yaml up",
         "pBuild": "cp prod.env .env && sudo rm -rf .next && docker-compose  -f compose.build.yaml  up --build",
         "pUp": "cp prod.env .env && docker-compose -f compose.prod.yaml up",
         "lint": "next lint",
