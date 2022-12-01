@@ -6,7 +6,7 @@
         "start": "next start",
         "dBuild": "docker-compose -f compose.dev.yaml up --build",
         "dUp": "docker-compose -f compose.dev.yaml up",
-        "pBuild": "sudo rm -rf .next && docker-compose  -f compsose.build.yaml  up --build",
+        "pBuild": "sudo rm -rf .next && docker-compose  -f compose.build.yaml  up --build",
         "pUp": "docker-compose -f compose.prod.yaml up",
         "lint": "next lint",
         "info": "next info",
