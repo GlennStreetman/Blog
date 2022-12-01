@@ -5,6 +5,7 @@ import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 
 export default function LoginButton() {
     const { data: session, status } = useSession();
+    console.log('--session--', session, status)
     const login = session?.user?.email ? session.user.email : ''
     if (status === 'authenticated') {
         return (

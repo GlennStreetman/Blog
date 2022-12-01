@@ -32,6 +32,7 @@ export default NextAuth({
     },
     callbacks: {
         async session({ session, token, user }) {
+            console.log('session info', token, user)
             session.user.roll = user.roll;
             return session;
         },
