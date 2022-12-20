@@ -3,11 +3,11 @@
 }
 
 .article h1 {
-    @apply text-accent font-bold text-xl py-5 tracking-wide;
+    @apply text-accent font-bold text-xl py-5 tracking-wide mt-4 mb-2;
 }
 
 .article h2 {
-    @apply text-secondary font-bold text-lg tracking-wide;
+    @apply text-secondary font-bold text-lg tracking-wide mt-4 mb-2;
 }
 
 .article p {
@@ -26,8 +26,12 @@
     @apply text-2xl;
 }
 
+.article ul {
+    @apply list-disc ml-8;
+}
+
 .article li {
-    @apply ml-5;
+    @apply text-primary pb-2 ;
 }
 
 .article blockquote {

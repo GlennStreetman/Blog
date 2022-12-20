@@ -19,30 +19,49 @@ A contact of mine recently reached out to let me know they were starting a small
 the ins and outs of running a small automotive repair shop, they had no plans for creating a business website, setting up email services, or building their small office network.
 A quick pitch later and I was building their site, getting them a domain, and taking care of all their IT odds and ends and maybe doing some accounting.
 
-## What did they need their site to do?
+## Determining Site Requirements
 
-After reviewing their needs, I had a short list of items their site needed to do: They needed something to put them on the [map](https://www.google.com/business/) with all their contact info.
-Potential customers needed to be able to reach out to schedule service. It would be good if potential employees could submit resumes. The site needed to be optimized for search engines and have a good chance
-of showing up in regional search results. Everything needed to be easy to use, as well as update, to help drive their business.
+After some quick conversations with my client, we put together a short checklist of basic needs:
+- A brochure style site that listed services, presented contact info, and made it possible for customers to schedule service.
+- A way for potential employees to submit resumes
+- Search engine optimized(SEO) with Google AdWords support.
+- Search engine optimized(SEO) with Google AdWords support.
+- An easy way to update site content.
+- Mobile first design. 
 
-## What stack to use
+## Create React App?
 
-Potential clients might be accessing the site with a cell phone that has limited internet access. Long rendering times can reduce SEO placement. The site needed to be SEO friendly and fast. As a result, I decided to reach
-for [Next.js](https://nextjs.org/). Next.js offers [static site generation](https://nextjs.org/docs/basic-features/data-fetching/overview) using [react](https://reactjs.org/),
-[Image optimization](https://nextjs.org/docs/basic-features/image-optimization), and [file system routing](https://nextjs.org/docs/routing/introduction) out of the box with zero configuration.
-Next.js looked like a quick way to put together a small website that check all the boxes for my client’s needs.
-For styling and data needs I decided to reach for what I already knew, [Tailwinds](https://tailwindcss.com/) & [Postgres](https://www.postgresql.org/). Both choices would easily get the job done and have widespread adoption, so
-hopefully if anyone else ever needs to maintain the site there would be plenty of documentation and they could pick up where i left off.
+[Create-React-App]( https://create-react-app.dev/) defaults to creating a Single Page Application(SPA). As a result, there are no page transitions. 
+Changes in content and the feeling of page transitions happens when JavaScript loads different React components onto screen. This can interfere with page 
+indexing, cause long load times, and cause long initial render times. These factors can harm SEO scores and Add rankings. Create-React-App wouldn’t work as well as I wanted it to.
+
+## Next.js
+
+The site needed to be SEO friendly and fast. As a result, I decided to reach for [Next.js](https://nextjs.org/). 
+Next.js offers [static site generation](https://nextjs.org/docs/basic-features/data-fetching/overview) using [react](https://reactjs.org/),
+[Image optimization](https://nextjs.org/docs/basic-features/image-optimization), and [file system routing](https://nextjs.org/docs/routing/introduction) 
+out of the box with zero configuration. These features allow react to be broken up into page components that can be statically rendered on the server side. As a result, 
+pages could be indexes, pages would load lightning fast, and Googles AdWords could easily scan the content to make sure it was relevant to any ads.
 
 ## Site Content
 
-Outside of a quick checklist I wasn't given a lot of guidance on site content. Entrepreneurs will always have more work than time so I decided it would be important to build a site
-that they could easily update on their own terms. I could build them a site template, fill it with example text, pictures, and content, then let them update it on their own time using a site management backend.
-Next.js's [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation-beta) turned out to work well for this purpose.
-While the client facing part of the site was all statically rendered to help with SEO, the static content could be re-retendered on the fly, without rebuilding or restarting their app, using Incremental Static regeneration.
-My client could update text, add new logos & pictures, and adjust site content, using the management backend I built for them, and all the changes would be re-retendered into static content.
-After only a couple hours of lighthouse tweaks all my [lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=en) scores were pushing into the 90s and the static content should
-play well with any SEO web crawler.
+Outside of a quick checklist I wasn't given a lot of guidance on site content. Entrepreneurs will always have more work than time so I decided it 
+would be important to build a site that they could update using a Contement [Management System(CMS)](https://en.wikipedia.org/wiki/Content_management_system). 
+I could build them a site template, fill it with example text, pictures, 
+and content, then let them update it on their own time using a site management backend. 
+
+There are many Content Management Systems(CMS) out there and 
+after reviewing what was available I decided to go with [Strapi]( https://strapi.io/). It was open source, headless, and free for this use case. My client 
+could update their content using a Strapi web interface that i could quickly design and update. When my client makes an update to their content, Strapi [Webhook API]( https://en.wikipedia.org/wiki/Webhook) 
+sends a request to a Next.js’s API endpoint that starts the creation of new static site content. This process creates new static content without needing to rebuild the App. 
+Next.js does this using it’s [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation-beta) 
+feature.
+
+## SEO
+
+Using the features listed above, an early version of the Apps [lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=en) 
+scores were pushing into the 90s after only a few tweaks. I used the [Google Search Console](https://search.google.com//search-console) to verify that the site was indexing correctly and 
+[Google Analytics](https://analytics.google.com/analytics) to keep track of site performance.
 
 <BlogBox></BlogBox>
 
@@ -50,13 +69,11 @@ play well with any SEO web crawler.
 
 The site management backend has another big benefit when it comes to Web marketing. Site managers could create new landing pages and link them to targeted search term marketing campaigns using services 
 like [Google Ads](https://ads.google.com/home/#!/). Landing pages that contain content that closely match the original keyword search are given better placement by Google Ads (formerly AdWords). Better 
-placement leads to more impressions and lower cost per click. If my client wanted to run an ad for “Brake Service,” they can link it to a brake service landing page that contains immediate calls to action from 
-the potential customer. 
+placement leads to more impressions and lower cost per click. If my client wanted to run an ad for “Brake Service,” they can link it to a brake service landing page that they created in just a few minutes.
 
 ## Status
 
 [The site](https://thewerkstatt.com) is currently deployed and I'm periodically rolling out improvements as I find time. Managing and optimizing Google Ads campaigns has been its own discipline and 
 I’ve been integrating google tracking features into the site as needed. Getting a couple of overworked entrepreneurs to sit down and create marketing material has been tough but it’s slowly getting done. 
 Accessory skills have also been growing while working on this site. I hadn’t planned on getting into photography, photo editing, and marketing but here we are. 
-It sounds like it will be all hands on deck towards the end of the year and If I have the time I'll be helping with a frame off restoration of a certain mustached detectives project vehicle. Hollywood is a strange place.
 
