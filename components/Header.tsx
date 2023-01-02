@@ -28,14 +28,14 @@ export default function Header({ home }) {
                     <div className="flex place-content-center col-span-12 sm:col-span-5 md:col-span-4 lg:col-span-12 xl:col-span-12 2xl:col-span-5">
                         <div className='place-content-center h-[150px] sm:h-[200px] md:h-full lg:h-[200px] xl:h-250 2xl:w-full w-[150px] sm:w-[200px] md:w-full lg:w-[200px] xl:w-250 2xl:h-full' >
                             <LogoPicker />
-                        </div>  
+                        </div>
                     </div>
                     <div className="col-span-12 sm:col-span-7 md:col-span-8 lg:col-span-12 xl:col-span-12 2xl:col-span-7 my-auto">
                         <div className="flex flex-col align-middle  tracking-wide gap-1">
                             <h1 className={h1Styling}>
                                 <b className={h1Bold}>{name}:</b> Full Stack Web Developer with a background in Financial Systems Implementations
                             </h1>
-                            <h1 className={h1Styling }>
+                            <h1 className={h1Styling}>
                                 <b className={h1Bold}>Location:</b> San Diego, California
                             </h1>
                             <h1 className={h1Styling}>
@@ -48,13 +48,13 @@ export default function Header({ home }) {
                                 </a>
                             </h1>
                             <h1 className={h1Styling}>
-                                <b className={h1Bold}>Building: </b>
-                                <a className="text-xs sm:text-base text-primary hover:text-accent" href="https://autohaus.gstreet.dev">
-                                    AutoHaus
+                                <b className={h1Bold}>Working On: </b>
+                                <a className="text-xs sm:text-base text-primary hover:text-accent" href="https://clearviction.org">
+                                    Clearviction Scrum Team
                                 </a>
                             </h1>
                             <h1 className={h1Styling}>
-                                <b className={h1Bold}>Status:</b> Looking for Group
+                                <b className={h1Bold}>Status:</b> Looking for Work
                             </h1>
                             <h1 className={h1Styling}>
                                 <b className={h1Bold}> Contact:</b>{" "}
