@@ -55,7 +55,7 @@ function Comment(p: userPost) {
 
     const loginLink = (
         <div className="text-accent my-2">
-            <a className="text-accent" href={process.env.NEXTAUTH_REDIRECT}>
+            <a className="text-accent" href={process.env.NEXT_PUBLIC_NEXTAUTH_REDIRECT}>
                 Login to Post Comment
                 {/* <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" /> */}
             </a>
