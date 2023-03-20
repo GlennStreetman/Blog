@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ButtonStandard from "./buttonStandard";
 import ReplyBox from "./replyBox";
 import ShowComments from "./showComments";
-
+import { useLoginInfoContext } from '../pages/_app'
 
 interface comment {
     userid: string;
@@ -18,6 +18,8 @@ interface userPost {
 }
 
 function Comment(p: userPost) {
+
+    const loginInfo = useLoginInfoContext()
 
     const [openComment, setOpenComment] = useState<boolean>(false);
     const [comments, setComments] = useState<comments>({});
@@ -46,10 +48,9 @@ function Comment(p: userPost) {
                 setOpenComment(!openComment);
             }}
         >
-            {/* {status === "authenticated" ? ( */}
-            <div className="text-accent my-2">Post Reply</div>
-
-            {/* )} */}
+            {loginInfo.login === true ?
+                <div className="text-accent my-2">Post Reply</div> : <></>
+            }
         </ButtonStandard>
     );
 
@@ -65,7 +66,7 @@ function Comment(p: userPost) {
     return (
         <>
             <div>{Object.keys(comments).length > 0 ? <ShowComments comments={comments} /> : <></>}</div>
-            <div>{status === "authenticated" ? replyButton : loginLink}</div>
+            <div>{loginInfo.login === true ? replyButton : loginLink}</div>
         </>
     );
 }
