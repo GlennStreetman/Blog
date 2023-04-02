@@ -1,8 +1,8 @@
-const AWS = require('aws-sdk');
+import { DynamoDBClient, BatchExecuteStatementCommand } from "@aws-sdk/client-dynamodb"
 
-const dynamo = new AWS.DynamoDB();
+const dynamo = new DynamoDB
 
-exports.handler = async (event, context) => {
+export const handler= async (event, context) => {
     //remember to migrate all changes to cloudformation template. Code is inlined as part of template
     let body;
     let statusCode = '200';
@@ -11,64 +11,25 @@ exports.handler = async (event, context) => {
     };
 
     try {
+        console.log('event', event)
 
-        switch (event.httpMethod) {
-
-            case 'POST':
-                console.log('POST', event.body)
-                const parseBody = JSON.parse(event.body)
-                const date = Date.now()
-                const user = parsebody.user || false //this needs to be calced from user credentials
-                let message = parseBody?.meta || false
-                const post = parseBody?.post || false
-
-                let insMeta = ''
-                if (postMeta) {
-                    console.log("postMeta", postMeta)
-                        for(const [key,val] of Object.entries(postMeta)){
-                            insMeta = `${insMeta}, '${key}': '${val}'`
-                    }
-                }
-                let insStatement = `INSERT INTO "blogposts" value {'ipaddress': '${postIP}', 'username': '${postUser}', 'logdate': '${postDate}'${insMeta}}`
-                
-                let updMeta = ''
-                if (postMeta) {
-                    for(const [key,val] of Object.entries(postMeta)){
-                        updMeta = `${updMeta}, ${key}='${val}'`
-                    }
-                }
-                let updStatement = `UPDATE iplog SET logdate='${postDate}' ${updMeta} WHERE ipaddress='${postIP}' AND username='${postUser}'`
-
-                if(postIP && postUser) try {
-                    console.log('insert', insStatement)
-                    await dynamo.executeStatement({Statement: insStatement}).promise();
-                    body = {msg: `IP Logged: ${new Date().toISOString().replace('T', ' ').replace('Z','')}`}
-                    break;
-                } catch {
-                    console.log('update', updStatement)
-                    await dynamo.executeStatement({Statement: updStatement}).promise();
-                    body = {msg: `IP Logged: ${new Date().toISOString().replace('T', ' ').replace('Z','')}`}
-                    break;
-                }
-                break;
-            default:
-                throw new Error(`Unsupported method "${event.httpMethod}"`);
-        }
-    } catch (err) {
-        statusCode = '400';
-        console.log(err.message)
-        body = {
-            error: 'error processing request',
-            params: 'ip, userid, date',
-            ip: 'string',
-            userid: 'string',
-            date: 'string: YYYY-MM-DD',
-            msg: 'error logging IP'
-        };
-    } finally {
-        console.log('Finaly', body, statusCode)
-        body = JSON.stringify(body);
+        console.log('POST', event.body)
+        const parseBody = JSON.parse(event.body)
+        const date = new Date().toISOString().slice(0,19)
+        const user = parseBody.user || false //this needs to be calced from user credentials
+        let message = parseBody?.message || false
+        const post = parseBody?.post || false
+        console.log('test', post, user, message)
+        let insStatement = `INSERT INTO "blogposts" value {'postname': '${post}', 'postdate': '${date}', 'message': '${message}', 'user': '${user}'}`
+        const client = new DynamoDBClient({ region: "us-east-2" });
+        console.log('insert', insStatement)
+        const data = await client.send(command);
+        console.log(data)
+        } 
+    catch {
+        console.log('--didnt work--')
     }
+
     return {
         statusCode,
         body,
