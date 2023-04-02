@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  User posts
+Parameters:
+  ReadCapacityUnits:
+    Description: Provisioned read throughput
+    Type: Number
+    Default: '5'
+    MinValue: '5'
+    MaxValue: '10000'
+    ConstraintDescription:  DynamoDB Read Capacity. Must be between 5 and 10000
+  WriteCapacityUnits:
+    Description: Provisioned write throughput
+    Type: Number
+    Default: '10'
+    MinValue: '5'
+    MaxValue: '10000'
+    ConstraintDescription: DynamoDB Write Capacity. Must be between 5 and 10000
+Resources:
+  blogposts:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: blogposts
+      AttributeDefinitions:
+          - AttributeName: postname
+            AttributeType: S
+          - AttributeName: postdate
+            AttributeType: N
+      KeySchema:
+        - AttributeName: postname
+          KeyType: HASH
+        - AttributeName: postdate
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits:
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits:
+          Ref: WriteCapacityUnits
+

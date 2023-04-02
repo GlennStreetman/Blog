@@ -1,0 +1,29 @@
+### cognito table
+    - post
+    - date (sort)
+    - user
+    - message (cleaned input, text only)
+
+### Lambda
+- get posts
+- make post
+
+### API Gateway
+- get posts open & cached    
+- make posts protected
+- set rate limit
+
+### Cloudformation distribuiton
+
+### s3 Destination Bucket
+
+
+
+### in progress
+- lambdas need to be updated
+- lambda CF needs to be deployed
+- then api gateway
+- work out how api gateway auth works, and if it can add username after auth is confirmed
+- does header need to be set on client side using creds
+- client wont work until CloudFront is setup because of CORS
+
