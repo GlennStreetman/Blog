@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Blog & Project User Post Lambdas
+  
+Resources:
+  BlogLambdaGetPosts:
+    Type: AWS::Serverless::Function 
+    Properties:
+      Environment:
+        Variables:
+          dbname: !Ref blogpostdynamoDB
+      CodeUri: lambda/getPosts/ # format is projectPath/
+      Handler: getPosts.handler # format is filename.functionName
+      Runtime: nodejs18.x
+      Events:
+        blogposts:
+          Type: Api 
+          Properties:
+            Path: /getposts
+            Method: post
+      Policies: 
+        - AWSLambdaBasicExecutionRole
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - "dynamodb:PartiQLSelect"
+                - "dynamodb:PartiQLUpdate"
+                - "dynamodb:PartiQLInsert"
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/{blogpostdynamoDB}'
+  BlogLambdaMakePosts:
+    Type: AWS::Serverless::Function 
+    Properties:
+      Environment:
+        Variables:
+          dbname: !Ref blogpostdynamoDB
+      CodeUri: lambda/makePosts/ # format is projectPath/
+      Handler: makePosts.handler # format is filename.functionName
+      Runtime: nodejs18.x
+      Events:
+        blogposts:
+          Type: Api 
+          Properties:
+            Path: /makepost
+            Method: post
+      Policies: 
+        - AWSLambdaBasicExecutionRole
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - "dynamodb:PartiQLSelect"
+                - "dynamodb:PartiQLUpdate"
+                - "dynamodb:PartiQLInsert"
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${blogpostdynamoDB}'
+  blogpostdynamoDB:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: postid
+          AttributeType: S
+        - AttributeName: postdate
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: postid
+          KeyType: HASH
+        - AttributeName: postdate
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
