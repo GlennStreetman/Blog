@@ -1,4 +1,4 @@
-import { DynamoDBClient, BatchExecuteStatementCommand } from "@aws-sdk/client-dynamodb"
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
 const dynamo = new DynamoDB
 
@@ -11,7 +11,6 @@ export const handler= async (event, context) => {
     };
 
     try {
-        console.log('event', event)
 
         console.log('POST', event.body)
         const parseBody = JSON.parse(event.body)
@@ -21,13 +20,14 @@ export const handler= async (event, context) => {
         const post = parseBody?.post || false
         console.log('test', post, user, message)
         let insStatement = `INSERT INTO "blogposts" value {'postname': '${post}', 'postdate': '${date}', 'message': '${message}', 'user': '${user}'}`
-        const client = new DynamoDBClient({ region: "us-east-2" });
-        console.log('insert', insStatement)
-        const data = await client.send(command);
-        console.log(data)
+        
+
+            console.log('insert', insStatement)
+            let msg = await dynamo.executeStatement({Statement: insStatement});
+            console.log(msg)
         } 
-    catch {
-        console.log('--didnt work--')
+    catch(err) {
+        console.log('--didnt work--', err)
     }
 
     return {
@@ -36,3 +36,8 @@ export const handler= async (event, context) => {
         headers,
     };
 };
+
+
+// {
+//     "body": "{\"user\":\"test@test.com\",\"message\":\"a fun22 new message\",\"post\":\"1\"}"
+//   }
