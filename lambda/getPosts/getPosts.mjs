@@ -14,8 +14,8 @@ export const handler = async (event, context) => {
         const parseBody = JSON.parse(event.body)
         const postID = parseBody.postID || false 
         let getQuery = `SELECT *
-        FROM "blogposts" 
-        WHERE postname = '${postID}'`
+        FROM ${process.env.dbname} 
+        WHERE postid = '${postID}'`
         console.log('getQuery', getQuery)
         let msg = await dynamo.executeStatement({Statement: getQuery});
         body = msg.Items
@@ -30,7 +30,3 @@ export const handler = async (event, context) => {
         headers,
     };
 };
-
-// {
-//     "body": "{\"postID\":\"1\"}"
-// }

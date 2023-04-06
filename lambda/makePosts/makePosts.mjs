@@ -19,7 +19,7 @@ export const handler= async (event, context) => {
         let message = parseBody?.message || false
         const post = parseBody?.post || false
         console.log('test', post, user, message)
-        let insStatement = `INSERT INTO "blogposts" value {'postname': '${post}', 'postdate': '${date}', 'message': '${message}', 'user': '${user}'}`
+        let insStatement = `INSERT INTO "${process.env.dbname}" value {'postid': '${post}', 'postdate': '${date}', 'message': '${message}', 'user': '${user}'}`
         
 
             console.log('insert', insStatement)
@@ -36,8 +36,3 @@ export const handler= async (event, context) => {
         headers,
     };
 };
-
-
-// {
-//     "body": "{\"user\":\"test@test.com\",\"message\":\"a fun22 new message\",\"post\":\"1\"}"
-//   }
