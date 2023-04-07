@@ -72,3 +72,46 @@ Resources:
         WriteCapacityUnits: 5
       StreamSpecification:
         StreamViewType: NEW_IMAGE
+  MyCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: blogpool
+      UsernameAttributes: email
+      AutoVerifiedAttributes: 
+        - email
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      UsernameAttributes:
+        - email
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+  MyCognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref MyCognitoUserPool
+      ClientName: gstreet
+      GenerateSecret: true
+      DefaultRedirectURI: https://gstreet.dev
+      CallbackURLs: 
+      - http://localhost:3000
+      -  https://*.gstreet.dev
+      -  https://finndash.gstreet.dev
+      -  https://gstreet.dev
+      AllowedOAuthScopes:
+      - email
+      - phone
+      - openid
+      AllowedOAuthFlows:
+      - code
+      - implicit
+  BlogDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: gstreetlogin
+      UserPoolId: !Ref MyCognitoUserPool
