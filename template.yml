@@ -4,14 +4,40 @@ Description: >
   Blog & Project User Post Lambdas
   
 Resources:
+  authAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Description: "Auth Routes for Blog"
+      Domain:
+      Auth:
+        AddDefaultAuthorizerToCorsPreflight: true
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt MyCognitoUserPool.Arn
+        DefaultAuthorizer: CognitoAuthorizer
+      StageName: prod
+      Cors: 
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+  authAPIAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties: 
+      AuthorizerResultTtlInSeconds: 0
+      IdentitySource: "method.request.header.Authorization"
+      Name: "CognitoAuthorizer"
+      ProviderARNs: 
+        - !Sub arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${MyCognitoUserPool}
+      RestApiId: !Ref authAPI
+      Type: COGNITO_USER_POOLS
   BlogLambdaGetPosts:
     Type: AWS::Serverless::Function 
     Properties:
       Environment:
         Variables:
           dbname: !Ref blogpostdynamoDB
-      CodeUri: lambda/getPosts/ # format is projectPath/
-      Handler: getPosts.handler # format is filename.functionName
+      CodeUri: lambda/getPosts/ 
+      Handler: getPosts.handler
       Runtime: nodejs18.x
       Events:
         blogposts:
@@ -35,8 +61,8 @@ Resources:
       Environment:
         Variables:
           dbname: !Ref blogpostdynamoDB
-      CodeUri: lambda/makePosts/ # format is projectPath/
-      Handler: makePosts.handler # format is filename.functionName
+      CodeUri: lambda/makePosts/
+      Handler: makePosts.handler 
       Runtime: nodejs18.x
       Events:
         blogposts:
@@ -44,6 +70,7 @@ Resources:
           Properties:
             Path: /makepost
             Method: post
+            RestApiId: !Ref authAPI
       Policies: 
         - AWSLambdaBasicExecutionRole
         - Version: '2012-10-17' 
