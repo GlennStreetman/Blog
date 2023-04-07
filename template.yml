@@ -8,13 +8,22 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Description: "Auth Routes for Blog"
-      Domain:
       Auth:
         AddDefaultAuthorizerToCorsPreflight: true
         Authorizers:
-          CognitoAuthorizer:
+          BlogCognitoAuthorizer:
             UserPoolArn: !GetAtt MyCognitoUserPool.Arn
-        DefaultAuthorizer: CognitoAuthorizer
+        DefaultAuthorizer: BlogCognitoAuthorizer
+      StageName: prod
+      Cors: 
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+    authAPI:
+  blogAPI:  
+    Type: AWS::Serverless::Api
+    Properties:
+      Description: "Non-Auth Routes for Blog"
       StageName: prod
       Cors: 
         AllowMethods: "'*'"
@@ -25,7 +34,7 @@ Resources:
     Properties: 
       AuthorizerResultTtlInSeconds: 0
       IdentitySource: "method.request.header.Authorization"
-      Name: "CognitoAuthorizer"
+      Name: "BlogCognitoAuthorizer"
       ProviderARNs: 
         - !Sub arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${MyCognitoUserPool}
       RestApiId: !Ref authAPI
@@ -43,8 +52,9 @@ Resources:
         blogposts:
           Type: Api 
           Properties:
-            Path: /getposts
+            Path: /api/getposts
             Method: post
+            RestApiId: !Ref blogAPI
       Policies: 
         - AWSLambdaBasicExecutionRole
         - Version: '2012-10-17' 
@@ -68,7 +78,7 @@ Resources:
         blogposts:
           Type: Api 
           Properties:
-            Path: /makepost
+            Path: /auth/makepost
             Method: post
             RestApiId: !Ref authAPI
       Policies: 
@@ -142,3 +152,20 @@ Resources:
     Properties:
       Domain: gstreetlogin
       UserPoolId: !Ref MyCognitoUserPool
+Outputs:
+#  consumed by CloudFront Distribution file: CloudFront.yaml
+  authUrl:
+    Value:  !Sub "${authAPI}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: Invoke URL for api gateway
+    Export: 
+      Name: apiAuthUrl
+  blogUrl:
+    Value:  !Sub "${authAPI}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: Invoke URL for api gateway
+    Export: 
+      Name: apiBlogUrl
+  blogStage:
+    Value:  !Sub /prod
+    Description: Default Stage Name
+    Export: 
+      Name: blogStage

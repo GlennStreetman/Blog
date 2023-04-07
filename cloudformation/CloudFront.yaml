@@ -66,7 +66,20 @@ Resources:
             CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
             Compress: True
             PathPattern: /api*
-            TargetOriginId: !Sub "${customDomainName}/api"
+            TargetOriginId: !Sub "${customDomainName}/api/"
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods: 
+              - GET
+              - HEAD
+              - DELETE
+              - POST
+              - OPTIONS
+              - PUT
+              - PATCH
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            Compress: True
+            PathPattern: /auth*
+            TargetOriginId: !Sub "${customDomainName}/auth/"
             ViewerProtocolPolicy: redirect-to-https
         DefaultRootObject: index.html
         Enabled: true
@@ -78,9 +91,17 @@ Resources:
             OriginAccessControlId: !GetAtt s3Origin.Id
             S3OriginConfig: 
               OriginAccessIdentity: ''
-          - DomainName: !ImportValue apiInvokeUrl
-            Id: !Sub "${customDomainName}/api"
-            OriginPath: !ImportValue defaultStage
+          - DomainName: !ImportValue apiBlogUrl
+            Id: !Sub "${customDomainName}/api/"
+            OriginPath: !ImportValue blogStage
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: 'https-only'
+              OriginSSLProtocols: 
+                - TLSv1.2
+          - DomainName: !ImportValue apiAuthUrl
+            Id: !Sub "${customDomainName}/auth/"
+            OriginPath: !ImportValue blogStage
             CustomOriginConfig:
               HTTPSPort: 443
               OriginProtocolPolicy: 'https-only'
