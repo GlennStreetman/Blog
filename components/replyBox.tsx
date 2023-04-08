@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLoginInfoContext } from '../pages/_app'
 
 interface props {
     post: string;
@@ -8,6 +9,8 @@ interface props {
 function ReplyBox(p: props) {
     // const { data: session, status } = useSession();
     const [comment, setComment] = useState("");
+
+    const loginInfo = useLoginInfoContext()
 
     const updateComment = (e) => {
         e.preventDefault;
@@ -20,6 +23,7 @@ function ReplyBox(p: props) {
         const data = {
             comment: comment,
             post: p.post,
+            user: loginInfo.userName
         };
         fetch(`/api/postComment`, {
             method: "POST", // or 'PUT'

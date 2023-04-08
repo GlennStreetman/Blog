@@ -24,7 +24,7 @@ function LoginStatus() {
     useEffect(() => {
         async function getSessionObject() {
             try {
-                const authURL = `https://${process.env.NEXT_PUBLIC_baseDomain}/api/auth/session`; //redirect using next.config to auth server
+                const authURL = `https://${process.env.NEXT_PUBLIC_loginBase}/api/auth/session`; //redirect using next.config to auth server
                 console.log("login api", authURL);
                 const sessionDataRaw = await fetch(authURL, { mode: "cors", credentials: "include" });
                 const sessionData = await sessionDataRaw.json();

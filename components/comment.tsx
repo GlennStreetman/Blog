@@ -17,6 +17,7 @@ interface userPost {
     post: string;
 }
 
+
 function Comment(p: userPost) {
 
     const loginInfo = useLoginInfoContext()
@@ -26,11 +27,29 @@ function Comment(p: userPost) {
 
     useEffect(() => {
         //get all comments related to this post.
+
         const fetchData = async () => {
-            console.log("getting post data");
-            const data = await fetch(`/api/getPosts?post=${p.post}`);
-            const commentData = await data.json();
-            if (commentData.message === "success") {
+
+            const post = { postId: p.post }
+            console.log('get post data: ', post, JSON.stringify(post))
+
+            const response = await fetch(`/api/getPosts`, {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: "same-origin", // include, *same-origin, omit
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: "follow", // manual, *follow, error
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(post), // body data type must match "Content-Type" header
+            });
+
+            console.log('response', response)
+            if (response.status === 200) {
+                const commentData = await response.json();
                 setComments(commentData.posts);
             } else {
                 console.log("Problem retrieving posts");
