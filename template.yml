@@ -1,3 +1,5 @@
+
+
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
@@ -131,15 +133,17 @@ Resources:
   MyCognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
+      AllowedOAuthFlowsUserPoolClient: true
       UserPoolId: !Ref MyCognitoUserPool
       ClientName: gstreet
       GenerateSecret: true
-      DefaultRedirectURI: https://gstreet.dev
+      SupportedIdentityProviders:
+      - COGNITO
+      DefaultRedirectURI: https://serverless.gstreet.dev
       CallbackURLs: 
-      - http://localhost:3000
-      -  https://*.gstreet.dev
-      -  https://finndash.gstreet.dev
-      -  https://gstreet.dev
+      - https://serverless.gstreet.dev
+      - https://localhost:3000
+      - https://localhost:3001
       AllowedOAuthScopes:
       - email
       - phone
