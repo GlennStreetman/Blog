@@ -14,11 +14,12 @@ export const handler = async (event, context) => {
         const parseBody = JSON.parse(event.body)
         const postID = parseBody.postID || false 
         let getQuery = `SELECT *
-        FROM ${process.env.dbname} 
+        FROM "${process.env.dbname}"
         WHERE postid = '${postID}'`
         console.log('getQuery', getQuery)
         let msg = await dynamo.executeStatement({Statement: getQuery});
-        body = msg.Items
+        console.log(msg)
+        body = JSON.stringify(msg.Items)
         } 
     catch(err) {
         console.log('--didnt work--', err)

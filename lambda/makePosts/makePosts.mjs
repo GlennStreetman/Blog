@@ -8,6 +8,7 @@ export const handler= async (event, context) => {
     let statusCode = '200';
     const headers = {
         'Content-Type': 'application/json',
+        "Authorization": localstorage.getItem('access_token')
     };
 
     try {

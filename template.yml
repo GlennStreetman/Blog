@@ -29,16 +29,16 @@ Resources:
         AllowMethods: "'*'"
         AllowHeaders: "'*'"
         AllowOrigin: "'*'"
-  authAPIAuthorizer:
-    Type: AWS::ApiGateway::Authorizer
-    Properties: 
-      AuthorizerResultTtlInSeconds: 0
-      IdentitySource: "method.request.header.Authorization"
-      Name: "BlogCognitoAuthorizer"
-      ProviderARNs: 
-        - !Sub arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${MyCognitoUserPool}
-      RestApiId: !Ref authAPI
-      Type: COGNITO_USER_POOLS
+  # authAPIAuthorizer:
+  #   Type: AWS::ApiGateway::Authorizer
+  #   Properties: 
+  #     AuthorizerResultTtlInSeconds: 0
+  #     IdentitySource: "method.request.header.Authorization"
+  #     Name: "BlogCognitoAuthorizer"
+  #     ProviderARNs: 
+  #       - !Sub arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${MyCognitoUserPool}
+  #     RestApiId: !Ref authAPI
+  #     Type: COGNITO_USER_POOLS
   BlogLambdaGetPosts:
     Type: AWS::Serverless::Function 
     Properties:
@@ -64,7 +64,7 @@ Resources:
                 - "dynamodb:PartiQLSelect"
                 - "dynamodb:PartiQLUpdate"
                 - "dynamodb:PartiQLInsert"
-              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/{blogpostdynamoDB}'
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${blogpostdynamoDB}'
   BlogLambdaMakePosts:
     Type: AWS::Serverless::Function 
     Properties:
@@ -156,12 +156,12 @@ Outputs:
 #  consumed by CloudFront Distribution file: CloudFront.yaml
   authUrl:
     Value:  !Sub "${authAPI}.execute-api.${AWS::Region}.amazonaws.com"
-    Description: Invoke URL for api gateway
+    Description: Invoke URL for api gateway auth
     Export: 
       Name: apiAuthUrl
   blogUrl:
-    Value:  !Sub "${authAPI}.execute-api.${AWS::Region}.amazonaws.com"
-    Description: Invoke URL for api gateway
+    Value:  !Sub "${blogAPI}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: Invoke URL for api gateway blog
     Export: 
       Name: apiBlogUrl
   blogStage:
