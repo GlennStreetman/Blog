@@ -14,17 +14,17 @@ interface props {
 
 function countFilterMatches(list, filter) {
     if (filter !== "") {
-    const totalCount = list.reduce((prev, curr) => {
-        const match = curr.languages.split(",").some((currEl) => {
-            return currEl.trim() === filter.trim();
-        });
-        if (match) prev = prev + 1;
-        return prev;
-    }, 0);
-    return totalCount;
-} else {
-    return list.length
-}
+        const totalCount = list.reduce((prev, curr) => {
+            const match = curr.languages.split(",").some((currEl) => {
+                return currEl.trim() === filter.trim();
+            });
+            if (match) prev = prev + 1;
+            return prev;
+        }, 0);
+        return totalCount;
+    } else {
+        return list.length
+    }
 }
 
 export default function Right_Column(p: props) {
@@ -77,7 +77,7 @@ export default function Right_Column(p: props) {
 
     const filterIcon = !openFilters ? currentFilter : "";
 
-    const showTrack = ()=>{
+    const showTrack = () => {
         if (p?.allPostsData?.length && p.allPostsData.length > 0 && countFilterMatches(p.allPostsData, currentFilter) > postPerPage) {
             return (<Track
                 index={index}
@@ -122,25 +122,25 @@ export default function Right_Column(p: props) {
                     <section key={el.id}>
                         <HoverSurface>
                             <Link href={`/posts/${el.id}`} passHref>
-                                <a>
-                                    <div className="text-secondary tracking-wider font-heading">{el.title}</div>
-                                    {el.oneliner ? <div className="text-primary font-extralight text-sm tracking-wide ">{el.oneliner}</div> : <></>}
-                                    <div className="flex gap-2 my-auto">
-                                        <small className="text-primary">
-                                            <Date dateString={el.date} />
-                                        </small>
-                                        <SourceTrail
-                                            tech={
-                                                el?.languages
-                                                    ? el.languages.split(",").map(function (item) {
-                                                          return item.trim();
-                                                      })
-                                                    : []
-                                            }
-                                            post={`post-${el.id}`}
-                                        />
-                                    </div>
-                                </a>
+
+                                <div className="text-secondary tracking-wider font-heading">{el.title}</div>
+                                {el.oneliner ? <div className="text-primary font-extralight text-sm tracking-wide ">{el.oneliner}</div> : <></>}
+                                <div className="flex gap-2 my-auto">
+                                    <small className="text-primary">
+                                        <Date dateString={el.date} />
+                                    </small>
+                                    <SourceTrail
+                                        tech={
+                                            el?.languages
+                                                ? el.languages.split(",").map(function (item) {
+                                                    return item.trim();
+                                                })
+                                                : []
+                                        }
+                                        post={`post-${el.id}`}
+                                    />
+                                </div>
+
                             </Link>
                         </HoverSurface>
                     </section>

@@ -92,12 +92,12 @@ function projects(projectData) {
                         </div>
                     </div>
                     <div>
-                    {projectData.youtube ? (
-                        // <div>{projectData.youtube}</div>
-                        <Youtube link={projectData.youtube} />
-                    ) : (
-                        <></>
-                    )}
+                        {projectData.youtube ? (
+                            // <div>{projectData.youtube}</div>
+                            <Youtube link={projectData.youtube} />
+                        ) : (
+                            <></>
+                        )}
                         <article className={styles.article}>
                             <DynamicBody />
                             {projectData?.filteredPosts?.length > 0 ? <h2>Related Posts: </h2> : <></>}
@@ -105,26 +105,26 @@ function projects(projectData) {
                                 <section className="mt-2" key={el.id}>
                                     <HoverSurface>
                                         <Link href={`/posts/${el.id}`} passHref>
-                                            <a>
-                                                {/* <div className="shadow rounded-md border-2 p-2 mt-2 outline-4 hover:bg-weak"> */}
-                                                <h2>{el.title}</h2>
-                                                <div className="flex gap-2 my-auto">
-                                                    <small className="text-primary">
-                                                        <Date dateString={el.date} />
-                                                    </small>
-                                                    <SourceTrail
-                                                        tech={
-                                                            el?.languages
-                                                                ? el.languages.split(",").map(function (item) {
-                                                                      return item.trim();
-                                                                  })
-                                                                : []
-                                                        }
-                                                        post={`post-${el.id}`}
-                                                    />
-                                                </div>
-                                                {/* </Link> </div> */}
-                                            </a>
+
+                                            {/* <div className="shadow rounded-md border-2 p-2 mt-2 outline-4 hover:bg-weak"> */}
+                                            <h2>{el.title}</h2>
+                                            <div className="flex gap-2 my-auto">
+                                                <small className="text-primary">
+                                                    <Date dateString={el.date} />
+                                                </small>
+                                                <SourceTrail
+                                                    tech={
+                                                        el?.languages
+                                                            ? el.languages.split(",").map(function (item) {
+                                                                return item.trim();
+                                                            })
+                                                            : []
+                                                    }
+                                                    post={`post-${el.id}`}
+                                                />
+                                            </div>
+                                            {/* </Link> </div> */}
+
                                         </Link>
                                     </HoverSurface>
                                 </section>

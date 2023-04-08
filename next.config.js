@@ -1,7 +1,6 @@
 // next.config.js
 
 const withMDX = require("@next/mdx")({
-    output: 'standalone',
     extension: /\.mdx?$/,
     options: {
         remarkPlugins: [],
