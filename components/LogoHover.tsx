@@ -1,6 +1,6 @@
 import styles from "./LogoHover.module.css";
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 function LogoHover() {
     const [darkStyle, setDarkStyle] = useState(styles.hidden);

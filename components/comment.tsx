@@ -4,13 +4,15 @@ import ReplyBox from "./replyBox";
 import ShowComments from "./showComments";
 import { useLoginInfoContext } from '../pages/_app'
 
-interface comment {
-    userid: string;
-    message: string;
+export interface dynamoString {
+    S: string
 }
 
-export interface comments {
-    [key: string]: comment;
+export interface comment {
+    user: dynamoString;
+    message: dynamoString;
+    postid: dynamoString;
+    postdate: dynamoString;
 }
 
 interface userPost {
@@ -23,37 +25,30 @@ function Comment(p: userPost) {
     const loginInfo = useLoginInfoContext()
 
     const [openComment, setOpenComment] = useState<boolean>(false);
-    const [comments, setComments] = useState<comments>({});
+    const [comments, setComments] = useState<comment[]>([]);
 
     useEffect(() => {
         //get all comments related to this post.
 
         const fetchData = async () => {
 
-            const post = { postId: p.post }
-            console.log('get post data: ', post, JSON.stringify(post))
-
-            const response = await fetch(`/api/getPosts`, {
-                method: "POST", // *GET, POST, PUT, DELETE, etc.
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
-                headers: {
-                    "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                redirect: "follow", // manual, *follow, error
-                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                body: JSON.stringify(post), // body data type must match "Content-Type" header
-            });
-
-            console.log('response', response)
-            if (response.status === 200) {
+            try {
+                const post = { postId: p.post }
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/getposts`, { //
+                    method: "POST", // *GET, POST, PUT, DELETE, etc.
+                    mode: "cors", // no-cors, *cors, same-origin
+                    headers: {
+                        "Content-Type": "application/json",
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(post), // body data type must match "Content-Type" header
+                });
                 const commentData = await response.json();
-                setComments(commentData.posts);
-            } else {
-                console.log("Problem retrieving posts");
-            }
+                console.log('commentData', commentData)
+                setComments(commentData);
+            } catch (err) { console.log(err) }
+
         };
 
         fetchData();

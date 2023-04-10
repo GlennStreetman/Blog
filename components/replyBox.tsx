@@ -25,7 +25,7 @@ function ReplyBox(p: props) {
             post: p.post,
             user: loginInfo.userName
         };
-        fetch(`/api/postComment`, {
+        fetch(`${process.env.NEXT_PUBLIC_BASEURL}/auth/postcomment`, {
             method: "POST", // or 'PUT'
             headers: {
                 "Content-Type": "application/json",
