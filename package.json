@@ -1,8 +1,8 @@
 {
     "private": true,
     "scripts": {
-        "dev": "next dev ",
-        "build": "next build && next export",
+        "dev": "cp dev.env .env && next dev ",
+        "build": "cp prod.env .env && next build && next export",
         "start": "next start",
         "dBuild": "docker-compose -f compose.dev.yaml up --build",
         "dUp": "cp dev.env .env && docker-compose -f compose.dev.yaml up",
