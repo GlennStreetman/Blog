@@ -8,11 +8,14 @@ export const handler = async (event, context) => {
     let statusCode = '200';
     const headers = {
         'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        "Access-Control-Allow-Headers" : 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        "Access-Control-Allow-Credentials": 'true'
     };
 
     try {
-        const parseBody = JSON.parse(event.body)
-        const postID = parseBody.postID || false 
+        const postID = JSON.parse(event.body)?.postId
         let getQuery = `SELECT *
         FROM "${process.env.dbname}"
         WHERE postid = '${postID}'`
@@ -20,6 +23,7 @@ export const handler = async (event, context) => {
         let msg = await dynamo.executeStatement({Statement: getQuery});
         console.log(msg)
         body = JSON.stringify(msg.Items)
+        
         } 
     catch(err) {
         console.log('--didnt work--', err)

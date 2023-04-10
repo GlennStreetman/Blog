@@ -8,7 +8,9 @@ export const handler= async (event, context) => {
     let statusCode = '200';
     const headers = {
         'Content-Type': 'application/json',
-        "Authorization": localstorage.getItem('access_token')
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        "Access-Control-Allow-Headers" : 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        "Access-Control-Allow-Credentials": 'true'
     };
 
     try {
