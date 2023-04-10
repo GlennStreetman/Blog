@@ -27,7 +27,7 @@ async function checkLogin(token, setLogin) {
                 await verifier.verify(token);
                 setLogin(true)
             } catch {
-                console.log("Token not valid!");
+                console.log("Token not valid!", token);
             }
         }
     }
@@ -119,8 +119,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
         }
     }, [])
-
-    console.log(login, userName)
 
     return (
         <>

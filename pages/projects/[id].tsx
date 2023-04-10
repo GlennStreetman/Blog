@@ -18,6 +18,8 @@ import LogoPicker from "../../components/LogoPicker";
 import Comments from "../../components/comment";
 import HoverSurface from "../../components/hoverSurface";
 
+import useCheckRedirect from '../../hooks/useCheckRedirect'
+
 export async function getStaticProps({ params }) {
     const allProjects = await buildProjects();
     const allPostsData = await getSortedPostsData();
@@ -44,7 +46,10 @@ export async function getStaticPaths() {
     };
 }
 
-function projects(projectData) {
+function Projects(projectData) {
+
+    useCheckRedirect()
+
     const DynamicBody = dynamic(() => import(`../../projects/${projectData.id}.mdx`));
     return (
         <div className="min-h-screen bg-primary ">
@@ -146,4 +151,4 @@ function projects(projectData) {
     );
 }
 
-export default projects;
+export default Projects;

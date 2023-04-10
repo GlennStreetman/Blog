@@ -15,6 +15,8 @@ import Date from "../../components/date";
 import SourceTrail from "../../components/sourceTrail";
 import HoverSurface from "../../components/hoverSurface";
 
+import useCheckRedirect from '../../hooks/useCheckRedirect'
+
 export async function getStaticProps({ params }) {
     const register = await postsRegister();
     const allProjectData = await getSortedProjectData();
@@ -41,6 +43,9 @@ export async function getStaticPaths() {
 }
 
 export default function PostBody(postData) {
+
+    useCheckRedirect()
+
     const DynamicBody = dynamic(() => import(`../../posts/${postData.id}.mdx`));
     return (
         <div className="min-h-screen bg-primary ">
