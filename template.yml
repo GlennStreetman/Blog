@@ -142,8 +142,8 @@ Resources:
       DefaultRedirectURI: https://serverless.gstreet.dev
       CallbackURLs: 
       - https://serverless.gstreet.dev
-      - https://localhost:3000
-      - https://localhost:3001
+      - http://localhost:3000
+      - http://localhost:3001
       AllowedOAuthScopes:
       - email
       - phone
