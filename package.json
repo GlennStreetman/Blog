@@ -16,7 +16,8 @@
         "pullBuild": "docker pull ghcr.io/glennstreetman/blog:latest",
         "samBuild": "sam build",
         "samDeploy": "sam deploy --guided",
-        "samUpdate": "sam build && sam deploy"
+        "samUpdate": "sam build && sam deploy",
+        "samSync": "aws s3 sync ./out/ s3://blog-cloudformation-staticsitebucket-16zv9z6dktdqq"
     },
     "dependencies": {
         "@mdx-js/loader": "^2.1.1",
