@@ -27,35 +27,34 @@ function Comment(p: userPost) {
     const [openComment, setOpenComment] = useState<boolean>(false);
     const [comments, setComments] = useState<comment[]>([]);
 
+    const fetchData = async () => {
+
+        try {
+            const post = { postId: p.post }
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/getposts`, {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(post), // body data type must match "Content-Type" header
+            });
+            const commentData = await response.json();
+            console.log('commentData', commentData)
+            setComments(commentData);
+        } catch (err) { console.log(err) }
+
+    };
+
     useEffect(() => {
         //get all comments related to this post.
-
-        const fetchData = async () => {
-
-            try {
-                const post = { postId: p.post }
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/getposts`, { //
-                    method: "POST", // *GET, POST, PUT, DELETE, etc.
-                    mode: "cors", // no-cors, *cors, same-origin
-                    headers: {
-                        "Content-Type": "application/json",
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    body: JSON.stringify(post), // body data type must match "Content-Type" header
-                });
-                const commentData = await response.json();
-                console.log('commentData', commentData)
-                setComments(commentData);
-            } catch (err) { console.log(err) }
-
-        };
-
         fetchData();
     }, []);
 
     const replyButton = openComment ? (
-        <ReplyBox post={p.post} cancel={setOpenComment} />
+        <ReplyBox post={p.post} cancel={setOpenComment} fetchData={fetchData} />
     ) : (
         <ButtonStandard
             onClick={() => {
