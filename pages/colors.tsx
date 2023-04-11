@@ -9,12 +9,15 @@ import { AiOutlineEye } from "react-icons/ai";
 import UserPrefs from "../components/userPrefs";
 import DarkModeButton from "../components/darkModeButton";
 import { useRouter } from "next/router";
+import useCheckRedirect from '../hooks/useCheckRedirect'
 
 function Colors() {
     const [editCategory, setEditCategory] = useState("primaryText");
     const [editColor, setEditColor] = useState("");
     const [reset, setReset] = useState(1); //set to rerender page
     const router = useRouter();
+
+    useCheckRedirect()
 
     useEffect(() => {
         if (localStorage.siteDarkMode === "true" || (!("siteDarkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
@@ -260,7 +263,7 @@ function Colors() {
                 <div className="flex flex-col justify-center ">
                     <Link href="/styleGuide">
                         <div>
-                            <Button onClick={() => {}}>
+                            <Button onClick={() => { }}>
                                 <div className="my-auto">
                                     <AiOutlineEye />
                                 </div>

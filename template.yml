@@ -1,0 +1,175 @@
+
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Blog & Project User Post Lambdas
+  
+Resources:
+  authAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Description: "Auth Routes for Blog"
+      Auth:
+        AddDefaultAuthorizerToCorsPreflight: true
+        Authorizers:
+          BlogCognitoAuthorizer:
+            UserPoolArn: !GetAtt MyCognitoUserPool.Arn
+        DefaultAuthorizer: BlogCognitoAuthorizer
+      StageName: prod
+      Cors: 
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+    authAPI:
+  blogAPI:  
+    Type: AWS::Serverless::Api
+    Properties:
+      Description: "Non-Auth Routes for Blog"
+      StageName: prod
+      Cors: 
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+  # authAPIAuthorizer:
+  #   Type: AWS::ApiGateway::Authorizer
+  #   Properties: 
+  #     AuthorizerResultTtlInSeconds: 0
+  #     IdentitySource: "method.request.header.Authorization"
+  #     Name: "BlogCognitoAuthorizer"
+  #     ProviderARNs: 
+  #       - !Sub arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${MyCognitoUserPool}
+  #     RestApiId: !Ref authAPI
+  #     Type: COGNITO_USER_POOLS
+  BlogLambdaGetPosts:
+    Type: AWS::Serverless::Function 
+    Properties:
+      Environment:
+        Variables:
+          dbname: !Ref blogpostdynamoDB
+      CodeUri: lambda/getPosts/ 
+      Handler: getPosts.handler
+      Runtime: nodejs18.x
+      Events:
+        blogposts:
+          Type: Api 
+          Properties:
+            Path: /api/getposts
+            Method: post
+            RestApiId: !Ref blogAPI
+      Policies: 
+        - AWSLambdaBasicExecutionRole
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - "dynamodb:PartiQLSelect"
+                - "dynamodb:PartiQLUpdate"
+                - "dynamodb:PartiQLInsert"
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${blogpostdynamoDB}'
+  BlogLambdaMakePosts:
+    Type: AWS::Serverless::Function 
+    Properties:
+      Environment:
+        Variables:
+          dbname: !Ref blogpostdynamoDB
+      CodeUri: lambda/makePosts/
+      Handler: makePosts.handler 
+      Runtime: nodejs18.x
+      Events:
+        blogposts:
+          Type: Api 
+          Properties:
+            Path: /auth/makepost
+            Method: post
+            RestApiId: !Ref authAPI
+      Policies: 
+        - AWSLambdaBasicExecutionRole
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - "dynamodb:PartiQLSelect"
+                - "dynamodb:PartiQLUpdate"
+                - "dynamodb:PartiQLInsert"
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${blogpostdynamoDB}'
+  blogpostdynamoDB:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: postid
+          AttributeType: S
+        - AttributeName: postdate
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: postid
+          KeyType: HASH
+        - AttributeName: postdate
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+  MyCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: blogpool
+      UsernameAttributes: email
+      AutoVerifiedAttributes: 
+        - email
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      UsernameAttributes:
+        - email
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+  MyCognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      AllowedOAuthFlowsUserPoolClient: true
+      UserPoolId: !Ref MyCognitoUserPool
+      ClientName: gstreet
+      GenerateSecret: true
+      SupportedIdentityProviders:
+      - COGNITO
+      DefaultRedirectURI: https://serverless.gstreet.dev
+      CallbackURLs: 
+      - https://serverless.gstreet.dev
+      - http://localhost:3000
+      - http://localhost:3001
+      AllowedOAuthScopes:
+      - email
+      - phone
+      - openid
+      AllowedOAuthFlows:
+      - code
+      - implicit
+  BlogDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: gstreetlogin
+      UserPoolId: !Ref MyCognitoUserPool
+Outputs:
+#  consumed by CloudFront Distribution file: CloudFront.yaml
+  authUrl:
+    Value:  !Sub "${authAPI}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: Invoke URL for api gateway auth
+    Export: 
+      Name: apiAuthUrl
+  blogUrl:
+    Value:  !Sub "${blogAPI}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: Invoke URL for api gateway blog
+    Export: 
+      Name: apiBlogUrl
+  blogStage:
+    Value:  !Sub /prod
+    Description: Default Stage Name
+    Export: 
+      Name: blogStage

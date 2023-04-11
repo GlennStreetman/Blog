@@ -8,12 +8,12 @@ function ThemeButton(p) {
         <div>
             <Tippy content="View/Modify Theme" interactive={true} interactiveBorder={1} delay={1} arrow={true}>
                 <div>
-                <Link className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1 " href="/colors" passHref>
-                    <a className="flex flex-row  text-primary">
-                        <IoIosColorPalette className="h-7 w-7 text-primary hover:text-accent bg-primary" />
-                        {p.text ? <div className="m-auto">{p.text}</div> : ""}
-                    </a>
-                </Link>
+                    <Link className=" flex font-bold uppercase  text-primary hover:text-accent rounded-md active:bg-strong gap-1 " href="/colors" passHref>
+                        <div className="flex flex-row  text-primary">
+                            <IoIosColorPalette className="h-7 w-7 text-primary hover:text-accent bg-primary" />
+                            {p.text ? <div className="m-auto">{p.text}</div> : ""}
+                        </div>
+                    </Link>
                 </div>
             </Tippy>
         </div>

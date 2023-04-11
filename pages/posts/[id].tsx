@@ -15,6 +15,8 @@ import Date from "../../components/date";
 import SourceTrail from "../../components/sourceTrail";
 import HoverSurface from "../../components/hoverSurface";
 
+import useCheckRedirect from '../../hooks/useCheckRedirect'
+
 export async function getStaticProps({ params }) {
     const register = await postsRegister();
     const allProjectData = await getSortedProjectData();
@@ -41,6 +43,9 @@ export async function getStaticPaths() {
 }
 
 export default function PostBody(postData) {
+
+    useCheckRedirect()
+
     const DynamicBody = dynamic(() => import(`../../posts/${postData.id}.mdx`));
     return (
         <div className="min-h-screen bg-primary ">
@@ -86,24 +91,24 @@ export default function PostBody(postData) {
                                 <section className="mt-2" key={el.id}>
                                     <HoverSurface>
                                         <Link href={`/projects/${el.id}`} passHref>
-                                            <a>
-                                                <h2>{el.project}</h2>
-                                                <div className="flex gap-2 my-auto">
-                                                    <p className="text-primary font-normal">{el.description}</p>
-                                                </div>
-                                                <div>
-                                                    <SourceTrail
-                                                        tech={
-                                                            el?.languages
-                                                                ? el.languages.split(",").map(function (item) {
-                                                                      return item.trim();
-                                                                  })
-                                                                : []
-                                                        }
-                                                        post={`post-${el.id}`}
-                                                    />
-                                                </div>
-                                            </a>
+
+                                            <h2>{el.project}</h2>
+                                            <div className="flex gap-2 my-auto">
+                                                <p className="text-primary font-normal">{el.description}</p>
+                                            </div>
+                                            <div>
+                                                <SourceTrail
+                                                    tech={
+                                                        el?.languages
+                                                            ? el.languages.split(",").map(function (item) {
+                                                                return item.trim();
+                                                            })
+                                                            : []
+                                                    }
+                                                    post={`post-${el.id}`}
+                                                />
+                                            </div>
+
                                         </Link>
                                     </HoverSurface>
                                 </section>

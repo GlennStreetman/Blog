@@ -2,60 +2,74 @@ import { useState, useEffect } from "react";
 import ButtonStandard from "./buttonStandard";
 import ReplyBox from "./replyBox";
 import ShowComments from "./showComments";
-import { useSession } from "next-auth/react";
+import { useLoginInfoContext } from '../pages/_app'
 
-interface comment {
-    userid: string;
-    message: string;
+export interface dynamoString {
+    S: string
 }
 
-export interface comments {
-    [key: string]: comment;
+export interface comment {
+    user: dynamoString;
+    message: dynamoString;
+    postid: dynamoString;
+    postdate: dynamoString;
 }
 
 interface userPost {
     post: string;
 }
 
+
 function Comment(p: userPost) {
-    const { data: session, status } = useSession();
+
+    const loginInfo = useLoginInfoContext()
+
     const [openComment, setOpenComment] = useState<boolean>(false);
-    const [comments, setComments] = useState<comments>({});
+    const [comments, setComments] = useState<comment[]>([]);
+
+    const fetchData = async () => {
+
+        try {
+            const post = { postId: p.post }
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/getposts`, {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(post), // body data type must match "Content-Type" header
+            });
+            const commentData = await response.json();
+            console.log('commentData', commentData)
+            setComments(commentData);
+        } catch (err) { console.log(err) }
+
+    };
 
     useEffect(() => {
         //get all comments related to this post.
-        const fetchData = async () => {
-            console.log("getting post data");
-            const data = await fetch(`/api/getPosts?post=${p.post}`);
-            const commentData = await data.json();
-            if (commentData.message === "success") {
-                setComments(commentData.posts);
-            } else {
-                console.log("Problem retrieving posts");
-            }
-        };
-
         fetchData();
     }, []);
 
     const replyButton = openComment ? (
-        <ReplyBox post={p.post} cancel={setOpenComment} />
+        <ReplyBox post={p.post} cancel={setOpenComment} fetchData={fetchData} />
     ) : (
         <ButtonStandard
             onClick={() => {
                 setOpenComment(!openComment);
             }}
         >
-            {/* {status === "authenticated" ? ( */}
-            <div className="text-accent my-2">Post Reply</div>
-
-            {/* )} */}
+            {loginInfo.login === true ?
+                <div className="text-accent my-2">Post Reply</div> : <></>
+            }
         </ButtonStandard>
     );
 
     const loginLink = (
         <div className="text-accent my-2">
-            <a className="text-accent" href={process.env.NEXT_PUBLIC_NEXTAUTH_REDIRECT}>
+            <a className="text-accent" href={process.env.loginurl}>
                 Login to Post Comment
                 {/* <BiLogInCircle className="h-7 w-7 text-primary hover:text-accent" /> */}
             </a>
@@ -65,7 +79,7 @@ function Comment(p: userPost) {
     return (
         <>
             <div>{Object.keys(comments).length > 0 ? <ShowComments comments={comments} /> : <></>}</div>
-            <div>{status === "authenticated" ? replyButton : loginLink}</div>
+            <div>{loginInfo.login === true ? replyButton : loginLink}</div>
         </>
     );
 }

@@ -3,8 +3,12 @@ import ColorPallet from "../components/colorPallet";
 import "tippy.js/dist/tippy.css"; // optional
 import DarkModeButton from "../components/darkModeButton";
 import Thembutton from "../components/themeButton";
+import useCheckRedirect from '../hooks/useCheckRedirect'
 
-function styleGuide() {
+function StyleGuide() {
+
+    useCheckRedirect()
+
     return (
         <>
             <div className={`min-h-screen bg-primary`}>
@@ -72,4 +76,4 @@ function styleGuide() {
     );
 }
 
-export default styleGuide;
+export default StyleGuide;
