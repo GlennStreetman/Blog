@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 export function parseQueryString(qs) {
     //transform query string params into key/value obj.
-    if (qs) {
+    if (qs && qs.includes('/?')) {
         const qsTrim = qs.replace('/?', '')
         const qsObj = qsTrim.split('&').reduce((prev, curr) => {
             if (curr.includes(('='))) {
