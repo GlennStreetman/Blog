@@ -24,10 +24,13 @@ async function checkLogin(token, setLogin) {
     if (typeof window !== 'undefined') {
         if (token && token !== null) {
             try {
+                console.log('checking token: ', token)
                 await verifier.verify(token);
                 setLogin(true)
             } catch {
                 console.log("Token not valid!", token);
+                localStorage.setItem('access_token', null)
+                localStorage.setItem('id_token', null)
             }
         }
     }
