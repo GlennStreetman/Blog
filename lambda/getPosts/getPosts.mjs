@@ -5,7 +5,7 @@ const dynamo = new DynamoDB
 export const handler = async (event, context) => {
     //remember to migrate all changes to cloudformation template. Code is inlined as part of template
     let body;
-    let statusCode = '200';
+    let statusCode = 200;
     const headers = {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
